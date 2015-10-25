@@ -25,8 +25,8 @@
     "build-test": "NODE_ENV=test bin/exec webpack --config .webpack-config",
     "build-production": "NODE_ENV=production bin/exec webpack --config .webpack-config",
     "build": "bin/exec webpack --config .webpack-config",
-    "clean": "rm -rf ${npm_package_config_dist}",
-    "eslint": "bin/exec eslint test/ src/",
+    "clean": "rm -rf ${npm_package_config_outputDir}",
+    "eslint": "bin/exec eslint test/ ${npm_package_config_srcDir}/",
     "serve": "bin/exec webpack-dev-server --config .webpack-config",
     "test": "echo No tests yet"
   },
@@ -41,9 +41,7 @@
   },
   "homepage": "https://github.com/wmadden/wirthlike#readme",
   "config": {
-    "src": "src",
-    "cssOutputDir": "out/css",
-    "dist": "dist",
-    "cssInputDir": "src/css"
+    "srcDir": "src",
+    "outputDir": "public",
   }
 }

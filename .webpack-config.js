@@ -2,7 +2,8 @@
 
 var path = require("path");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
-var OUTPUT_DIR = "dist";
+var SRC_DIR = process.env.npm_package_config_srcDir;
+var OUTPUT_DIR = process.env.npm_package_config_outputDir;
 var EXTERNAL_PROMISE = "{Promise: Promise}";
 var _ = require("lodash");
 var autoprefixer = require("autoprefixer");
@@ -47,7 +48,7 @@ function commonConfig() {
     },
     resolve: {
       root: [
-        absolutePathTo("src"),
+        absolutePathTo(SRC_DIR),
       ],
     },
     postcss: function() {
@@ -55,7 +56,7 @@ function commonConfig() {
     },
     plugins: [
       new HtmlWebpackPlugin(),
-      new ExtractTextPlugin("styles.css"),
+      new ExtractTextPlugin("styles.css", "[name]-[id]-[contentHash].css"),
     ],
     externals: { "es6-promise": EXTERNAL_PROMISE },
   };
