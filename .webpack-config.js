@@ -1,4 +1,4 @@
-/* eslint no-var:0, id-length:0 */
+/* eslint no-var:0, id-length:0, func-names:0 */
 
 var path = require("path");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -7,6 +7,7 @@ var EXTERNAL_PROMISE = "{Promise: Promise}";
 var _ = require("lodash");
 var autoprefixer = require("autoprefixer");
 var precss = require("precss");
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 require("dotenv").load({ silent: true });
 
@@ -40,7 +41,7 @@ function commonConfig() {
 
         {
           test: /\.css$/,
-          loader: "style-loader!css-loader!postcss-loader",
+          loader: ExtractTextPlugin.extract("css-loader!postcss-loader"),
         },
       ],
     },
@@ -52,7 +53,10 @@ function commonConfig() {
     postcss: function() {
       return [autoprefixer, precss];
     },
-    plugins: [ new HtmlWebpackPlugin() ],
+    plugins: [
+      new HtmlWebpackPlugin(),
+      new ExtractTextPlugin("styles.css"),
+    ],
     externals: { "es6-promise": EXTERNAL_PROMISE },
   };
 }
