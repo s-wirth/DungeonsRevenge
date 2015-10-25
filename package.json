@@ -45,6 +45,6 @@
   "homepage": "https://github.com/wmadden/wirthlike#readme",
   "config": {
     "srcDir": "src",
-    "outputDir": "public",
+    "outputDir": "public"
   }
 }
