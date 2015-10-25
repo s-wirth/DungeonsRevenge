@@ -27,7 +27,8 @@
     "build": "bin/exec webpack --config .webpack-config",
     "clean": "rm -rf ${npm_package_config_dist}",
     "eslint": "bin/exec eslint test/ src/",
-    "serve": "bin/exec webpack-dev-server --config .webpack-config"
+    "serve": "bin/exec webpack-dev-server --config .webpack-config",
+    "test": "echo No tests yet"
   },
   "repository": {
     "type": "git",
