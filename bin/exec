@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Executes a locally installed Node module
+
+PATH=$(npm bin):$PATH "$@"
