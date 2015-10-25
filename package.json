@@ -22,7 +22,12 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build-test": "NODE_ENV=test bin/exec webpack --config .webpack-config",
+    "build-production": "NODE_ENV=production bin/exec webpack --config .webpack-config",
+    "build": "bin/exec webpack --config .webpack-config",
+    "clean": "rm -rf ${npm_package_config_dist}",
+    "eslint": "bin/exec eslint test/ src/",
+    "serve": "bin/exec webpack-dev-server --config .webpack-config"
   },
   "repository": {
     "type": "git",
@@ -39,14 +44,5 @@
     "cssOutputDir": "out/css",
     "dist": "dist",
     "cssInputDir": "src/css"
-  },
-  "scripts": {
-    "build-test": "NODE_ENV=test bin/exec webpack --config .webpack-config",
-    "build-production": "NODE_ENV=production bin/exec webpack --config .webpack-config",
-    "build": "bin/exec webpack --config .webpack-config",
-    "clean": "rm -rf ${npm_package_config_dist}",
-    "eslint": "bin/exec eslint test/ src/",
-    "watch": "bin/exec webpack --config .webpack-config --watch",
-    "serve": "bin/exec webpack-dev-server --config .webpack-config"
   }
 }
