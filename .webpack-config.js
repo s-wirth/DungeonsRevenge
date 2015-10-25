@@ -5,6 +5,8 @@ var HtmlWebpackPlugin = require("html-webpack-plugin");
 var OUTPUT_DIR = "dist";
 var EXTERNAL_PROMISE = "{Promise: Promise}";
 var _ = require("lodash");
+var autoprefixer = require("autoprefixer");
+var precss = require("precss");
 
 require("dotenv").load({ silent: true });
 
@@ -35,12 +37,20 @@ function commonConfig() {
             optional: ["runtime"],
           },
         },
+
+        {
+          test: /\.css$/,
+          loader: "style-loader!css-loader!postcss-loader",
+        },
       ],
     },
     resolve: {
       root: [
         absolutePathTo("src"),
       ],
+    },
+    postcss: function() {
+      return [autoprefixer, precss];
     },
     plugins: [ new HtmlWebpackPlugin() ],
     externals: { "es6-promise": EXTERNAL_PROMISE },

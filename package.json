@@ -35,6 +35,7 @@
   "scripts": {
     "build-test": "NODE_ENV=test bin/exec webpack --config .webpack-config",
     "build-production": "NODE_ENV=production bin/exec webpack --config .webpack-config",
+    "build": "bin/exec webpack --config .webpack-config",
     "clean": "rm -rf ${npm_package_config_dist}",
     "eslint": "bin/exec eslint test/ src/",
     "watch": "bin/exec webpack --config .webpack-config --watch",
