@@ -1,28 +1,61 @@
 // import css from "main.css";
 /* eslint no-console:0 */
 import Mousetrap from "mousetrap";
+import React from "react";
+import ReactDom from "react-dom";
+import EventEmitter from "eventemitter2";
 
-let playerPosition = {
+const gameState = new EventEmitter();
+gameState.playerPosition = {
   x: 0,
   y: 0,
 };
 
+const App = React.createClass({
+  getInitialState() {
+    return {};
+  },
+
+  componentDidMount() {
+    gameState.on("change", () => this.getState());
+  },
+
+  getState() {
+    this.setState({
+      playerPosition: gameState.playerPosition,
+    });
+  },
+
+  render() {
+    let playerPosition = this.state.playerPosition;
+    return <p>{ JSON.stringify(playerPosition) }</p>;
+  },
+});
+
 Mousetrap.bind("up", () => {
-  playerPosition.y += 1;
-  console.log("playerPosition =", playerPosition);
+  gameState.playerPosition.y += 1;
+  gameState.emit("change");
+  console.log("gameState =", gameState);
 });
 
 Mousetrap.bind("right", () => {
-  playerPosition.x += 1;
-  console.log("playerPosition =", playerPosition);
+  gameState.playerPosition.x += 1;
+  gameState.emit("change");
+  console.log("gameState =", gameState);
 });
 
 Mousetrap.bind("down", () => {
-  playerPosition.y -= 1;
-  console.log("playerPosition =", playerPosition);
+  gameState.playerPosition.y -= 1;
+  gameState.emit("change");
+  console.log("gameState =", gameState);
 });
 
 Mousetrap.bind("left", () => {
-  playerPosition.x -= 1;
-  console.log("playerPosition =", playerPosition);
+  gameState.playerPosition.x -= 1;
+  gameState.emit("change");
+  console.log("gameState =", gameState);
 });
+
+const rootElement = document.createElement("div");
+document.body.appendChild(rootElement);
+ReactDom.render(<App/>, rootElement);
