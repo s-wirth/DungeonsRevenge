@@ -1,23 +1,24 @@
+/* eslint-disable */
 // Karma configuration
 // Generated on Sun Nov 08 2015 11:16:52 GMT+0100 (CET)
-var webpackConfig = require('./.webpack-config');
-delete webpackConfig.entry;
+var webpackConfig = require("./.webpack-config");
+var _ = require("lodash");
 
 module.exports = function(config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: '',
+    basePath: "",
 
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine'],
+    frameworks: ["jasmine"],
 
 
     // list of files / patterns to load in the browser
     files: [
-      'src/**/*test.js',
+      "src/**/*test.js",
     ],
 
 
@@ -29,16 +30,20 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'src/**/*.js': ['webpack'],
+      "src/**/*.js": ["webpack", "sourcemap"],
     },
 
-    webpack: webpackConfig,
+    // Webpack configuration overrides for testing
+    webpack: _.extend(webpackConfig, {
+      entry: {},
+      devtool: "inline-source-map",
+    }),
 
 
     // test results reporter to use
-    // possible values: 'dots', 'progress'
+    // possible values: "dots", "progress"
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress', 'notify'],
+    reporters: ["progress", "notify"],
 
 
     // web server port
@@ -60,7 +65,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS'],
+    browsers: ["PhantomJS"],
 
 
     // Continuous Integration mode
