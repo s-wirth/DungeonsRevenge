@@ -2,9 +2,11 @@
 
 var path = require("path");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
+
 var SRC_DIR = process.env.npm_package_config_srcDir;
 var OUTPUT_DIR = process.env.npm_package_config_outputDir;
 var EXTERNAL_PROMISE = "{Promise: Promise}";
+
 var _ = require("lodash");
 var autoprefixer = require("autoprefixer");
 var precss = require("precss");
@@ -32,7 +34,7 @@ function commonConfig() {
       loaders: [
         {
           test: /\.js$/,
-          exclude: /(node_modules|bower_components)/,
+          exclude: /(node_modules)/,
           loader: "babel",
           query: {
             cacheDirectory: true,
