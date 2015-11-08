@@ -58,5 +58,5 @@
   "config": {
     "srcDir": "src",
     "outputDir": "public"
-  },
+  }
 }
