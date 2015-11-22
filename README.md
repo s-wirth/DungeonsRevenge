@@ -23,3 +23,19 @@ All build scripts are registered in `package.json`. For normal development you'l
 * Output will go in `public/`
 
 Both locations are configured in `package.json`, so you can change them if you want.
+
+## Continuous integration & deployment
+
+CI happens on the [Codeship](https://codeship.com)!
+
+Whenever you push to `master` it will automatically be deployed to Firebase. You can see the production
+app here: https://wirthlike.firebaseapp.com
+
+## Manual Deployment
+
+You can manually deploy to Firebase by running:
+
+```
+npm run build-production # Build the production JS, CSS, HTML
+firebase deploy
+```
