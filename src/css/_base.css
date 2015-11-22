@@ -14,6 +14,8 @@ body {
   line-height: 36px;
   font-weight: bold;
   position: absolute;
+  transform: rotate(90deg);
+  transition: left 0.1s, top 0.1s;
 }
 
 .wall-tile {
