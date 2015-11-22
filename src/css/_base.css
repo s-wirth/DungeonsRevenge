@@ -1,3 +1,5 @@
+$tile-width: 16px;
+
 body {
   background: black;
 }
@@ -7,11 +9,11 @@ body {
 }
 
 .player {
-  width: 36px;
-  height: 36px;
+  width: $tile-width;
+  height: $tile-width;
   background: white;
   text-align: center;
-  line-height: 36px;
+  line-height: $tile-width;
   font-weight: bold;
   position: absolute;
   transform: rotate(90deg);
@@ -19,8 +21,8 @@ body {
 }
 
 .wall-tile {
-  width: 36px;
-  height: 36px;
+  width: $tile-width;
+  height: $tile-width;
   background: gray;
   position: absolute;
 }

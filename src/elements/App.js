@@ -1,6 +1,9 @@
 import React from "react";
 import GameState from "GameState";
 
+// This has to match the tile width in the CSS
+const TILE_WIDTH = 16;
+
 const App = React.createClass({
   getInitialState() {
     return {};
@@ -32,7 +35,7 @@ const App = React.createClass({
         let mapTile = map.get(x, y);
         if (mapTile) {
           result.push(
-            <div className="wall-tile" key={`${x}-${y}`} style={{ left: x * 36, top: y * 36 }} />
+            <div className="wall-tile" key={`${x}-${y}`} style={{ left: x * TILE_WIDTH, top: y * TILE_WIDTH }} />
           );
         }
       }
@@ -49,7 +52,7 @@ const App = React.createClass({
     return (
       <div className="scene">
         { this.renderMapTiles() }
-        <div className="player" style={{ left: x * 36, top: y * 36 }}> :) </div>
+        <div className="player" style={{ left: x * TILE_WIDTH, top: y * TILE_WIDTH }}> :) </div>
       </div>
     );
   },
