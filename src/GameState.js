@@ -39,8 +39,8 @@ export function makeGameState() {
   let gameState = new EventEmitter();
 
   gameState.playerPosition = {
-    x: 0,
-    y: 0,
+    x: 1,
+    y: 1,
   };
   gameState.map = makeMap();
 
@@ -61,6 +61,6 @@ export function makeGameState() {
 }
 
 const defaultGameState = makeGameState();
-makeARectangularRoom(defaultGameState.map, 12, 10, 2, 2);
+makeARectangularRoom(defaultGameState.map, 10, 10, 0, 0);
 
 export default defaultGameState;

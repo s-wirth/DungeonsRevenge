@@ -9,8 +9,8 @@ describe("GameState", function() {
     this.gameState = makeGameState();
   });
 
-  it("should initially set the player's position to (0, 0)", function() {
-    expect(this.gameState.playerPosition).toEqual({ x: 0, y: 0 });
+  it("should initially set the player's position to (1, 1)", function() {
+    expect(this.gameState.playerPosition).toEqual({ x: 1, y: 1 });
   });
 
   describe(".updatePlayerPosition()", function() {
