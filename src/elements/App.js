@@ -32,7 +32,7 @@ const App = React.createClass({
         let mapTile = map.get(x, y);
         if (mapTile) {
           result.push(
-            <div className="wall-tile" key={`${x}-${y}`} style={{ left: x * 36, top: (y * 36) }} />
+            <div className="wall-tile" key={`${x}-${y}`} style={{ left: x * 36, top: y * 36 }} />
           );
         }
       }
@@ -48,8 +48,8 @@ const App = React.createClass({
 
     return (
       <div className="scene">
-        <div className="player" style={{ left: x * 36, top: -(y * 36) }}> :) </div>
         { this.renderMapTiles() }
+        <div className="player" style={{ left: x * 36, top: y * 36 }}> :) </div>
       </div>
     );
   },

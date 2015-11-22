@@ -3,7 +3,7 @@ import GameState from "GameState";
 
 Mousetrap.bind("up", () => {
   GameState.updatePlayerPosition({
-    y: GameState.playerPosition.y + 1,
+    y: GameState.playerPosition.y - 1,
   });
 });
 
@@ -15,7 +15,7 @@ Mousetrap.bind("right", () => {
 
 Mousetrap.bind("down", () => {
   GameState.updatePlayerPosition({
-    y: GameState.playerPosition.y - 1,
+    y: GameState.playerPosition.y + 1,
   });
 });
 
