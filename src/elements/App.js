@@ -43,8 +43,8 @@ const App = React.createClass({
 
   render() {
     let playerPosition = this.state.playerPosition || {};
-    let x = playerPosition.x;
-    let y = playerPosition.y;
+    let x = playerPosition.x || 0;
+    let y = playerPosition.y || 0;
 
     return (
       <div className="scene">
