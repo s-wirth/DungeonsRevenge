@@ -22,15 +22,30 @@ describe("GameState", function() {
 
     it("should emit a 'change' event", function(done) {
       this.gameState.on('change', done);
-      this.gameState.updatePlayerPosition();
+      this.gameState.updatePlayerPosition({});
     });
 
     describe("when the destination tile is a wall tile", function() {
-      it("should not change the player's position", function() {
-
+      beforeEach(function() {
+        this.origin = { x: 1, y: 1 };
+        this.destination = { x: 1, y: 2 };
+        this.gameState.playerPosition.x = this.origin.x;
+        this.gameState.playerPosition.y = this.origin.y;
+        this.gameState.map.set(
+          this.destination.x, this.destination.y, { type: "wall" }
+        );
       });
 
-      it("should not emit a change event");
+      it("should not change the player's position", function() {
+        this.gameState.updatePlayerPosition(this.destination);
+        expect(this.gameState.playerPosition).toEqual(this.origin);
+      });
+
+      it("should not emit a change event", function() {
+        spyOn(this.gameState, 'emit');
+        this.gameState.updatePlayerPosition(this.destination);
+        expect(this.gameState.emit).not.toHaveBeenCalled();
+      });
     });
   });
 

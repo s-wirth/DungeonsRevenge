@@ -45,8 +45,14 @@ export function makeGameState() {
   gameState.map = makeMap();
 
   Object.assign(gameState, {
-    updatePlayerPosition(newPosition) {
-      _.extend(gameState.playerPosition, newPosition);
+    updatePlayerPosition(destination) {
+      let { x, y } = _.defaults(destination, gameState.playerPosition);
+      let tileAtDestination = gameState.map.get(x, y);
+
+      if (tileAtDestination && tileAtDestination.type === "wall") return;
+
+      gameState.playerPosition.x = x;
+      gameState.playerPosition.y = y;
       gameState.emit("change");
     },
   });
