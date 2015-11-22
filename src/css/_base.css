@@ -1,3 +1,17 @@
 body {
   background: black;
 }
+
+.scene {
+  position: relative;
+}
+
+.player {
+  width: 36px;
+  height: 36px;
+  background: white;
+  text-align: center;
+  line-height: 36px;
+  font-weight: bold;
+  position: absolute;
+}

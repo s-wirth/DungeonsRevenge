@@ -18,8 +18,15 @@ const App = React.createClass({
   },
 
   render() {
-    let playerPosition = this.state.playerPosition;
-    return <p>GameState = { JSON.stringify(playerPosition) }</p>;
+    let playerPosition = this.state.playerPosition || {};
+    let x = playerPosition.x;
+    let y = playerPosition.y;
+
+    return (
+      <div className="scene">
+        <div className="player" style={{ left: x, top: -y }}> :) </div>
+      </div>
+    );
   },
 });
 
