@@ -15,3 +15,10 @@ body {
   font-weight: bold;
   position: absolute;
 }
+
+.wall-tile {
+  width: 36px;
+  height: 36px;
+  background: gray;
+  position: absolute;
+}
