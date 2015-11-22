@@ -34,11 +34,14 @@ CI happens on the [Codeship](https://codeship.com)!
 Whenever you push to `master` it will automatically be deployed to Firebase. You can see the production
 app here: https://wirthlike.firebaseapp.com
 
+Whenever you push to `staging` it will be deployed to the staging Firebase app: https://wirthlike-staging.firebaseapp.com
+
 ## Manual Deployment
 
 You can manually deploy to Firebase by running:
 
 ```
 npm run build-production # Build the production JS, CSS, HTML
-firebase deploy
+firebase deploy # Deploys to the production app by default
+# firebase deploy --firebase wirthslike-staging # Deploy the staging app
 ```
