@@ -2,21 +2,18 @@ import EventEmitter from "eventemitter2";
 import _ from "lodash";
 import ndarray from "ndarray";
 
-const gameState = new EventEmitter();
 const MAP_WIDTH = 80;
 const MAP_HEIGHT = 100;
-
-gameState.playerPosition = {
-  x: 0,
-  y: 0,
-};
-
-gameState.map = ndarray([], [MAP_WIDTH, MAP_HEIGHT]);
 
 function makeTile(type) {
   return {
     type,
   };
+}
+
+function makeMap() {
+  let map = ndarray([], [MAP_WIDTH, MAP_HEIGHT]);
+  return map;
 }
 
 function makeARectangularRoom(map, width, height, topLeftX, topLeftY) {
@@ -38,11 +35,26 @@ function makeARectangularRoom(map, width, height, topLeftX, topLeftY) {
   }
 }
 
-makeARectangularRoom(gameState.map, 12, 10, 2, 2);
+export function makeGameState() {
+  let gameState = new EventEmitter();
 
-export function updatePlayerPosition(newPosition) {
-  _.extend(gameState.playerPosition, newPosition);
-  gameState.emit("change");
+  gameState.playerPosition = {
+    x: 0,
+    y: 0,
+  };
+  gameState.map = makeMap();
+
+  Object.assign(gameState, {
+    updatePlayerPosition(newPosition) {
+      _.extend(gameState.playerPosition, newPosition);
+      gameState.emit("change");
+    },
+  });
+
+  return gameState;
 }
 
-export default gameState;
+const defaultGameState = makeGameState();
+makeARectangularRoom(defaultGameState.map, 12, 10, 2, 2);
+
+export default defaultGameState;
