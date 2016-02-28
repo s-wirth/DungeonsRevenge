@@ -54,7 +54,7 @@ const App = React.createClass({
       return (
         <div
           className={ `${creature.type}-creature` }
-          key={`${creature.x}-${creature.y}`}
+          key={`creature-${creature.x}-${creature.y}`}
           style={{ left: creature.x * TILE_WIDTH, top: creature.y * TILE_WIDTH }}
         >
           8(
@@ -71,7 +71,7 @@ const App = React.createClass({
     return (
       <div className="scene">
         { this.renderMapTiles() }
-        <div className="player" style={{ left: x * TILE_WIDTH, top: y * TILE_WIDTH }}> :) </div>
+        <div className="player" style={{ left: x * TILE_WIDTH, top: y * TILE_WIDTH }} key="player"> :) </div>
         { this.renderCreatures() }
       </div>
     );

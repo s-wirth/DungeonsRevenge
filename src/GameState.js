@@ -65,6 +65,12 @@ function spawnEnemies(map) {
   });
 }
 
+function makeCreatureAct(creature, gameState) {
+  let moveBy = [{ x: -1, y: 0 }, { x: 1, y: 0 }, { x: 0, y: -1 }, { x: 0, y: 1 }][Math.round(Math.random() * 3)];
+
+  gameState.updateCreaturePosition(creature, { x: creature.x + moveBy.x, y: creature.y + moveBy.y });
+}
+
 export function makeGameState() {
   let gameState = new EventEmitter();
 
@@ -87,8 +93,14 @@ export function makeGameState() {
 
     updatePlayerPosition(destination) {
       gameState.updateCreaturePosition(gameState.playerPosition, destination);
+      gameState.allowCreaturesToAct();
     },
 
+    allowCreaturesToAct() {
+      gameState.creatures.forEach((creature) => {
+        makeCreatureAct(creature, gameState);
+      });
+    },
   });
 
   return gameState;
