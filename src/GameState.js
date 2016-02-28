@@ -12,9 +12,23 @@ function makeTile(type) {
   };
 }
 
+function makeCreature(x, y, type) {
+  return {
+    type,
+    x, y,
+  };
+}
+
+function makePlayer(x, y) {
+  return {
+    //type: 'player',
+    x, y,
+  };
+}
+
 function makeMap() {
   let map = ndarray([], [MAP_WIDTH, MAP_HEIGHT]);
-  let rotMap = new ROT.Map.Digger(MAP_WIDTH, MAP_HEIGHT);
+  let rotMap = new ROT.Map.Digger(MAP_WIDTH, MAP_HEIGHT, {roomWidth: [7,12], roomHeight: [7,13], dugPercentage: 0.5});
   rotMap.create(function(x, y, wall) {
     map.set(x, y, wall ? makeTile("wall") : null);
   });
@@ -33,12 +47,13 @@ function setStairs(map, rotMap) {
 export function makeGameState() {
   let gameState = new EventEmitter();
 
-
   gameState.map = makeMap();
-  gameState.playerPosition = {
-    x: gameState.map.stairsDownPosition[0],
-    y: gameState.map.stairsDownPosition[1],
-  };
+  gameState.playerPosition = makePlayer(gameState.map.stairsDownPosition[0], gameState.map.stairsDownPosition[1]);
+
+  gameState.creatures = [
+    makeCreature(1, 1, 'enemy'),
+  ];
+
   Object.assign(gameState, {
     updatePlayerPosition(destination) {
       let { x, y } = _.defaults(destination, gameState.playerPosition);

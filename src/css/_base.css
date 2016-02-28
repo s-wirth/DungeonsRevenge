@@ -2,16 +2,16 @@ $tile-width: 16px;
 
 body {
   background: #484848;
+  font-family: Arial;
 }
 
 .scene {
   position: relative;
 }
 
-.player {
+.player, .enemy-creature {
   width: $tile-width;
   height: $tile-width;
-  background: white;
   text-align: center;
   line-height: $tile-width;
   font-weight: bold;
@@ -20,22 +20,31 @@ body {
   transition: left 0.1s, top 0.1s;
 }
 
-.wall-tile {
-  width: $tile-width;
-  height: $tile-width;
-  background: #95836d;
-  position: absolute;
+.player {;
+  background: white;
 }
 
-.stairsDown-tile {
-  width: $tile-width;
-  height: $tile-width;
-  background: #000;
-  position: absolute;
+.enemy-creature {
+  background: red;
 }
+
+/*_________________________________*/
+
+.wall-tile,
+.stairsDown-tile,
 .stairsUp-tile {
   width: $tile-width;
   height: $tile-width;
-  background: #7e7e7e;
   position: absolute;
+}
+
+.wall-tile {
+  background: #95836d;
+}
+
+.stairsDown-tile {
+  background: #000;
+}
+.stairsUp-tile {
+  background: #7e7e7e;
 }
