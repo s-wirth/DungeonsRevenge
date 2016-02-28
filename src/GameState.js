@@ -1,9 +1,10 @@
 import EventEmitter from "eventemitter2";
 import _ from "lodash";
 import ndarray from "ndarray";
+import ROT from "rot-js";
 
 const MAP_WIDTH = 80;
-const MAP_HEIGHT = 100;
+const MAP_HEIGHT = 40;
 
 function makeTile(type) {
   return {
@@ -13,26 +14,11 @@ function makeTile(type) {
 
 function makeMap() {
   let map = ndarray([], [MAP_WIDTH, MAP_HEIGHT]);
+  let rotMap = new ROT.Map.Digger(MAP_WIDTH, MAP_HEIGHT);
+  rotMap.create(function(x, y, wall) {
+    map.set(x, y, wall ? makeTile("wall") : null);
+  });
   return map;
-}
-
-function makeARectangularRoom(map, width, height, topLeftX, topLeftY) {
-  // Make top edge
-  for (let i = topLeftX; i < topLeftX + width; i++) {
-    map.set(i, topLeftY, makeTile("wall"));
-  }
-  // Make right edge
-  for (let i = topLeftY; i < topLeftY + height; i++) {
-    map.set(topLeftX + width, i, makeTile("wall"));
-  }
-  // Make bottom edge
-  for (let i = topLeftX; i < topLeftX + width; i++) {
-    map.set(i, topLeftY + height - 1, makeTile("wall"));
-  }
-  // Make left edge
-  for (let i = topLeftY; i < topLeftY + height; i++) {
-    map.set(topLeftX, i, makeTile("wall"));
-  }
 }
 
 export function makeGameState() {
@@ -61,6 +47,5 @@ export function makeGameState() {
 }
 
 const defaultGameState = makeGameState();
-makeARectangularRoom(defaultGameState.map, 10, 10, 0, 0);
 
 export default defaultGameState;
