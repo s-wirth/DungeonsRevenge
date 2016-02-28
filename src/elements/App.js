@@ -35,7 +35,7 @@ const App = React.createClass({
         let mapTile = map.get(x, y);
         if (mapTile) {
           result.push(
-            <div className="wall-tile" key={`${x}-${y}`} style={{ left: x * TILE_WIDTH, top: y * TILE_WIDTH }} />
+            <div className={ `${mapTile.type}-tile` } key={`${x}-${y}`} style={{ left: x * TILE_WIDTH, top: y * TILE_WIDTH }} />
           );
         }
       }

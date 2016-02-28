@@ -1,7 +1,7 @@
 $tile-width: 16px;
 
 body {
-  background: black;
+  background: #484848;
 }
 
 .scene {
@@ -23,6 +23,19 @@ body {
 .wall-tile {
   width: $tile-width;
   height: $tile-width;
-  background: gray;
+  background: #95836d;
+  position: absolute;
+}
+
+.stairsDown-tile {
+  width: $tile-width;
+  height: $tile-width;
+  background: #000;
+  position: absolute;
+}
+.stairsUp-tile {
+  width: $tile-width;
+  height: $tile-width;
+  background: #7e7e7e;
   position: absolute;
 }

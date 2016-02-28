@@ -18,18 +18,27 @@ function makeMap() {
   rotMap.create(function(x, y, wall) {
     map.set(x, y, wall ? makeTile("wall") : null);
   });
+  setStairs(map, rotMap);
   return map;
+}
+
+function setStairs(map, rotMap) {
+  let rooms = rotMap.getRooms();
+  var stairsDownPosition = rooms[0].getCenter();
+  map.set(stairsDownPosition[0], stairsDownPosition[1], makeTile("stairsDown"));
+  map.set(rooms[rooms.length - 1].getCenter()[0], rooms[rooms.length - 1].getCenter()[1], makeTile("stairsUp"));
+  map.stairsDownPosition = stairsDownPosition;
 }
 
 export function makeGameState() {
   let gameState = new EventEmitter();
 
-  gameState.playerPosition = {
-    x: 1,
-    y: 1,
-  };
-  gameState.map = makeMap();
 
+  gameState.map = makeMap();
+  gameState.playerPosition = {
+    x: gameState.map.stairsDownPosition[0],
+    y: gameState.map.stairsDownPosition[1],
+  };
   Object.assign(gameState, {
     updatePlayerPosition(destination) {
       let { x, y } = _.defaults(destination, gameState.playerPosition);
