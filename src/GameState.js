@@ -74,16 +74,21 @@ export function makeGameState() {
   gameState.creatures = spawnEnemies(gameState.map);
 
   Object.assign(gameState, {
-    updatePlayerPosition(destination) {
-      let { x, y } = _.defaults(destination, gameState.playerPosition);
+    updateCreaturePosition(creature, destination) {
+      let { x, y } = _.defaults(destination, creature);
       let tileAtDestination = gameState.map.get(x, y);
 
       if (tileAtDestination && tileAtDestination.type === "wall") return;
 
-      gameState.playerPosition.x = x;
-      gameState.playerPosition.y = y;
+      creature.x = x;
+      creature.y = y;
       gameState.emit("change");
     },
+
+    updatePlayerPosition(destination) {
+      gameState.updateCreaturePosition(gameState.playerPosition, destination);
+    },
+
   });
 
   return gameState;
