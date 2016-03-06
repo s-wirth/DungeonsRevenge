@@ -12,8 +12,12 @@ function makeTile(type) {
   };
 }
 
+let creatureIdCounter = 0;
+
 function makeCreature(x, y, type) {
+  let id = creatureIdCounter += 1;
   return {
+    id,
     type,
     x, y,
   };

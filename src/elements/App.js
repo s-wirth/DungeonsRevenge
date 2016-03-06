@@ -32,7 +32,7 @@ const App = React.createClass({
       return (
         <div
           className={ `${creature.type}-creature` }
-          key={`creature-${creature.x}-${creature.y}`}
+          key={`creature-${creature.id}`}
           style={{ left: creature.x * TILE_WIDTH, top: creature.y * TILE_WIDTH }}
         >
           8(
