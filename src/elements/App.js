@@ -17,7 +17,7 @@ const App = React.createClass({
 
   getState() {
     this.setState({
-      playerPosition: GameState.playerPosition,
+      player: GameState.player,
       creatures: GameState.creatures,
       map: GameState.map,
     });
@@ -42,9 +42,9 @@ const App = React.createClass({
   },
 
   render() {
-    let { playerPosition, map } = this.state;
-    let x = playerPosition.x;
-    let y = playerPosition.y;
+    let { player, map } = this.state;
+    let x = player.x;
+    let y = player.y;
 
     return (
       <div className="scene">

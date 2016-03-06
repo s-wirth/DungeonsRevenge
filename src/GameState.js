@@ -25,7 +25,7 @@ function makeCreature(x, y, type) {
 
 function makePlayer(x, y) {
   return {
-    //type: 'player',
+    type: 'player',
     x, y,
   };
 }
@@ -75,13 +75,21 @@ function makeCreatureAct(creature, gameState) {
   gameState.updateCreaturePosition(creature, { x: creature.x + moveBy.x, y: creature.y + moveBy.y });
 }
 
+function makeCreatureAttack(attacker, defender, creaturesArray) {
+  creaturesArray.splice(creaturesArray.indexOf(defender), 1);
+  if (defender.type === 'player') {
+    alert("YA DEAD");
+  }
+}
+
 export function makeGameState() {
   let gameState = new EventEmitter();
 
   gameState.map = makeMap();
-  gameState.playerPosition = makePlayer(gameState.map.stairsDownPosition[0], gameState.map.stairsDownPosition[1]);
+  gameState.player = makePlayer(gameState.map.stairsDownPosition[0], gameState.map.stairsDownPosition[1]);
 
   gameState.creatures = spawnEnemies(gameState.map);
+  gameState.creatures.push(gameState.player);
 
   Object.assign(gameState, {
     updateCreaturePosition(creature, destination) {
@@ -89,6 +97,12 @@ export function makeGameState() {
       let tileAtDestination = gameState.map.get(x, y);
 
       if (tileAtDestination && tileAtDestination.type === "wall") return;
+      for (let i = 0; i < gameState.creatures.length; i++) {
+        if (gameState.creatures[i].x === destination.x && gameState.creatures[i].y === destination.y) {
+          makeCreatureAttack(creature, gameState.creatures[i], gameState.creatures);
+          return;
+        }
+      }
 
       creature.x = x;
       creature.y = y;
@@ -96,12 +110,15 @@ export function makeGameState() {
     },
 
     updatePlayerPosition(destination) {
-      gameState.updateCreaturePosition(gameState.playerPosition, destination);
+      gameState.updateCreaturePosition(gameState.player, destination);
       gameState.allowCreaturesToAct();
     },
 
     allowCreaturesToAct() {
       gameState.creatures.forEach((creature) => {
+        if (creature.type === 'player'){
+          return;
+        }
         makeCreatureAct(creature, gameState);
       });
     },
