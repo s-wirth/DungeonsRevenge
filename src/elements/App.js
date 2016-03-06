@@ -35,7 +35,9 @@ const App = React.createClass({
           key={`creature-${creature.id}`}
           style={{ left: creature.x * TILE_WIDTH, top: creature.y * TILE_WIDTH }}
         >
-          8(
+          <div className="health">
+            <div className="health__remaining" style={{ width: `${creature.health*100/creature.maxHealth}%`}}></div>
+          </div>
         </div>
       );
     });
@@ -49,7 +51,6 @@ const App = React.createClass({
     return (
       <div className="scene">
         <Dungeon map={ map } />
-        <div className="player" style={{ left: x * TILE_WIDTH, top: y * TILE_WIDTH }} key="player"> :) </div>
         { this.renderCreatures() }
       </div>
     );

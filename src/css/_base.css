@@ -9,23 +9,36 @@ body {
   position: relative;
 }
 
-.player, .enemy-creature {
+.player-creature, .enemy-creature {
   width: $tile-width;
   height: $tile-width;
   text-align: center;
   line-height: $tile-width;
   font-weight: bold;
   position: absolute;
-  transform: rotate(90deg);
-  transition: left 0.1s, top 0.1s;
 }
 
-.player {;
+.player-creature {
   background: white;
 }
 
 .enemy-creature {
+  background: blue;
+}
+
+/*_________________________________*/
+
+.health {
+  position: absolute;
   background: red;
+  width: 100%;
+  height: 2px;
+  top: -2px;
+}
+
+.health__remaining {
+  height: 100%;
+  background-color: lawngreen;
 }
 
 /*_________________________________*/

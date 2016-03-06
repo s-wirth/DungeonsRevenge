@@ -20,6 +20,8 @@ function makeCreature(x, y, type) {
     id,
     type,
     x, y,
+    maxHealth: 5,
+    health: 5,
   };
 }
 
@@ -27,6 +29,8 @@ function makePlayer(x, y) {
   return {
     type: 'player',
     x, y,
+    maxHealth: 10,
+    health: 10,
   };
 }
 
@@ -76,9 +80,9 @@ function makeCreatureAct(creature, gameState) {
 }
 
 function makeCreatureAttack(attacker, defender, creaturesArray) {
-  creaturesArray.splice(creaturesArray.indexOf(defender), 1);
-  if (defender.type === 'player') {
-    alert("YA DEAD");
+  defender.health -= 1;
+  if (defender.health <= 0) {
+    creaturesArray.splice(creaturesArray.indexOf(defender), 1);
   }
 }
 
