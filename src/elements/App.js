@@ -28,7 +28,7 @@ const App = React.createClass({
 
     if (!creatures) return null;
 
-    return creatures.map( (creature) => {
+    return creatures.map((creature) => {
       return (
         <div
           className={ `${creature.type}-creature` }
@@ -50,7 +50,7 @@ const App = React.createClass({
 
     return (
       <div className="scene">
-        <Dungeon map={ map } />
+        <Dungeon map={ map }/>
         { this.renderCreatures() }
       </div>
     );
