@@ -4,8 +4,8 @@ import React from 'react';
 const TILE_WIDTH = 16;
 
 const Dungeon = React.createClass({
-  shouldComponentUpdate() {
-    return false;
+  shouldComponentUpdate(nextProps) {
+    return nextProps.map !== this.props.map;
   },
 
   render() {
