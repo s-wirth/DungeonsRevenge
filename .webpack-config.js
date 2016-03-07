@@ -39,10 +39,13 @@ function commonConfig() {
             optional: ["runtime"],
           },
         },
-
         {
           test: /\.(css|scss)$/,
           loader: "style-loader!css-loader?sourceMaps!postcss-loader?sourceMaps!sass-loader?sourceMaps",
+        },
+        {
+          test: /\.(png|jpg|jpeg|gif)$/i,
+          loader: 'url?limit=25000'
         },
       ],
     },
