@@ -2,15 +2,13 @@
 
 var path = require("path");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
+var autoprefixer = require("autoprefixer");
 
 var SRC_DIR = process.env.npm_package_config_srcDir;
 var OUTPUT_DIR = process.env.npm_package_config_outputDir;
 var EXTERNAL_PROMISE = "{Promise: Promise}";
 
 var _ = require("lodash");
-var autoprefixer = require("autoprefixer");
-var precss = require("precss");
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 require("dotenv").load({ silent: true });
 
@@ -43,22 +41,19 @@ function commonConfig() {
         },
 
         {
-          test: /\.css$/,
-          loader: ExtractTextPlugin.extract("css-loader!postcss-loader"),
+          test: /\.(css|scss)$/,
+          loader: "style-loader!css-loader?sourceMaps!postcss-loader?sourceMaps!sass-loader?sourceMaps",
         },
       ],
     },
+    postcss: [ autoprefixer({ browsers: ['last 2 versions'] }) ],
     resolve: {
       root: [
         absolutePathTo(SRC_DIR),
       ],
     },
-    postcss: function() {
-      return [autoprefixer, precss];
-    },
     plugins: [
       new HtmlWebpackPlugin(),
-      new ExtractTextPlugin("styles.css", "[name]-[id]-[contentHash].css"),
     ],
     externals: { "es6-promise": EXTERNAL_PROMISE },
   };
