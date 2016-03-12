@@ -16,7 +16,7 @@ export function makePlayer(x, y) {
     type: 'player',
     x, y,
     maxHealth: 10,
-    health: 1,
+    health: 10,
   };
 }
 

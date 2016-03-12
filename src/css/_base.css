@@ -19,7 +19,7 @@ body {
 }
 
 .player-creature {
-  background: white;
+  background-image: url("assets/protagonist.png");
 }
 
 .enemy-creature {
@@ -33,12 +33,12 @@ body {
   background: red;
   width: 100%;
   height: 2px;
-  top: -2px;
+  top: -7px;
 }
 
 .health__remaining {
   height: 100%;
-  background-color: lawngreen;
+  background-color: #55ac00;
 }
 
 /*_________________________________*/
