@@ -13,10 +13,20 @@ import {
   makeMap
 } from "logic/levels";
 
-function addIncludesMethod(sightMap) {
-  sightMap.includes = function(x, y) {
-    return sightMap.indexOf(`${x},${y}`) != -1;
+function makeSightMap() {
+  let sightMap = {
+    visibleTiles: {},
+    setVisible(x, y) {
+      sightMap.visibleTiles[`${x},${y}`] = true;
+    },
+    includes(x, y) {
+      return sightMap.visibleTiles[`${x},${y}`];
+    },
+    combine(otherSightMap) {
+      Object.assign(sightMap.visibleTiles, otherSightMap.visibleTiles);
+    },
   };
+  return sightMap;
 }
 
 export function makeGameState() {
@@ -31,17 +41,16 @@ export function makeGameState() {
   gameState.creatures.push(gameState.player);
 
   function updatePlayerSightMap() {
-    gameState.map.sightMap = calculateSight(gameState.player.x, gameState.player.y);
+    gameState.map.sightMap = calculateSightMap(gameState.player.x, gameState.player.y);
 
-    if (!gameState.map.memorisedSightMap) gameState.map.memorisedSightMap = [];
+    if (!gameState.map.memorisedSightMap) gameState.map.memorisedSightMap = makeSightMap();
 
-    gameState.map.memorisedSightMap = _.uniq(gameState.map.memorisedSightMap.concat(gameState.map.sightMap));
-    addIncludesMethod(gameState.map.memorisedSightMap);
+    gameState.map.memorisedSightMap.combine(gameState.map.sightMap);
   }
 
   updatePlayerSightMap();
 
-  function calculateSight(playerPositionX, playerPositionY) {
+  function calculateSightMap(playerPositionX, playerPositionY) {
 
     var lightPasses = function(x, y) {
       let tile = gameState.map.get(x, y);
@@ -51,16 +60,13 @@ export function makeGameState() {
     };
 
     var fov = new ROT.FOV.PreciseShadowcasting(lightPasses);
-    let sightMap = [];
+    let sightMap = makeSightMap();
 
     fov.compute(playerPositionX, playerPositionY, 10, function(x, y, r, visibility) {
       if (visibility > 0) {
-        let visibleTile = `${x},${y}`;
-        sightMap.push(visibleTile);
+        sightMap.setVisible(x, y);
       }
     });
-
-    addIncludesMethod(sightMap);
 
     return sightMap;
   }
