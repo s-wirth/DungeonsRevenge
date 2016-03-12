@@ -20,8 +20,8 @@ const App = React.createClass({
       player: GameState.player,
       creatures: GameState.creatures,
       map: GameState.map,
-      sightMap: GameState.sightMap,
-      memorisedSightMap: GameState.memorisedSightMap
+      sightMap: GameState.map.sightMap,
+      memorisedSightMap: GameState.map.memorisedSightMap
     });
   },
 

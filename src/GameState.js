@@ -31,14 +31,16 @@ export function makeGameState() {
   gameState.creatures.push(gameState.player);
 
   function updatePlayerSightMap() {
-    gameState.sightMap = calculateSight(gameState.player.x, gameState.player.y);
+    gameState.map.sightMap = calculateSight(gameState.player.x, gameState.player.y);
 
-    if (!gameState.memorisedSightMap) gameState.memorisedSightMap = [];
-    gameState.memorisedSightMap = [].concat(gameState.sightMap);
+    if (!gameState.map.memorisedSightMap) gameState.map.memorisedSightMap = [];
 
-    gameState.memorisedSightMap = _.uniq(gameState.memorisedSightMap.concat(gameState.sightMap));
-    addIncludesMethod(gameState.memorisedSightMap);
+    gameState.map.memorisedSightMap = _.uniq(gameState.map.memorisedSightMap.concat(gameState.map.sightMap));
+    addIncludesMethod(gameState.map.memorisedSightMap);
   }
+
+  updatePlayerSightMap();
+
   function calculateSight(playerPositionX, playerPositionY) {
 
     var lightPasses = function(x, y) {
@@ -102,7 +104,6 @@ export function makeGameState() {
 
       creature.x = x;
       creature.y = y;
-      gameState.emit("change");
     },
 
     updatePlayerPosition(destination) {
