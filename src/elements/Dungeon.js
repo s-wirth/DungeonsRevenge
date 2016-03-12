@@ -5,11 +5,11 @@ const TILE_WIDTH = 16;
 
 const Dungeon = React.createClass({
   shouldComponentUpdate(nextProps) {
-    return nextProps.map !== this.props.map;
+    return nextProps.map !== this.props.map || nextProps.sightMap !== this.props.sightMap;
   },
 
   render() {
-    let { map } = this.props;
+    let { map, sightMap } = this.props;
 
     function renderTiles() {
       if (!map) return null;
@@ -21,7 +21,7 @@ const Dungeon = React.createClass({
       for (let x = 0; x < width; x++) {
         for (let y = 0; y < height; y++) {
           let mapTile = map.get(x, y);
-          if (mapTile) {
+          if (mapTile && sightMap.includes(x, y)) {
             result.push(
               <div className={ `${mapTile.type}-tile` } key={`${x}-${y}`}
                    style={{ left: x * TILE_WIDTH, top: y * TILE_WIDTH }}/>

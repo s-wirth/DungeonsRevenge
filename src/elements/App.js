@@ -20,6 +20,7 @@ const App = React.createClass({
       player: GameState.player,
       creatures: GameState.creatures,
       map: GameState.map,
+      sightMap: GameState.sightMap
     });
   },
 
@@ -44,13 +45,13 @@ const App = React.createClass({
   },
 
   render() {
-    let { player, map } = this.state;
+    let { player, map, sightMap } = this.state;
     let x = player.x;
     let y = player.y;
 
     return (
       <div className="scene">
-        <Dungeon map={ map }/>
+        <Dungeon map={ map } sightMap={ sightMap }/>
         { this.renderCreatures() }
       </div>
     );

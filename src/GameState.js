@@ -1,5 +1,6 @@
 import EventEmitter from "eventemitter2";
 import _ from "lodash";
+import ROT from "rot-js";
 import {
   makePlayer,
   spawnEnemies,
@@ -22,6 +23,33 @@ export function makeGameState() {
   gameState.map.creatures = spawnEnemies(gameState.map);
   gameState.creatures = gameState.map.creatures;
   gameState.creatures.push(gameState.player);
+  gameState.sightMap = calculateSight(gameState.player.x, gameState.player.y);
+
+  function calculateSight(playerPositionX, playerPositionY) {
+
+    var lightPasses = function(x, y) {
+      let tile = gameState.map.get(x, y);
+      let opaqueTiles = ['wall'];
+      /*returns true if tile.type is not in opaqueTiles list*/
+      return !tile || opaqueTiles.indexOf(tile.type) === -1;
+    };
+
+    var fov = new ROT.FOV.PreciseShadowcasting(lightPasses);
+    let sightMap = [];
+
+    fov.compute(playerPositionX, playerPositionY, 10, function(x, y, r, visibility) {
+      if (visibility > 0) {
+        let visibleTile = `${x},${y}`;
+        sightMap.push(visibleTile);
+      }
+    });
+
+    sightMap.includes = function(x, y) {
+      return sightMap.indexOf(`${x},${y}`) != -1;
+    };
+
+    return sightMap;
+  }
 
   Object.assign(gameState, {
     updateCreaturePosition(creature, destination) {
@@ -29,6 +57,7 @@ export function makeGameState() {
       let tileAtDestination = gameState.map.get(x, y);
 
       if (tileAtDestination && tileAtDestination.type === "wall") return;
+
       if (creature.type === "player"){
         if (tileAtDestination && tileAtDestination.type === "stairsUp") {
           gameState.map.creatures.splice(gameState.map.creatures.indexOf(creature), 1);
@@ -69,6 +98,7 @@ export function makeGameState() {
     updatePlayerPosition(destination) {
       gameState.updateCreaturePosition(gameState.player, destination);
       gameState.allowCreaturesToAct();
+      gameState.sightMap = calculateSight(gameState.player.x, gameState.player.y);
     },
 
     allowCreaturesToAct() {
