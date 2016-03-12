@@ -10,7 +10,4 @@ const rootElement = document.createElement("div");
 rootElement.className = "root";
 document.body.appendChild(rootElement);
 
-rootElement.tabIndex = 0;
-rootElement.focus();
-
 ReactDom.render(<App/>, rootElement);

@@ -1,6 +1,7 @@
 import React from "react";
 import GameState from "GameState";
 import Dungeon from "elements/Dungeon";
+import IntroScreen from "elements/IntroScreen";
 
 // This has to match the tile width in the CSS
 const TILE_WIDTH = 16;
@@ -21,7 +22,8 @@ const App = React.createClass({
       creatures: GameState.creatures,
       map: GameState.map,
       sightMap: GameState.map.sightMap,
-      memorisedSightMap: GameState.map.memorisedSightMap
+      memorisedSightMap: GameState.map.memorisedSightMap,
+      introScreenShown: GameState.introScreenShown
     });
   },
 
@@ -48,17 +50,24 @@ const App = React.createClass({
   },
 
   render() {
-    let { player, map, sightMap, memorisedSightMap } = this.state;
+    let { player, map, sightMap, memorisedSightMap, introScreenShown } = this.state;
     let x = player.x;
     let y = player.y;
 
-    return (
-      <div className="scene">
-        <Dungeon map={ map } sightMap={ sightMap } memorisedSightMap={ memorisedSightMap }/>
-        { this.renderCreatures() }
-      </div>
-    );
+    if (!introScreenShown) {
+      return (
+        <IntroScreen switchFromIntroToDungeon={ GameState.switchFromIntroToDungeon }/>
+      )
+    } else {
+      return (
+        <div className="scene">
+          <Dungeon map={ map } sightMap={ sightMap } memorisedSightMap={ memorisedSightMap }/>
+          { this.renderCreatures() }
+        </div>
+      );
+    }
   },
 });
 
 export default App;
+

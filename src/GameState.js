@@ -32,6 +32,8 @@ function makeSightMap() {
 export function makeGameState() {
   let gameState = new EventEmitter();
 
+  gameState.introScreenShown = false;
+
   gameState.map = makeMap();
 
   gameState.player = makePlayer(gameState.map.rotMap.getRooms()[0].getCenter()[0], gameState.map.rotMap.getRooms()[0].getCenter()[1]);
@@ -39,7 +41,6 @@ export function makeGameState() {
   gameState.map.creatures = spawnEnemies(gameState.map);
   gameState.creatures = gameState.map.creatures;
   gameState.creatures.push(gameState.player);
-
   function updatePlayerSightMap() {
     gameState.map.sightMap = calculateSightMap(gameState.player.x, gameState.player.y);
 
@@ -52,7 +53,7 @@ export function makeGameState() {
 
   function calculateSightMap(playerPositionX, playerPositionY) {
 
-    var lightPasses = function(x, y) {
+    var lightPasses = function (x, y) {
       let tile = gameState.map.get(x, y);
       let opaqueTiles = ['wall'];
       /*returns true if tile.type is not in opaqueTiles list*/
@@ -62,7 +63,7 @@ export function makeGameState() {
     var fov = new ROT.FOV.PreciseShadowcasting(lightPasses);
     let sightMap = makeSightMap();
 
-    fov.compute(playerPositionX, playerPositionY, 10, function(x, y, r, visibility) {
+    fov.compute(playerPositionX, playerPositionY, 10, function (x, y, r, visibility) {
       if (visibility > 0) {
         sightMap.setVisible(x, y);
       }
@@ -78,7 +79,7 @@ export function makeGameState() {
 
       if (tileAtDestination && tileAtDestination.type === "wall") return;
 
-      if (creature.type === "player"){
+      if (creature.type === "player") {
         if (tileAtDestination && tileAtDestination.type === "stairsUp") {
           gameState.map.creatures.splice(gameState.map.creatures.indexOf(creature), 1);
           gameState.map = enterNextLevel(gameState.map);
@@ -110,6 +111,11 @@ export function makeGameState() {
 
       creature.x = x;
       creature.y = y;
+    },
+
+    switchFromIntroToDungeon() {
+      gameState.introScreenShown = true;
+      gameState.emit("change");
     },
 
     updatePlayerPosition(destination) {
