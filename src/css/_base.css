@@ -44,6 +44,7 @@ body {
 /*_________________________________*/
 
 .wall-tile,
+.floor-tile,
 .stairsDown-tile,
 .stairsUp-tile {
   width: $tile-width;
@@ -54,6 +55,10 @@ body {
 .wall-tile {
   background: #95836d;
   background-image: url("assets/wall.png");
+}
+
+.floor-tile {
+  background: #367d41;
 }
 
 .stairsDown-tile {

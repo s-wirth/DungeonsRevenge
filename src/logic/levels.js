@@ -31,7 +31,7 @@ export function makeMap(id) {
   map.id = id || 0;
 
   rotMap.create(function (x, y, wall) {
-    map.set(x, y, wall ? makeTile("wall") : null);
+    map.set(x, y, wall ? makeTile("wall") : makeTile("floor"));
   });
   setStairs(map);
   return map;
