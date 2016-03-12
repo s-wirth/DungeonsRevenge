@@ -56,12 +56,12 @@ body {
 }
 
 .wall-tile {
-  background: #95836d;
   background-image: url("assets/wall.png");
 }
 
 .floor-tile {
-  background: #367d41;
+  background-image: url("assets/floor.png");
+  background-position: 25% 75%;
 }
 
 .stairsDown-tile {
