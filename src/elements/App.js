@@ -30,17 +30,19 @@ const App = React.createClass({
     if (!creatures) return null;
 
     return creatures.map((creature) => {
-      return (
-        <div
-          className={ `${creature.type}-creature` }
-          key={`creature-${creature.id}`}
-          style={{ left: creature.x * TILE_WIDTH, top: creature.y * TILE_WIDTH }}
-        >
-          <div className="health">
-            <div className="health__remaining" style={{ width: `${creature.health*100/creature.maxHealth}%`}}></div>
+      if(this.state.sightMap.includes(creature.x, creature.y)) {
+        return (
+          <div
+            className={ `${creature.type}-creature` }
+            key={`creature-${creature.id}`}
+            style={{ left: creature.x * TILE_WIDTH, top: creature.y * TILE_WIDTH }}
+          >
+            <div className="health">
+              <div className="health__remaining" style={{ width: `${creature.health*100/creature.maxHealth}%`}}></div>
+            </div>
           </div>
-        </div>
-      );
+        );
+      }
     });
   },
 
