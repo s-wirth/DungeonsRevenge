@@ -48,7 +48,7 @@
     "build": "bin/exec webpack --config .webpack-config",
     "clean": "rm -rf ${npm_package_config_outputDir}",
     "eslint": "bin/exec eslint test/ ${npm_package_config_srcDir}/",
-    "serve": "bin/exec webpack-dev-server --config .webpack-config",
+    "serve": "bin/exec webpack-dev-server --inline --config .webpack-config",
     "test": "karma start .karma-config --single-run",
     "serve-test": "karma start .karma-config"
   },
