@@ -50,6 +50,9 @@ body {
   width: $tile-width;
   height: $tile-width;
   position: absolute;
+  &.fog-of-war {
+    opacity: 0.5;
+  }
 }
 
 .wall-tile {

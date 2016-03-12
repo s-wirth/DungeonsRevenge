@@ -9,7 +9,7 @@ const Dungeon = React.createClass({
   },
 
   render() {
-    let { map, sightMap } = this.props;
+    let { map, sightMap, memorisedSightMap } = this.props;
 
     function renderTiles() {
       if (!map) return null;
@@ -21,11 +21,18 @@ const Dungeon = React.createClass({
       for (let x = 0; x < width; x++) {
         for (let y = 0; y < height; y++) {
           let mapTile = map.get(x, y);
-          if (mapTile && sightMap.includes(x, y)) {
-            result.push(
-              <div className={ `${mapTile.type}-tile` } key={`${x}-${y}`}
-                   style={{ left: x * TILE_WIDTH, top: y * TILE_WIDTH }}/>
-            );
+          if (mapTile) {
+            if (sightMap.includes(x, y)) {
+              result.push(
+                <div className={ `${mapTile.type}-tile` } key={`${x}-${y}`}
+                     style={{ left: x * TILE_WIDTH, top: y * TILE_WIDTH }}/>
+              );
+            } else if (memorisedSightMap.includes(x, y)) {
+              result.push(
+                <div className={ `${mapTile.type}-tile fog-of-war` } key={`${x}-${y}`}
+                     style={{ left: x * TILE_WIDTH, top: y * TILE_WIDTH }}/>
+              );
+            }
           }
         }
       }
