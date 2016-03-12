@@ -13,6 +13,12 @@ import {
   makeMap
 } from "logic/levels";
 
+function addIncludesMethod(sightMap) {
+  sightMap.includes = function(x, y) {
+    return sightMap.indexOf(`${x},${y}`) != -1;
+  };
+}
+
 export function makeGameState() {
   let gameState = new EventEmitter();
 
@@ -24,6 +30,8 @@ export function makeGameState() {
   gameState.creatures = gameState.map.creatures;
   gameState.creatures.push(gameState.player);
   gameState.sightMap = calculateSight(gameState.player.x, gameState.player.y);
+  gameState.memorisedSightMap = [].concat(gameState.sightMap);
+  addIncludesMethod(gameState.memorisedSightMap);
 
   function calculateSight(playerPositionX, playerPositionY) {
 
@@ -44,9 +52,7 @@ export function makeGameState() {
       }
     });
 
-    sightMap.includes = function(x, y) {
-      return sightMap.indexOf(`${x},${y}`) != -1;
-    };
+    addIncludesMethod(sightMap);
 
     return sightMap;
   }
@@ -96,7 +102,11 @@ export function makeGameState() {
     updatePlayerPosition(destination) {
       gameState.updateCreaturePosition(gameState.player, destination);
       gameState.allowCreaturesToAct();
+
       gameState.sightMap = calculateSight(gameState.player.x, gameState.player.y);
+      gameState.memorisedSightMap = _.uniq(gameState.memorisedSightMap.concat(gameState.sightMap));
+      addIncludesMethod(gameState.memorisedSightMap);
+
       gameState.emit("change");
     },
 
