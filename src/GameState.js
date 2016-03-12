@@ -29,10 +29,16 @@ export function makeGameState() {
   gameState.map.creatures = spawnEnemies(gameState.map);
   gameState.creatures = gameState.map.creatures;
   gameState.creatures.push(gameState.player);
-  gameState.sightMap = calculateSight(gameState.player.x, gameState.player.y);
-  gameState.memorisedSightMap = [].concat(gameState.sightMap);
-  addIncludesMethod(gameState.memorisedSightMap);
 
+  function updatePlayerSightMap() {
+    gameState.sightMap = calculateSight(gameState.player.x, gameState.player.y);
+
+    if (!gameState.memorisedSightMap) gameState.memorisedSightMap = [];
+    gameState.memorisedSightMap = [].concat(gameState.sightMap);
+
+    gameState.memorisedSightMap = _.uniq(gameState.memorisedSightMap.concat(gameState.sightMap));
+    addIncludesMethod(gameState.memorisedSightMap);
+  }
   function calculateSight(playerPositionX, playerPositionY) {
 
     var lightPasses = function(x, y) {
@@ -102,10 +108,7 @@ export function makeGameState() {
     updatePlayerPosition(destination) {
       gameState.updateCreaturePosition(gameState.player, destination);
       gameState.allowCreaturesToAct();
-
-      gameState.sightMap = calculateSight(gameState.player.x, gameState.player.y);
-      gameState.memorisedSightMap = _.uniq(gameState.memorisedSightMap.concat(gameState.sightMap));
-      addIncludesMethod(gameState.memorisedSightMap);
+      updatePlayerSightMap();
 
       gameState.emit("change");
     },
