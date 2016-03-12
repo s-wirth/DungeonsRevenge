@@ -69,7 +69,6 @@ export function makeGameState() {
           }
           gameState.creatures = gameState.map.creatures;
           gameState.creatures.push(gameState.player);
-          gameState.emit("change");
           return;
         }
         if (tileAtDestination && tileAtDestination.type === "stairsDown") {
@@ -79,7 +78,6 @@ export function makeGameState() {
           creature.y = gameState.map.stairsUpPosition[1];
           gameState.creatures = gameState.map.creatures;
           gameState.creatures.push(gameState.player);
-          gameState.emit("change");
           return;
         }
       }
@@ -99,6 +97,7 @@ export function makeGameState() {
       gameState.updateCreaturePosition(gameState.player, destination);
       gameState.allowCreaturesToAct();
       gameState.sightMap = calculateSight(gameState.player.x, gameState.player.y);
+      gameState.emit("change");
     },
 
     allowCreaturesToAct() {
