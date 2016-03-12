@@ -20,7 +20,7 @@ const IntroScreen = React.createClass({
         <ul>
           <li>Commands:</li>
         </ul>
-        <h2>Press Any Key to start</h2>
+        <h2>Press any key to start</h2>
       </div>
     );
   },

@@ -4,8 +4,7 @@ import ROT from "rot-js";
 import {
   makePlayer,
   spawnEnemies,
-  makeCreatureAct,
-  makeCreatureAttack
+  makeCreatureAct
 } from "logic/creatures";
 import {
   enterNextLevel,
@@ -33,6 +32,7 @@ export function makeGameState() {
   let gameState = new EventEmitter();
 
   gameState.introScreenShown = false;
+  gameState.playerDeath = false;
 
   gameState.map = makeMap();
 
@@ -104,13 +104,25 @@ export function makeGameState() {
       }
       for (let i = 0; i < gameState.creatures.length; i++) {
         if (gameState.creatures[i].x === destination.x && gameState.creatures[i].y === destination.y) {
-          makeCreatureAttack(creature, gameState.creatures[i], gameState.creatures);
+          gameState.makeCreatureAttack(creature, gameState.creatures[i]);
           return;
         }
       }
 
       creature.x = x;
       creature.y = y;
+    },
+
+    makeCreatureAttack(attacker, defender) {
+      defender.health -= 1;
+      if (defender.health <= 0) {
+        if (defender.type==="player") {
+          gameState.playerDeath = true;
+        } else {
+          gameState.creatures.splice(gameState.creatures.indexOf(defender), 1);
+        }
+        gameState.emit("change");
+      }
     },
 
     switchFromIntroToDungeon() {

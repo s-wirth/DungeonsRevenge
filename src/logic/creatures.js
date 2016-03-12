@@ -16,7 +16,7 @@ export function makePlayer(x, y) {
     type: 'player',
     x, y,
     maxHealth: 10,
-    health: 10,
+    health: 1,
   };
 }
 
@@ -40,12 +40,5 @@ export function makeCreatureAct(creature, gameState) {
   let moveBy = [{x: -1, y: 0}, {x: 1, y: 0}, {x: 0, y: -1}, {x: 0, y: 1}][Math.round(Math.random() * 3)];
 
   gameState.updateCreaturePosition(creature, {x: creature.x + moveBy.x, y: creature.y + moveBy.y});
-}
-
-export function makeCreatureAttack(attacker, defender, creaturesArray) {
-  defender.health -= 1;
-  if (defender.health <= 0) {
-    creaturesArray.splice(creaturesArray.indexOf(defender), 1);
-  }
 }
 

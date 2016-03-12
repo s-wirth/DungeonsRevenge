@@ -73,13 +73,21 @@ body {
 
 /*_________________________________*/
 
-.introScreen {
+.introScreen, .deathScreen {
   box-sizing: border-box;
   outline: none;
   height: 500px;
   width: 360px;
-  padding: 55px;
+  padding: 80px 55px;
   margin: 50px auto;
-  background-image: url("assets/scrollBG.png");
   background-size: cover;
+  text-align: center;
+}
+
+.introScreen {
+  background-image: url("assets/scrollBG.png");
+}
+.deathScreen {
+  background-image: url("assets/deathScroll.png");
+  color: black;
 }

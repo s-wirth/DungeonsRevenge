@@ -2,6 +2,7 @@ import React from "react";
 import GameState from "GameState";
 import Dungeon from "elements/Dungeon";
 import IntroScreen from "elements/IntroScreen";
+import DeathScreen from "elements/DeathScreen";
 
 // This has to match the tile width in the CSS
 const TILE_WIDTH = 16;
@@ -23,7 +24,8 @@ const App = React.createClass({
       map: GameState.map,
       sightMap: GameState.map.sightMap,
       memorisedSightMap: GameState.map.memorisedSightMap,
-      introScreenShown: GameState.introScreenShown
+      introScreenShown: GameState.introScreenShown,
+      playerDeath: GameState.playerDeath
     });
   },
 
@@ -50,14 +52,18 @@ const App = React.createClass({
   },
 
   render() {
-    let { player, map, sightMap, memorisedSightMap, introScreenShown } = this.state;
+    let { player, map, sightMap, memorisedSightMap, introScreenShown, playerDeath } = this.state;
     let x = player.x;
     let y = player.y;
 
     if (!introScreenShown) {
       return (
         <IntroScreen switchFromIntroToDungeon={ GameState.switchFromIntroToDungeon }/>
-      )
+      );
+    } else if (playerDeath) {
+      return (
+        <DeathScreen />
+      );
     } else {
       return (
         <div className="scene">
