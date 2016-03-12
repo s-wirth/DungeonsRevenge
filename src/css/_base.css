@@ -53,6 +53,7 @@ body {
 
 .wall-tile {
   background: #95836d;
+  background-image: url("assets/wall.png");
 }
 
 .stairsDown-tile {
