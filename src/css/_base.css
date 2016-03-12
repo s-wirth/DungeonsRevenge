@@ -5,6 +5,10 @@ body {
   font-family: Arial;
 }
 
+.root {
+  outline: none;
+}
+
 .scene {
   position: relative;
 }
