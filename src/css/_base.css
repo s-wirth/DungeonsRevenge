@@ -65,10 +65,12 @@ body {
 }
 
 .stairsDown-tile {
-  background: #000;
+  background-image: url("assets/stairsDown.png");
+  background-color: black;
 }
 .stairsUp-tile {
-  background: #7e7e7e;
+  background-image: url("assets/stairsUp.png");
+  background-color: #a4a4a4;
 }
 
 /*_________________________________*/
