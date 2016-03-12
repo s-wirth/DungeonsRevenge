@@ -23,7 +23,7 @@ body {
 }
 
 .enemy-creature {
-  background: blue;
+  background-image: url("assets/knightForwards.png");
 }
 
 /*_________________________________*/
