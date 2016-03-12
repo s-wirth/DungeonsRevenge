@@ -10,10 +10,6 @@ function makeTile(type) {
   };
 }
 
-export function makePlane() {
-  return [];
-}
-
 export function enterNextLevel(currentPlayerLevel) {
   if (!currentPlayerLevel.nextLevel) {
     let newLevel = makeMap(currentPlayerLevel.id + 1);
