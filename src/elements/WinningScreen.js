@@ -1,5 +1,5 @@
 import React from 'react';
-import skull from 'assets/crown.png';
+import skull from 'assets/misc/crown.png';
 
 const WinningScreen = React.createClass({
 

@@ -19,15 +19,15 @@ body {
 }
 
 .player-creature {
-  background-image: url("assets/protagonist.png");
+  background-image: url("assets/sprites/protagonist.png");
 }
 
 .enemy-creature {
-  background-image: url("assets/knightForwards.png");
+  background-image: url("assets/sprites/knightForwards.png");
 }
 
 .pestcontrol-creature{
-  background-image: url("assets/pestcontrol.png");
+  background-image: url("assets/sprites/pestcontrol.png");
 }
 
 /*_________________________________*/
@@ -60,20 +60,20 @@ body {
 }
 
 .wall-tile {
-  background-image: url("assets/wall.png");
+  background-image: url("assets/textures/wall.png");
 }
 
 .floor-tile {
-  background-image: url("assets/floor.png");
+  background-image: url("assets/textures/floor.png");
   background-position: 25% 75%;
 }
 
 .stairsDown-tile {
-  background-image: url("assets/stairsDown.png");
+  background-image: url("assets/textures/stairsDown.png");
   background-color: black;
 }
 .stairsUp-tile {
-  background-image: url("assets/stairsUp.png");
+  background-image: url("assets/textures/stairsUp.png");
   background-color: #a4a4a4;
 }
 
@@ -91,9 +91,13 @@ body {
 }
 
 .introScreen {
-  background-image: url("assets/scrollBG.png");
+  background-image: url("assets/scrolls/introScroll.png");
 }
 .deathScreen {
-  background-image: url("assets/deathScroll.png");
+  background-image: url("assets/scrolls/deathScroll.png");
+  color: black;
+}
+.winningScreen {
+  background-image: url("assets/scrolls/winningScroll.png");
   color: black;
 }

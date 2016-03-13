@@ -1,5 +1,5 @@
 import React from 'react';
-import skull from 'assets/skull.png';
+import skull from 'assets/misc/skull.png';
 
 const DeathScreen = React.createClass({
 
