@@ -45,3 +45,46 @@ npm run build-production # Build the production JS, CSS, HTML
 firebase deploy # Deploys to the production app by default
 # firebase deploy --firebase wirthslike-staging # Deploy the staging app
 ```
+
+## ToDo List
+
++ Sight
+    + Basic Sight
+    + Enemies In Sight
+    + Memory
+    + Floor Tiles
+
++ Intro / Death Screens
+
++ Sprites
+    + Player
+    + Enemy
+    + Environment
+
++ Boss Level
+    + Boss Enemy
+    + Special Level
+    + Winning Screen
+
++ Performance Fix
+
+- Skill/Battle Behaviour
+    - Level Ups
+    - Getting Stronger
+    - Healing
+    - Random Damage Control
+    - Smarter Enemy Movement
+    - Enemies Targeting On Sight
+
+- Environment Decoration
+
+- Animation
+
+- InGame Items
+    - Item Drop on Kill
+    - Healing Potion
+    - Weapons(?)
+
+- Tile Inspection
+
+- Track Score Online
