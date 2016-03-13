@@ -47,6 +47,14 @@ function commonConfig() {
           test: /\.(png|jpg|jpeg|gif)$/i,
           loader: 'url?limit=25000'
         },
+        {
+          test: /\.ttf$/,
+          loader: 'url?limit=100000'
+        },
+        {
+          test: /\.woff$/,
+          loader: 'url?limit=100000'
+        },
       ],
     },
     postcss: [ autoprefixer({ browsers: ['last 2 versions'] }) ],

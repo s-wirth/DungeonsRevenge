@@ -1,8 +1,14 @@
+@font-face {
+  font-family: 'VT323';
+  src: url('assets/fonts/VT323.woff') format('woff'), /* Pretty Modern Browsers */
+       url('assets/fonts/VT323.ttf')  format('truetype'); /* Safari, Android, iOS */
+}
+
 $tile-width: 16px;
 
 body {
   background: #000000;
-  font-family: Arial;
+  font-family: 'VT323', Fallback, sans-serif;
 }
 
 .scene {
