@@ -1,6 +1,10 @@
 import ndarray from "ndarray";
 import ROT from "rot-js";
 
+import {
+  makeCreature
+} from "logic/creatures";
+
 const MAP_WIDTH = 80;
 const MAP_HEIGHT = 40;
 
@@ -50,4 +54,20 @@ function setStairs(map) {
     map.stairsUpPosition = stairsUpPosition;
     map.set(stairsUpPosition[0], stairsUpPosition[1], makeTile("stairsUp"));
   }
+}
+
+function randomPositionIn(room) {
+  return [
+    Math.floor(room.getLeft() + (room.getRight() - room.getLeft()) * Math.random()),
+    Math.floor(room.getTop() + (room.getBottom() - room.getTop()) * Math.random()),
+  ];
+}
+
+export function spawnEnemies(map) {
+  let rotMap = map.rotMap;
+
+  return rotMap.getRooms().map((room) => {
+    let position = randomPositionIn(room);
+    return makeCreature(position[0], position[1], 'enemy');
+  });
 }

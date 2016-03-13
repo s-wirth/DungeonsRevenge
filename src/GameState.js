@@ -3,13 +3,13 @@ import _ from "lodash";
 import ROT from "rot-js";
 import {
   makePlayer,
-  spawnEnemies,
   makeCreatureAct
 } from "logic/creatures";
 import {
   enterNextLevel,
   enterPreviousLevel,
   makeMap
+  spawnEnemies
 } from "logic/levels";
 
 function makeSightMap() {

@@ -1,6 +1,6 @@
 let creatureIdCounter = 0;
 
-function makeCreature(x, y, type) {
+export function makeCreature(x, y, type) {
   let id = creatureIdCounter += 1;
   return {
     id,
@@ -18,22 +18,6 @@ export function makePlayer(x, y) {
     maxHealth: 10,
     health: 10,
   };
-}
-
-function randomPositionIn(room) {
-  return [
-    Math.floor(room.getLeft() + (room.getRight() - room.getLeft()) * Math.random()),
-    Math.floor(room.getTop() + (room.getBottom() - room.getTop()) * Math.random()),
-  ];
-}
-
-export function spawnEnemies(map) {
-  let rotMap = map.rotMap;
-
-  return rotMap.getRooms().map((room) => {
-    let position = randomPositionIn(room);
-    return makeCreature(position[0], position[1], 'enemy');
-  });
 }
 
 export function makeCreatureAct(creature, gameState) {
