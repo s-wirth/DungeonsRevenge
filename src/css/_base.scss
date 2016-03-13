@@ -55,6 +55,7 @@ html, body, .gameContainer, .root {
   line-height: $tile-width;
   font-weight: bold;
   position: absolute;
+  transition: all 0.1s;
 }
 
 .player-creature {
@@ -99,6 +100,7 @@ html, body, .gameContainer, .root {
 .health__remaining, .playerHealth__remaining {
   height: 100%;
   background-color: #55ac00;
+  transition: all 0.1s;
 }
 
 /*_________________________________*/
