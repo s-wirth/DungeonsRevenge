@@ -3,6 +3,8 @@
 var path = require("path");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 var autoprefixer = require("autoprefixer");
+var webpack = require("webpack");
+var webpackMerge = require("webpack-merge");
 
 var SRC_DIR = process.env.npm_package_config_srcDir;
 var OUTPUT_DIR = process.env.npm_package_config_outputDir;
@@ -83,8 +85,14 @@ function testConfig() {
 }
 
 function productionConfig() {
-  return _.extend(commonConfig(), {
-    // Production overrides here
+  return webpackMerge(commonConfig(), {
+    plugins: [
+      new webpack.DefinePlugin({
+        "process.env": {
+          "NODE_ENV": "\"production\"",
+        },
+      }),
+    ],
   });
 }
 
