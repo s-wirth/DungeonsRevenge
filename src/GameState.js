@@ -123,10 +123,10 @@ export function makeGameState() {
       let attackerActualDamage = attacker.baseDamage + attacker.strength;
       defender.health -= attackerActualDamage;
       if (defender.health <= 0) {
-        if (defender.type==="player") {
+        if (defender.type === "player") {
           console.log("playerDied");
           gameState.playerDeath = true;
-        } else if (defender.type==="pestcontrol") {
+        } else if (defender.type === "pestcontrol") {
           console.log("playerWon");
           gameState.playerWon = true;
         } else {
