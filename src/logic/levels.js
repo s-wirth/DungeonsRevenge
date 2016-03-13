@@ -50,7 +50,7 @@ export function bossLevel(id) {
   });
   setStairs(map, [1,2]);
   setInitialPlayerPosition(map, 1, 2);
-  map.creatures = [makeCreature(BOSS_MAP_WIDTH-5, Math.floor(BOSS_MAP_HEIGHT/2), "pestcontrol", 20)];
+  map.creatures = [makeCreature(BOSS_MAP_WIDTH-5, Math.floor(BOSS_MAP_HEIGHT/2), "pestcontrol", 5, 20)];
 
   return map;
 }
