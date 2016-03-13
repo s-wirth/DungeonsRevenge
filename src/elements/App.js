@@ -51,7 +51,12 @@ const App = React.createClass({
       );
     } else {
       return (
-      <InGameScreen map={ map } sightMap={ sightMap } memorisedSightMap={ memorisedSightMap } creatures={ creatures }/>
+      <InGameScreen
+        map={ map }
+        sightMap={ sightMap }
+        memorisedSightMap={ memorisedSightMap }
+        player={ player }
+        creatures={ creatures }/>
       );
     }
   },

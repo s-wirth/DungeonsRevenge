@@ -70,15 +70,21 @@ html, body, .gameContainer, .root {
 
 /*_________________________________*/
 
-.health {
-  position: absolute;
+.health, .playerHealth {
   background: red;
   width: 100%;
+}
+.playerHealth{
+  height: 10px;
+}
+
+.health {
+  position: absolute;
   height: 2px;
   top: -7px;
 }
 
-.health__remaining {
+.health__remaining, .playerHealth__remaining {
   height: 100%;
   background-color: #55ac00;
 }

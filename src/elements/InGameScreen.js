@@ -28,6 +28,17 @@ const InGameScreen = React.createClass({
     });
   },
 
+  renderPlayerStats() {
+    let player = this.props.player;
+    return (
+      <div>Health: { player.health }
+        <div className="playerHealth">
+          <div className="playerHealth__remaining" style={{ width: `${player.health*100/player.maxHealth}%`}}></div>
+        </div>
+      </div>
+    );
+  },
+
   render() {
     let { map, sightMap, memorisedSightMap } = this.props;
     return (
@@ -37,7 +48,9 @@ const InGameScreen = React.createClass({
           { this.renderCreatures() }
         </div>
         <div className="infoBar">
-          <div className="stats"></div>
+          <div className="stats">
+            { this.renderPlayerStats() }
+          </div>
           <div className="eventLog"></div>
           <div className="items"></div>
         </div>
