@@ -1,12 +1,15 @@
 import React from "react";
 import classnames from "classnames";
+import Immutable from "immutable";
 
 // This has to match the tile width in the CSS
 const TILE_WIDTH = 16;
 
 const DungeonMapRegion = React.createClass({
   shouldComponentUpdate(nextProps) {
-    return !this.props.sightMap.equals(nextProps.sightMap);
+    let sightMapDivision = this.props.sightMap.getDivision(this.props.leftBoundary, this.props.topBoundary);
+    let nextSightMapDivision = nextProps.sightMap.getDivision(nextProps.leftBoundary, nextProps.topBoundary);
+    return !Immutable.is(sightMapDivision, nextSightMapDivision);
   },
 
   render() {
@@ -44,14 +47,6 @@ const DungeonMapRegion = React.createClass({
     return (
       <div>
         { renderTiles() }
-        <div
-          style={{
-            position: "absolute",
-            left: leftBoundary * TILE_WIDTH, top: topBoundary * TILE_WIDTH,
-            width: (rightBoundary - leftBoundary) * TILE_WIDTH, height: (bottomBoundary - topBoundary) * TILE_WIDTH,
-            border: "1px solid red",
-          }}
-        />
       </div>
     );
   },
@@ -59,7 +54,8 @@ const DungeonMapRegion = React.createClass({
 
 const SubdividedDungeonMap = React.createClass({
   render() {
-    let { map, sightMap, remembered, divisions } = this.props;
+    let { map, sightMap, remembered } = this.props;
+    let divisions = sightMap.divisions;
     let result = [];
     let width = map.shape[0];
     let height = map.shape[1];
@@ -72,7 +68,7 @@ const SubdividedDungeonMap = React.createClass({
         let bottomBoundary = Math.round(height / divisions * (y + 1));
 
         result.push(
-          <DungeonMapRegion
+          <DungeonMapRegion key={ `${x}-${y}-division` }
             {...{ map, sightMap, remembered, leftBoundary, rightBoundary, topBoundary, bottomBoundary }}
           />
         );
@@ -94,18 +90,11 @@ const Dungeon = React.createClass({
 
   render() {
     let { map, sightMap, memorisedSightMap } = this.props;
-    let width = map.shape[0];
-    let height = map.shape[1];
 
     return (
       <div>
-        <SubdividedDungeonMap map={map} sightMap={memorisedSightMap} remembered divisions={6} />
-
-        <DungeonMapRegion
-          map={ map } sightMap={ sightMap }
-          leftBoundary={0} rightBoundary={width}
-          topBoundary={0} bottomBoundary={height}
-        />
+        <SubdividedDungeonMap map={map} sightMap={memorisedSightMap} remembered />
+        <SubdividedDungeonMap map={map} sightMap={sightMap} />
       </div>
     );
   },
