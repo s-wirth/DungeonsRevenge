@@ -108,6 +108,7 @@ html, body, .gameContainer, .root {
 /*_________________________________*/
 
 .wall-tile,
+.door-tile,
 .floor-tile,
 .stairsDown-tile,
 .stairsUp-tile {
@@ -121,6 +122,10 @@ html, body, .gameContainer, .root {
 
 .wall-tile {
   background-image: url("assets/textures/wall.png");
+}
+
+.door-tile {
+  background-image: url("assets/sprites/door.png");
 }
 
 .floor-tile {

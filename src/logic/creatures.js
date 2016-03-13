@@ -20,7 +20,7 @@ export function makeCreature(x, y, type, baseDamage = 1, experienceLootOnKill = 
 }
 
 export function makePlayer(x, y) {
-  return makeCreature(x, y, "player", 3, null, 15, 1, 0, 5, 6);
+  return makeCreature(x, y, "player", 3, null, 15, 1, 0, 5, 5);
 }
 
 function distanceBetween({ x: x1, y: y1 }, { x: x2, y: y2 }) {

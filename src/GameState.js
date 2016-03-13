@@ -47,8 +47,11 @@ export function makeGameState() {
     let map = gameState.map;
 
     var lightPasses = function (x, y) {
+      if (creature.x === x && creature.y === y) {
+        return true;
+      }
       let tile = gameState.map.get(x, y);
-      let opaqueTiles = ['wall'];
+      let opaqueTiles = ['wall', 'door'];
       /*returns true if tile.type is not in opaqueTiles list*/
       return !tile || opaqueTiles.indexOf(tile.type) === -1;
     };

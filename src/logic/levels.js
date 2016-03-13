@@ -77,7 +77,20 @@ export function makeMap(id) {
   }
 
   setInitialPlayerPosition(map, rooms[0].getCenter()[0], rooms[0].getCenter()[1]);
-  map.creatures = spawnEnemies(rotMap);
+  getDoors(rooms);
+
+  function makeDoors(x, y) {
+    map.set(x, y, makeTile("door"));
+  }
+
+  function getDoors(rooms) {
+    for (var i=0; i<rooms.length; i++) {
+      var room = rooms[i];
+      room.getDoors(makeDoors);
+    }
+  }
+
+  map.creatures = spawnEnemies(rooms);
   return map;
 }
 
@@ -103,8 +116,8 @@ function randomPositionIn(room) {
   ];
 }
 
-export function spawnEnemies(rotMap) {
-  return rotMap.getRooms().map((room) => {
+export function spawnEnemies(rooms) {
+  return rooms.map((room) => {
     let position = randomPositionIn(room);
     return makeCreature(position[0], position[1], 'enemy');
   });
