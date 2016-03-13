@@ -2,25 +2,26 @@ import ROT from "rot-js";
 
 let creatureIdCounter = 0;
 
-export function makeCreature(x, y, type, baseDamage = 1, experienceLootOnKill = 1, maxHealth = 5, strength = 0, endurance = 1, experience = 0, experienceNeeded = 2) {
+export function makeCreature(x, y, type, baseDamage = 1, experienceLootOnKill = 1, maxHealth = 5, strength = 0, endurance = 1, experience = 0, experienceNeeded = 2, sightRadius = 8) {
   let id = creatureIdCounter += 1;
   return {
     id,
     type,
     x, y,
-    baseDamage: baseDamage,
     experienceLootOnKill: experienceLootOnKill,
-    maxHealth: maxHealth,
-    health: maxHealth,
     strength: strength,
     endurance: endurance,
     experience: experience,
     experienceNeeded: experienceNeeded,
+    baseDamage,
+    maxHealth,
+    health: maxHealth,
+    sightRadius,
   };
 }
 
 export function makePlayer(x, y) {
-  return makeCreature(x, y, "player", 3, null, 15, 1);
+  return makeCreature(x, y, "player", 3, null, 15, 1, 1, 0, 2, 6);
 }
 
 function distanceBetween({ x: x1, y: y1 }, { x: x2, y: y2 }) {
@@ -36,9 +37,8 @@ function findPath(origin, destination, canPassFn) {
 
 export function makeCreatureAct(creature, gameState) {
   function canSeePlayer() {
-    const MAX_VISIBLE_DISTANCE = 8;
     // We ignore obstacles between us and the player
-    return distanceBetween(creature, gameState.player) < MAX_VISIBLE_DISTANCE;
+    return distanceBetween(creature, gameState.player) < creature.sightRadius;
   }
 
   function moveRandomly() {

@@ -31,7 +31,8 @@ export function makeGameState() {
 
   function updatePlayerSightMap() {
     let map = gameState.map;
-    map.sightMap = calculateSightMap(gameState.player.x, gameState.player.y);
+    let player = gameState.player;
+    map.sightMap = calculateSightMap(player);
 
     if (!map.memorisedSightMap) {
       map.memorisedSightMap = makeSightMap(map.width, map.height);
@@ -42,7 +43,7 @@ export function makeGameState() {
 
   updatePlayerSightMap();
 
-  function calculateSightMap(playerPositionX, playerPositionY) {
+  function calculateSightMap(creature) {
     let map = gameState.map;
 
     var lightPasses = function (x, y) {
@@ -55,7 +56,7 @@ export function makeGameState() {
     var fov = new ROT.FOV.PreciseShadowcasting(lightPasses);
     let sightMap = makeSightMap(map.width, map.height);
 
-    fov.compute(playerPositionX, playerPositionY, 6, function (x, y, r, visibility) {
+    fov.compute(creature.x, creature.y, creature.sightRadius, function (x, y, r, visibility) {
       if (visibility > 0) {
         sightMap.setVisible(x, y);
       }
