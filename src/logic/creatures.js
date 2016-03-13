@@ -13,12 +13,7 @@ export function makeCreature(x, y, type, baseDamage = 1, maxHealth = 5) {
 }
 
 export function makePlayer(x, y) {
-  return {
-    type: 'player',
-    x, y,
-    maxHealth: 10,
-    health: 10,
-  };
+  return makeCreature(x, y, "player", 3, 15);
 }
 
 export function makeCreatureAct(creature, gameState) {

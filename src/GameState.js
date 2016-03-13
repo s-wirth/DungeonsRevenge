@@ -107,7 +107,7 @@ export function makeGameState() {
     },
 
     makeCreatureAttack(attacker, defender) {
-      defender.health -= 1;
+      defender.health -= attacker.baseDamage;
       if (defender.health <= 0) {
         if (defender.type==="player") {
           gameState.playerDeath = true;
