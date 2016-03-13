@@ -113,7 +113,9 @@ export function makeGameState() {
       gameState.player.experience += experience;
       if (gameState.player.experience >= gameState.player.experienceNeeded) {
         gameState.player.experience = 0;
-        gameState.player.experienceNeeded += 3;
+        gameState.player.experienceNeeded += 5;
+        gameState.player.maxHealth += 3;
+        gameState.player.health += 3;
         gameState.player.strength += 1;
       }
 

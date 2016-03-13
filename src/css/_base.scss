@@ -30,22 +30,23 @@ html, body, .gameContainer, .root {
 
 .infoBar {
   height: 20%;
-  border: 3px solid #6f6f6f;
-  background-color: #999999;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: flex-start;
   align-content: stretch;
   align-items: flex-start;
+  color: #d3d3d3;
 }
 
 .stats, .eventLog, .items {
+  font-size: 1.4rem;
   height: 100%;
   display: inline;
-  border: 1px solid #6f6f6f;
   flex: 0 1 33.33%;
-  padding: 10px;
+  padding: 15px;
+  background: #111111;
+  border-top: 1px solid #2d2d2d;
 }
 
 .creature {
@@ -72,20 +73,20 @@ html, body, .gameContainer, .root {
 
 /*_________________________________*/
 .experienceNeeded {
-  background: cadetblue;
+  background: #25453d;
   width: 100%;
   height: 10px;
 }
 
 .playerExperience {
   height: 100%;
-  background: blue;
+  background: #00a08b;
   transition: all 0.1s;
 }
 /*_________________________________*/
 
 .health, .playerHealth {
-  background: red;
+  background: #ac0000;
   width: 100%;
 }
 .playerHealth{
@@ -100,7 +101,7 @@ html, body, .gameContainer, .root {
 
 .health__remaining, .playerHealth__remaining {
   height: 100%;
-  background-color: #55ac00;
+  background-color: #499300;
   transition: all 0.1s;
 }
 

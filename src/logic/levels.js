@@ -22,7 +22,7 @@ export function enterNextLevel(currentPlayerLevel) {
 
     let newLevel;
 
-    if (currentPlayerLevel.id === 0) {
+    if (currentPlayerLevel.id === 4) {
       newLevel = bossLevel(currentPlayerLevel.id + 1);
     } else {
       newLevel = makeMap(currentPlayerLevel.id + 1);

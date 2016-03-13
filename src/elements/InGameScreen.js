@@ -51,8 +51,6 @@ const InGameScreen = React.createClass({
           Experience:  { player.experience } / { player.experienceNeeded }
         <br />
           Strength:  { player.strength }
-        <br />
-          Endurance:  { player.endurance }
       </div>
     );
   },
