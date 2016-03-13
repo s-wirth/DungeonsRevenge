@@ -39,8 +39,9 @@ export function makeGameState() {
   gameState.player = makePlayer(gameState.map.rotMap.getRooms()[0].getCenter()[0], gameState.map.rotMap.getRooms()[0].getCenter()[1]);
 
   gameState.map.creatures = spawnEnemies(gameState.map);
-  gameState.creatures = gameState.map.creatures;
-  gameState.creatures.push(gameState.player);
+
+  gameState.map.creatures.push(gameState.player);
+
   function updatePlayerSightMap() {
     gameState.map.sightMap = calculateSightMap(gameState.player.x, gameState.player.y);
 
@@ -88,8 +89,7 @@ export function makeGameState() {
           if (!gameState.map.creatures) {
             gameState.map.creatures = spawnEnemies(gameState.map);
           }
-          gameState.creatures = gameState.map.creatures;
-          gameState.creatures.push(gameState.player);
+          gameState.map.creatures.push(gameState.player);
           return;
         }
         if (tileAtDestination && tileAtDestination.type === "stairsDown") {
@@ -97,14 +97,13 @@ export function makeGameState() {
           gameState.map = enterPreviousLevel(gameState.map);
           creature.x = gameState.map.stairsUpPosition[0];
           creature.y = gameState.map.stairsUpPosition[1];
-          gameState.creatures = gameState.map.creatures;
-          gameState.creatures.push(gameState.player);
+          gameState.map.creatures.push(gameState.player);
           return;
         }
       }
-      for (let i = 0; i < gameState.creatures.length; i++) {
-        if (gameState.creatures[i].x === destination.x && gameState.creatures[i].y === destination.y) {
-          gameState.makeCreatureAttack(creature, gameState.creatures[i]);
+      for (let i = 0; i < gameState.map.creatures.length; i++) {
+        if (gameState.map.creatures[i].x === destination.x && gameState.map.creatures[i].y === destination.y) {
+          gameState.makeCreatureAttack(creature, gameState.map.creatures[i]);
           return;
         }
       }
@@ -119,7 +118,7 @@ export function makeGameState() {
         if (defender.type==="player") {
           gameState.playerDeath = true;
         } else {
-          gameState.creatures.splice(gameState.creatures.indexOf(defender), 1);
+          gameState.map.creatures.splice(gameState.map.creatures.indexOf(defender), 1);
         }
         gameState.emit("change");
       }
@@ -139,7 +138,7 @@ export function makeGameState() {
     },
 
     allowCreaturesToAct() {
-      gameState.creatures.forEach((creature) => {
+      gameState.map.creatures.forEach((creature) => {
         if (creature.type === 'player') {
           return;
         }

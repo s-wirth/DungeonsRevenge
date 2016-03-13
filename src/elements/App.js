@@ -20,8 +20,8 @@ const App = React.createClass({
   getState() {
     this.setState({
       player: GameState.player,
-      creatures: GameState.creatures,
       map: GameState.map,
+      creatures: GameState.map.creatures,
       sightMap: GameState.map.sightMap,
       memorisedSightMap: GameState.map.memorisedSightMap,
       introScreenShown: GameState.introScreenShown,
