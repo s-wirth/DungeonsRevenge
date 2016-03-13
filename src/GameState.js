@@ -1,7 +1,9 @@
 import EventEmitter from "eventemitter2";
 import _ from "lodash";
 import ROT from "rot-js";
-import Immutable from "immutable";
+import {
+  makeSightMap
+} from "logic/SightMap";
 import {
   makePlayer,
   makeCreatureAct
@@ -13,40 +15,6 @@ import {
   spawnEnemies
 } from "logic/levels";
 
-function makeSightMap() {
-  function hashPosition(x, y) {
-    return `${x},${y}`;
-  }
-
-  let sightMap = {
-    visibleTiles: {},
-
-    setVisible(x, y) {
-      // sightMap.visibleTiles = sightMap.visibleTiles.set(hashPosition(x, y), true);
-      sightMap.visibleTiles[hashPosition(x, y)] = true;
-    },
-
-    freeze() {
-      sightMap.visibleTiles = Immutable.fromJS(sightMap.visibleTiles);
-    },
-
-    includes(x, y) {
-      return sightMap.visibleTiles.get(hashPosition(x, y));
-    },
-
-    combine(otherSightMap) {
-      let combinedSightMap = makeSightMap();
-      combinedSightMap.visibleTiles = sightMap.visibleTiles.merge(otherSightMap.visibleTiles);
-      return combinedSightMap;
-    },
-
-    equals(otherSightMap) {
-      return Immutable.is(sightMap.visibleTiles, otherSightMap.visibleTiles);
-    },
-  };
-
-  return sightMap;
-}
 
 export function makeGameState() {
   let gameState = new EventEmitter();
@@ -62,19 +30,20 @@ export function makeGameState() {
   gameState.map.creatures.push(gameState.player);
 
   function updatePlayerSightMap() {
-    gameState.map.sightMap = calculateSightMap(gameState.player.x, gameState.player.y);
+    let map = gameState.map;
+    map.sightMap = calculateSightMap(gameState.player.x, gameState.player.y);
 
-    if (!gameState.map.memorisedSightMap) {
-      gameState.map.memorisedSightMap = makeSightMap();
-      gameState.map.memorisedSightMap.freeze();
+    if (!map.memorisedSightMap) {
+      map.memorisedSightMap = makeSightMap(map.width, map.height);
     }
 
-    gameState.map.memorisedSightMap = gameState.map.memorisedSightMap.combine(gameState.map.sightMap);
+    map.memorisedSightMap = map.memorisedSightMap.combine(map.sightMap);
   }
 
   updatePlayerSightMap();
 
   function calculateSightMap(playerPositionX, playerPositionY) {
+    let map = gameState.map;
 
     var lightPasses = function (x, y) {
       let tile = gameState.map.get(x, y);
@@ -84,7 +53,7 @@ export function makeGameState() {
     };
 
     var fov = new ROT.FOV.PreciseShadowcasting(lightPasses);
-    let sightMap = makeSightMap();
+    let sightMap = makeSightMap(map.width, map.height);
 
     fov.compute(playerPositionX, playerPositionY, 6, function (x, y, r, visibility) {
       if (visibility > 0) {
@@ -92,7 +61,6 @@ export function makeGameState() {
       }
     });
 
-    sightMap.freeze();
     return sightMap;
   }
 
