@@ -11,6 +11,16 @@ const InGameScreen = React.createClass({
 
     if (!creatures) return null;
 
+    function renderHealthBar(creature) {
+      if (creature.type != "player") {
+        return (
+          <div className="health">
+            <div className="health__remaining" style={{ width: `${creature.health*100/creature.maxHealth}%`}}></div>
+          </div>
+        );
+      } return null;
+    }
+
     return creatures.map((creature) => {
       if (this.props.sightMap.includes(creature.x, creature.y)) {
         return (
@@ -19,9 +29,7 @@ const InGameScreen = React.createClass({
             key={`creature-${creature.id}`}
             style={{ left: creature.x * TILE_WIDTH, top: creature.y * TILE_WIDTH }}
           >
-            <div className="health">
-              <div className="health__remaining" style={{ width: `${creature.health*100/creature.maxHealth}%`}}></div>
-            </div>
+            { renderHealthBar(creature) }
           </div>
         );
       }
