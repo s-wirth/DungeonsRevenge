@@ -3,6 +3,7 @@ import GameState from "GameState";
 import Dungeon from "elements/Dungeon";
 import IntroScreen from "elements/IntroScreen";
 import DeathScreen from "elements/DeathScreen";
+import WinningScreen from "elements/WinningScreen";
 
 // This has to match the tile width in the CSS
 const TILE_WIDTH = 16;
@@ -26,7 +27,7 @@ const App = React.createClass({
       memorisedSightMap: GameState.map.memorisedSightMap,
       introScreenShown: GameState.introScreenShown,
       playerDeath: GameState.playerDeath,
-      playerDeath: GameState.playerWon
+      playerWon: GameState.playerWon
     });
   },
 

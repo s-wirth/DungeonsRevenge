@@ -112,10 +112,12 @@ export function makeGameState() {
       defender.health -= attacker.baseDamage;
       if (defender.health <= 0) {
         if (defender.type==="player") {
+          console.log("playerDied");
           gameState.playerDeath = true;
         } else if (defender.type==="pestcontrol") {
+          console.log("playerWon");
           gameState.playerWon = true;
-        }else {
+        } else {
           gameState.map.creatures.splice(gameState.map.creatures.indexOf(defender), 1);
         }
         gameState.emit("change");
