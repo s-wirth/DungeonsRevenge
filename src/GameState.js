@@ -38,8 +38,6 @@ export function makeGameState() {
 
   gameState.player = makePlayer(gameState.map.rotMap.getRooms()[0].getCenter()[0], gameState.map.rotMap.getRooms()[0].getCenter()[1]);
 
-  gameState.map.creatures = spawnEnemies(gameState.map);
-
   gameState.map.creatures.push(gameState.player);
 
   function updatePlayerSightMap() {

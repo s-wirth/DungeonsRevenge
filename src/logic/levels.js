@@ -38,6 +38,7 @@ export function makeMap(id) {
     map.set(x, y, wall ? makeTile("wall") : makeTile("floor"));
   });
   setStairs(map);
+  map.creatures = spawnEnemies(map);
   return map;
 }
 
