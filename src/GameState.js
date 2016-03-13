@@ -1,6 +1,7 @@
 import EventEmitter from "eventemitter2";
 import _ from "lodash";
 import ROT from "rot-js";
+import Immutable from "immutable";
 import {
   makePlayer,
   makeCreatureAct
@@ -13,18 +14,37 @@ import {
 } from "logic/levels";
 
 function makeSightMap() {
+  function hashPosition(x, y) {
+    return `${x},${y}`;
+  }
+
   let sightMap = {
     visibleTiles: {},
+
     setVisible(x, y) {
-      sightMap.visibleTiles[`${x},${y}`] = true;
+      // sightMap.visibleTiles = sightMap.visibleTiles.set(hashPosition(x, y), true);
+      sightMap.visibleTiles[hashPosition(x, y)] = true;
     },
+
+    freeze() {
+      sightMap.visibleTiles = Immutable.fromJS(sightMap.visibleTiles);
+    },
+
     includes(x, y) {
-      return sightMap.visibleTiles[`${x},${y}`];
+      return sightMap.visibleTiles.get(hashPosition(x, y));
     },
+
     combine(otherSightMap) {
-      Object.assign(sightMap.visibleTiles, otherSightMap.visibleTiles);
+      let combinedSightMap = makeSightMap();
+      combinedSightMap.visibleTiles = sightMap.visibleTiles.merge(otherSightMap.visibleTiles);
+      return combinedSightMap;
+    },
+
+    equals(otherSightMap) {
+      return Immutable.is(sightMap.visibleTiles, otherSightMap.visibleTiles);
     },
   };
+
   return sightMap;
 }
 
@@ -44,9 +64,12 @@ export function makeGameState() {
   function updatePlayerSightMap() {
     gameState.map.sightMap = calculateSightMap(gameState.player.x, gameState.player.y);
 
-    if (!gameState.map.memorisedSightMap) gameState.map.memorisedSightMap = makeSightMap();
+    if (!gameState.map.memorisedSightMap) {
+      gameState.map.memorisedSightMap = makeSightMap();
+      gameState.map.memorisedSightMap.freeze();
+    }
 
-    gameState.map.memorisedSightMap.combine(gameState.map.sightMap);
+    gameState.map.memorisedSightMap = gameState.map.memorisedSightMap.combine(gameState.map.sightMap);
   }
 
   updatePlayerSightMap();
@@ -69,6 +92,7 @@ export function makeGameState() {
       }
     });
 
+    sightMap.freeze();
     return sightMap;
   }
 
