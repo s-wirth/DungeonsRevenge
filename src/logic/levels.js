@@ -44,6 +44,8 @@ export function bossLevel(id) {
   let map = ndarray([], [BOSS_MAP_WIDTH, BOSS_MAP_HEIGHT]);
   let rotMap = new ROT.Map.Arena(BOSS_MAP_WIDTH, BOSS_MAP_HEIGHT);
   map.id = id;
+  map.width = BOSS_MAP_WIDTH;
+  map.height = BOSS_MAP_HEIGHT;
 
   rotMap.create(function (x, y, wall) {
     map.set(x, y, wall ? makeTile("wall") : makeTile("floor"));
@@ -59,6 +61,8 @@ export function makeMap(id) {
   let map = ndarray([], [MAP_WIDTH, MAP_HEIGHT]);
   let rotMap = new ROT.Map.Digger(MAP_WIDTH, MAP_HEIGHT, {roomWidth: [7, 12], roomHeight: [7, 13], dugPercentage: 0.5});
   map.id = id || 0;
+  map.width = MAP_WIDTH;
+  map.height = MAP_HEIGHT;
 
   rotMap.create(function (x, y, wall) {
     map.set(x, y, wall ? makeTile("wall") : makeTile("floor"));
