@@ -1,6 +1,7 @@
 import React from "react";
 import GameState from "GameState";
 import Dungeon from "elements/Dungeon";
+import InGameScreen from "elements/InGameScreen";
 import IntroScreen from "elements/IntroScreen";
 import DeathScreen from "elements/DeathScreen";
 import WinningScreen from "elements/WinningScreen";
@@ -31,30 +32,8 @@ const App = React.createClass({
     });
   },
 
-  renderCreatures() {
-    let creatures = this.state.creatures;
-
-    if (!creatures) return null;
-
-    return creatures.map((creature) => {
-      if(this.state.sightMap.includes(creature.x, creature.y)) {
-        return (
-          <div
-            className={ `creature ${creature.type}-creature` }
-            key={`creature-${creature.id}`}
-            style={{ left: creature.x * TILE_WIDTH, top: creature.y * TILE_WIDTH }}
-          >
-            <div className="health">
-              <div className="health__remaining" style={{ width: `${creature.health*100/creature.maxHealth}%`}}></div>
-            </div>
-          </div>
-        );
-      }
-    });
-  },
-
   render() {
-    let { player, map, sightMap, memorisedSightMap, introScreenShown, playerDeath, playerWon } = this.state;
+    let { player, map, sightMap, memorisedSightMap, introScreenShown, playerDeath, playerWon, creatures } = this.state;
     let x = player.x;
     let y = player.y;
 
@@ -72,10 +51,7 @@ const App = React.createClass({
       );
     } else {
       return (
-        <div className="scene">
-          <Dungeon map={ map } sightMap={ sightMap } memorisedSightMap={ memorisedSightMap }/>
-          { this.renderCreatures() }
-        </div>
+      <InGameScreen map={ map } sightMap={ sightMap } memorisedSightMap={ memorisedSightMap } creatures={ creatures }/>
       );
     }
   },
