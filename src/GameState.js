@@ -63,7 +63,7 @@ export function makeGameState() {
     var fov = new ROT.FOV.PreciseShadowcasting(lightPasses);
     let sightMap = makeSightMap();
 
-    fov.compute(playerPositionX, playerPositionY, 10, function (x, y, r, visibility) {
+    fov.compute(playerPositionX, playerPositionY, 6, function (x, y, r, visibility) {
       if (visibility > 0) {
         sightMap.setVisible(x, y);
       }
