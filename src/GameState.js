@@ -64,6 +64,14 @@ export function makeGameState() {
     return sightMap;
   }
 
+  function getCreatureAt(x, y) {
+    let creatures = gameState.map.creatures;
+    for (let i = 0; i < creatures.length; i++) {
+      let creature = creatures[i];
+      if (creature.x === x && creature.y === y) return creatures[i];
+    }
+  }
+
   Object.assign(gameState, {
     updateCreaturePosition(creature, destination) {
       let { x, y } = _.defaults(destination, creature);
@@ -89,11 +97,11 @@ export function makeGameState() {
           return;
         }
       }
-      for (let i = 0; i < gameState.map.creatures.length; i++) {
-        if (gameState.map.creatures[i].x === destination.x && gameState.map.creatures[i].y === destination.y) {
-          gameState.makeCreatureAttack(creature, gameState.map.creatures[i]);
-          return;
-        }
+
+      let creatureAtDestination = getCreatureAt(destination.x, destination.y);
+      if (creatureAtDestination) {
+        gameState.makeCreatureAttack(creature, creatureAtDestination);
+        return;
       }
 
       creature.x = x;
@@ -141,6 +149,11 @@ export function makeGameState() {
         makeCreatureAct(creature, gameState);
       });
     },
+
+    isTilePassable(x, y) {
+      let tile = gameState.map.get(x, y);
+      return tile && tile.type !== 'wall' && !getCreatureAt(x, y);
+    }
   });
 
   return gameState;
