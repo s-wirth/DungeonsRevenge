@@ -36,7 +36,7 @@ export function makeGameState() {
 
   gameState.map = makeMap();
 
-  gameState.player = makePlayer(gameState.map.rotMap.getRooms()[0].getCenter()[0], gameState.map.rotMap.getRooms()[0].getCenter()[1]);
+  gameState.player = makePlayer(gameState.map.initialPlayerPosition.x, gameState.map.initialPlayerPosition.y);
 
   gameState.map.creatures.push(gameState.player);
 

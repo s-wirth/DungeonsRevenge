@@ -38,6 +38,7 @@ export function makeMap(id) {
     map.set(x, y, wall ? makeTile("wall") : makeTile("floor"));
   });
   setStairs(map);
+  setInitialPlayerPosition(map);
   map.creatures = spawnEnemies(map);
   return map;
 }
@@ -55,6 +56,12 @@ function setStairs(map) {
     map.stairsUpPosition = stairsUpPosition;
     map.set(stairsUpPosition[0], stairsUpPosition[1], makeTile("stairsUp"));
   }
+}
+
+function setInitialPlayerPosition(map) {
+  let rotMap = map.rotMap;
+  let rooms = rotMap.getRooms();
+  map.initialPlayerPosition = {x: rooms[0].getCenter()[0], y: rooms[0].getCenter()[1]}
 }
 
 function randomPositionIn(room) {
