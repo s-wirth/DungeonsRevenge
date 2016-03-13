@@ -64,6 +64,10 @@ const App = React.createClass({
       return (
         <DeathScreen />
       );
+    }  else if (playerWon) {
+      return (
+        <WinningScreen />
+      );
     } else {
       return (
         <div className="scene">
