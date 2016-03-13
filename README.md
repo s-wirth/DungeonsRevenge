@@ -48,25 +48,25 @@ firebase deploy # Deploys to the production app by default
 
 ## ToDo List
 
-+ Sight
-    + Basic Sight
-    + Enemies In Sight
-    + Memory
-    + Floor Tiles
++ Sight (done)
+    + Basic Sight (done)
+    + Enemies In Sight (done)
+    + Memory (done)
+    + Floor Tiles (done)
 
-+ Intro / Death Screens
++ Intro / Death Screens (done)
 
-+ Sprites
-    + Player
-    + Enemy
-    + Environment
++ Sprites (done)
+    + Player (done)
+    + Enemy (done)
+    + Environment (done)
 
-+ Boss Level
-    + Boss Enemy
-    + Special Level
-    + Winning Screen
++ Boss Level (done)
+    + Boss Enemy (done)
+    + Special Level (done)
+    + Winning Screen (done)
 
-+ Performance Fix
++ Performance Fix (done)
 
 - Skill/Battle Behaviour
     - Level Ups
