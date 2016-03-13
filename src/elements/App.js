@@ -25,7 +25,8 @@ const App = React.createClass({
       sightMap: GameState.map.sightMap,
       memorisedSightMap: GameState.map.memorisedSightMap,
       introScreenShown: GameState.introScreenShown,
-      playerDeath: GameState.playerDeath
+      playerDeath: GameState.playerDeath,
+      playerDeath: GameState.playerWon
     });
   },
 
@@ -52,7 +53,7 @@ const App = React.createClass({
   },
 
   render() {
-    let { player, map, sightMap, memorisedSightMap, introScreenShown, playerDeath } = this.state;
+    let { player, map, sightMap, memorisedSightMap, introScreenShown, playerDeath, playerWon } = this.state;
     let x = player.x;
     let y = player.y;
 

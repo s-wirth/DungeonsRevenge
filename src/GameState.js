@@ -34,6 +34,8 @@ export function makeGameState() {
   gameState.introScreenShown = false;
   gameState.playerDeath = false;
 
+  gameState.playerWon = false;
+
   gameState.map = makeMap();
   gameState.player = makePlayer(gameState.map.initialPlayerPosition.x, gameState.map.initialPlayerPosition.y);
 
@@ -111,7 +113,9 @@ export function makeGameState() {
       if (defender.health <= 0) {
         if (defender.type==="player") {
           gameState.playerDeath = true;
-        } else {
+        } else if (defender.type==="pestcontrol") {
+          gameState.playerWon = true;
+        }else {
           gameState.map.creatures.splice(gameState.map.creatures.indexOf(defender), 1);
         }
         gameState.emit("change");
