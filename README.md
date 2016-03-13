@@ -48,43 +48,33 @@ firebase deploy # Deploys to the production app by default
 
 ## ToDo List
 
-+ Sight (done)
-    + Basic Sight (done)
-    + Enemies In Sight (done)
-    + Memory (done)
-    + Floor Tiles (done)
-
-+ Intro / Death Screens (done)
-
-+ Sprites (done)
-    + Player (done)
-    + Enemy (done)
-    + Environment (done)
-
-+ Boss Level (done)
-    + Boss Enemy (done)
-    + Special Level (done)
-    + Winning Screen (done)
-
-+ Performance Fix (done)
-
-- Skill/Battle Behaviour
-    - Level Ups
-    - Getting Stronger
-    - Healing
-    - Random Damage Control
-    - Smarter Enemy Movement
-    - Enemies Targeting On Sight
-
-- Environment Decoration
-
-- Animation
-
-- InGame Items
-    - Item Drop on Kill
-    - Healing Potion
-    - Weapons(?)
-
-- Tile Inspection
-
-- Track Score Online
+* [x] Sight (done)
+    * [x] Basic Sight (done)
+    * [x] Enemies In Sight (done)
+    * [x] Memory (done)
+    * [x] Floor Tiles (done)
+* [x] Intro / Death Screens (done)
+* [x] Sprites (done)
+    * [x] Player (done)
+    * [x] Enemy (done)
+    * [x] Environment (done)
+* [x] Boss Level (done)
+    * [x] Boss Enemy (done)
+    * [x] Special Level (done)
+    * [x] Winning Screen (done)
+* [x] Performance Fix (done)
+* [ ] Skill/Battle Behaviour
+    * [ ] Level Ups
+    * [ ] Getting Stronger
+    * [ ] Healing
+    * [ ] Random Damage Control
+    * [ ] Smarter Enemy Movement
+    * [ ] Enemies Targeting On Sight
+* [ ] Environment Decoration
+* [ ] Animation
+* [ ] InGame Items
+    * [ ] Item Drop on Kill
+    * [ ] Healing Potion
+    * [ ] Weapons(?)
+* [ ] Tile Inspection
+* [ ] Track Score Online
