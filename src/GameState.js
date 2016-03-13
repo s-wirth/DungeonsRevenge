@@ -8,7 +8,7 @@ import {
 import {
   enterNextLevel,
   enterPreviousLevel,
-  makeMap
+  makeMap,
   spawnEnemies
 } from "logic/levels";
 
@@ -35,7 +35,6 @@ export function makeGameState() {
   gameState.playerDeath = false;
 
   gameState.map = makeMap();
-
   gameState.player = makePlayer(gameState.map.initialPlayerPosition.x, gameState.map.initialPlayerPosition.y);
 
   gameState.map.creatures.push(gameState.player);
@@ -84,9 +83,6 @@ export function makeGameState() {
           gameState.map = enterNextLevel(gameState.map);
           creature.x = gameState.map.stairsDownPosition[0];
           creature.y = gameState.map.stairsDownPosition[1];
-          if (!gameState.map.creatures) {
-            gameState.map.creatures = spawnEnemies(gameState.map);
-          }
           gameState.map.creatures.push(gameState.player);
           return;
         }
