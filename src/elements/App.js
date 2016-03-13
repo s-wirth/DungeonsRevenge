@@ -38,7 +38,7 @@ const App = React.createClass({
       if(this.state.sightMap.includes(creature.x, creature.y)) {
         return (
           <div
-            className={ `${creature.type}-creature` }
+            className={ `creature ${creature.type}-creature` }
             key={`creature-${creature.id}`}
             style={{ left: creature.x * TILE_WIDTH, top: creature.y * TILE_WIDTH }}
           >

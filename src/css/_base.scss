@@ -9,7 +9,7 @@ body {
   position: relative;
 }
 
-.player-creature, .enemy-creature {
+.creature {
   width: $tile-width;
   height: $tile-width;
   text-align: center;
