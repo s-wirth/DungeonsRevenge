@@ -24,3 +24,7 @@ Mousetrap.bind("left", () => {
     x: GameState.player.x - 1,
   });
 });
+
+Mousetrap.bind(".", () => {
+  GameState.skipPlayerTurn();
+});

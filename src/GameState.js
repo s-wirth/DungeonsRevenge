@@ -125,7 +125,11 @@ export function makeGameState() {
       gameState.updateCreaturePosition(gameState.player, destination);
       gameState.allowCreaturesToAct();
       updatePlayerSightMap();
+      gameState.emit("change");
+    },
 
+    skipPlayerTurn() {
+      gameState.allowCreaturesToAct();
       gameState.emit("change");
     },
 
