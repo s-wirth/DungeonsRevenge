@@ -16,10 +16,10 @@ const IntroScreen = React.createClass({
     return (
       <div className="introScreen" tabIndex="99" onKeyUp={ this.onKeyUp }>
         <h1>Dungeon's Revenge</h1>
-        <p>This is a Rogue Like, Bla bla bla bla bla.</p>
-        <ul>
-          <li>Commands:</li>
-        </ul>
+        <h3>This is a Rogue Like. To beat it, you have hack your way through the dungeon and defeat the boss.</h3>
+        <b>If you die you're done for. No extra lives.</b>
+        <br/>
+        <b>Move with the arrow keys</b>
         <h2>Press any key to start</h2>
       </div>
     );
