@@ -8,6 +8,9 @@ import {
 const MAP_WIDTH = 80;
 const MAP_HEIGHT = 40;
 
+const BOSS_MAP_WIDTH = 20;
+const BOSS_MAP_HEIGHT = 15;
+
 function makeTile(type) {
   return {
     type,
@@ -19,7 +22,7 @@ export function enterNextLevel(currentPlayerLevel) {
 
     let newLevel;
 
-    if (currentPlayerLevel.id === 3) {
+    if (currentPlayerLevel.id === 0) {
       newLevel = bossLevel(currentPlayerLevel.id + 1);
     } else {
       newLevel = makeMap(currentPlayerLevel.id + 1);
@@ -38,8 +41,8 @@ export function enterPreviousLevel(currentPlayerLevel) {
 }
 
 export function bossLevel(id) {
-  let map = ndarray([], [MAP_WIDTH/2, MAP_HEIGHT/2]);
-  let rotMap = new ROT.Map.Arena(MAP_WIDTH/2, MAP_HEIGHT/2);
+  let map = ndarray([], [BOSS_MAP_WIDTH, BOSS_MAP_HEIGHT]);
+  let rotMap = new ROT.Map.Arena(BOSS_MAP_WIDTH, BOSS_MAP_HEIGHT);
   map.id = id;
 
   rotMap.create(function (x, y, wall) {
@@ -47,7 +50,7 @@ export function bossLevel(id) {
   });
   setStairs(map, [1,2]);
   setInitialPlayerPosition(map, 1, 2);
-  map.creatures = [];
+  map.creatures = [makeCreature(BOSS_MAP_WIDTH-5, Math.floor(BOSS_MAP_HEIGHT/2), "pestcontrol", 20)];
 
   return map;
 }

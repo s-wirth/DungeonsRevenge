@@ -1,13 +1,14 @@
 let creatureIdCounter = 0;
 
-export function makeCreature(x, y, type) {
+export function makeCreature(x, y, type, baseDamage = 1, maxHealth = 5) {
   let id = creatureIdCounter += 1;
   return {
     id,
     type,
     x, y,
-    maxHealth: 5,
-    health: 5,
+    baseDamage: baseDamage,
+    maxHealth: maxHealth,
+    health: maxHealth,
   };
 }
 
