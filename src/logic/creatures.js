@@ -2,20 +2,25 @@ import ROT from "rot-js";
 
 let creatureIdCounter = 0;
 
-export function makeCreature(x, y, type, baseDamage = 1, maxHealth = 5) {
+export function makeCreature(x, y, type, baseDamage = 1, experienceLootOnKill = 1, maxHealth = 5, strength = 0, endurance = 1, experience = 0, experienceNeeded = 2) {
   let id = creatureIdCounter += 1;
   return {
     id,
     type,
     x, y,
     baseDamage: baseDamage,
+    experienceLootOnKill: experienceLootOnKill,
     maxHealth: maxHealth,
     health: maxHealth,
+    strength: strength,
+    endurance: endurance,
+    experience: experience,
+    experienceNeeded: experienceNeeded,
   };
 }
 
 export function makePlayer(x, y) {
-  return makeCreature(x, y, "player", 3, 15);
+  return makeCreature(x, y, "player", 3, null, 15, 1);
 }
 
 function distanceBetween({ x: x1, y: y1 }, { x: x2, y: y2 }) {

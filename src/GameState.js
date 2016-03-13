@@ -108,8 +108,19 @@ export function makeGameState() {
       creature.y = y;
     },
 
+    calculateExperienceAndStrength(experience) {
+      gameState.player.experience += experience;
+      if (gameState.player.experience >= gameState.player.experienceNeeded) {
+        gameState.player.experience = 0;
+        gameState.player.experienceNeeded += 3;
+        gameState.player.strength += 1;
+      }
+
+    },
+
     makeCreatureAttack(attacker, defender) {
-      defender.health -= attacker.baseDamage;
+      let attackerActualDamage = attacker.baseDamage + attacker.strength;
+      defender.health -= attackerActualDamage;
       if (defender.health <= 0) {
         if (defender.type==="player") {
           console.log("playerDied");
@@ -118,6 +129,7 @@ export function makeGameState() {
           console.log("playerWon");
           gameState.playerWon = true;
         } else {
+          gameState.calculateExperienceAndStrength(defender.experienceLootOnKill);
           gameState.map.creatures.splice(gameState.map.creatures.indexOf(defender), 1);
         }
         gameState.emit("change");

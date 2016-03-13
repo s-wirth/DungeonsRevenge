@@ -45,6 +45,7 @@ html, body, .gameContainer, .root {
   display: inline;
   border: 1px solid #6f6f6f;
   flex: 0 1 33.33%;
+  padding: 10px;
 }
 
 .creature {
@@ -68,6 +69,17 @@ html, body, .gameContainer, .root {
   background-image: url("assets/sprites/pestcontrol.png");
 }
 
+/*_________________________________*/
+.experienceNeeded {
+  background: cadetblue;
+  width: 100%;
+  height: 10px;
+}
+
+.playerExperience {
+  height: 100%;
+  background: blue;
+}
 /*_________________________________*/
 
 .health, .playerHealth {

@@ -39,10 +39,20 @@ const InGameScreen = React.createClass({
   renderPlayerStats() {
     let player = this.props.player;
     return (
-      <div>Health: { player.health }
+      <div>
         <div className="playerHealth">
           <div className="playerHealth__remaining" style={{ width: `${player.health*100/player.maxHealth}%`}}></div>
         </div>
+        Health: { player.health }
+        <br />
+        <div className="experienceNeeded">
+          <div className="playerExperience" style={{ width: `${player.experience*100/player.experienceNeeded}%`}}></div>
+        </div>
+          Experience:  { player.experience } / { player.experienceNeeded }
+        <br />
+          Strength:  { player.strength }
+        <br />
+          Endurance:  { player.endurance }
       </div>
     );
   },
