@@ -60,6 +60,7 @@ html, body, .gameContainer, .root {
 }
 
 .player-creature {
+  z-index: 99;
   background-image: url("assets/sprites/protagonist.png");
 }
 
@@ -108,6 +109,7 @@ html, body, .gameContainer, .root {
 /*_________________________________*/
 
 .healingPotion {
+  z-index: 0;
   width: $tile-width;
   height: $tile-width;
   position: absolute;
