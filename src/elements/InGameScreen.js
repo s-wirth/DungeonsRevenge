@@ -36,8 +36,27 @@ const InGameScreen = React.createClass({
     });
   },
 
+  renderHealingPotions() {
+    let potions = this.props.potions;
+    console.log("hallo");
+    return potions.map((potion) => {
+      console.log(potion)
+      if (this.props.sightMap.includes(potion.x, potion.y)) {
+        return (
+          <div
+            className="healingPotion"
+            key={`${potion.id}`}
+            style={{ left: potion.x * TILE_WIDTH, top: potion.y * TILE_WIDTH }}
+          >
+          </div>
+        );
+      }
+    });
+  },
+
   renderPlayerStats() {
     let player = this.props.player;
+    console.log(player)
     return (
       <div>
         <div className="playerHealth">
@@ -62,6 +81,7 @@ const InGameScreen = React.createClass({
         <div className="scene">
           <Dungeon map={ map } sightMap={ sightMap } memorisedSightMap={ memorisedSightMap }/>
           { this.renderCreatures() }
+          { this.renderHealingPotions() }
         </div>
         <div className="infoBar">
           <div className="stats">

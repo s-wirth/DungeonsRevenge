@@ -5,6 +5,10 @@ import {
   makeCreature
 } from "logic/creatures";
 
+import {
+  makeHealingPotion
+} from "logic/items";
+
 const MAP_WIDTH = 80;
 const MAP_HEIGHT = 40;
 
@@ -78,6 +82,7 @@ export function makeMap(id) {
 
   setInitialPlayerPosition(map, rooms[0].getCenter()[0], rooms[0].getCenter()[1]);
   getDoors(rooms);
+  healingItemsOnLevel(rooms);
 
   function makeDoors(x, y) {
     map.set(x, y, makeTile("door"));
@@ -88,6 +93,17 @@ export function makeMap(id) {
       var room = rooms[i];
       room.getDoors(makeDoors);
     }
+  }
+
+  function healingItemsOnLevel(rooms) {
+    let amount = Math.floor(Math.random() * 2)+1;
+    let potions = [];
+    for (var i = 0; i <= amount; i++){
+      let randomRoom = Math.floor(Math.random() * rooms.length);
+      let position = randomPositionIn(rooms[randomRoom]);
+      potions.push(makeHealingPotion(position[0], position[1]));
+    }
+    map.potions = potions;
   }
 
   map.creatures = spawnEnemies(rooms);

@@ -107,6 +107,15 @@ html, body, .gameContainer, .root {
 
 /*_________________________________*/
 
+.healingPotion {
+  width: $tile-width;
+  height: $tile-width;
+  position: absolute;
+  background-image: url("assets/sprites/items/potion.png");
+}
+
+/*_________________________________*/
+
 .wall-tile,
 .door-tile,
 .floor-tile,

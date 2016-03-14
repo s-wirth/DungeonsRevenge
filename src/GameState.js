@@ -76,6 +76,14 @@ export function makeGameState() {
     }
   }
 
+  function itemAtPosition(x, y) {
+    let potions = gameState.map.potions;
+    for (let i = 0; i < potions.length; i++) {
+      let potion = potions[i];
+      if (potion.x === x && potion.y === y) return potions[i];
+    }
+  }
+
   Object.assign(gameState, {
     updateCreaturePosition(creature, destination) {
       let { x, y } = _.defaults(destination, creature);
@@ -99,6 +107,13 @@ export function makeGameState() {
           creature.y = gameState.map.stairsUpPosition[1];
           gameState.map.creatures.push(gameState.player);
           return;
+        }
+        let itemAtDestinedPlayerPosition = itemAtPosition(x, y);
+        console.log(itemAtDestinedPlayerPosition);
+        if (itemAtDestinedPlayerPosition) {
+          gameState.player.health += itemAtDestinedPlayerPosition.healsOnConsume;
+          if (gameState.player.health > gameState.player.maxHealth) gameState.player.health = gameState.player.maxHealth;
+          gameState.map.potions.splice(gameState.map.potions.indexOf(itemAtDestinedPlayerPosition), 1);
         }
       }
 

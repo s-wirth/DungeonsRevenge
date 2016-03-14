@@ -24,6 +24,7 @@ const App = React.createClass({
       player: GameState.player,
       map: GameState.map,
       creatures: GameState.map.creatures,
+      potions: GameState.map.potions,
       sightMap: GameState.map.sightMap,
       memorisedSightMap: GameState.map.memorisedSightMap,
       introScreenShown: GameState.introScreenShown,
@@ -33,7 +34,7 @@ const App = React.createClass({
   },
 
   render() {
-    let { player, map, sightMap, memorisedSightMap, introScreenShown, playerDeath, playerWon, creatures } = this.state;
+    let { player, map, sightMap, memorisedSightMap, introScreenShown, playerDeath, playerWon, creatures, potions } = this.state;
     let x = player.x;
     let y = player.y;
 
@@ -56,7 +57,8 @@ const App = React.createClass({
         sightMap={ sightMap }
         memorisedSightMap={ memorisedSightMap }
         player={ player }
-        creatures={ creatures }/>
+        creatures={ creatures }
+        potions={ potions } />
       );
     }
   },
