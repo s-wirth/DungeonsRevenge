@@ -109,7 +109,6 @@ export function makeGameState() {
           return;
         }
         let itemAtDestinedPlayerPosition = itemAtPosition(x, y);
-        console.log(itemAtDestinedPlayerPosition);
         if (itemAtDestinedPlayerPosition) {
           gameState.player.health += itemAtDestinedPlayerPosition.healsOnConsume;
           if (gameState.player.health > gameState.player.maxHealth) gameState.player.health = gameState.player.maxHealth;
@@ -144,10 +143,8 @@ export function makeGameState() {
       defender.health -= attackerActualDamage;
       if (defender.health <= 0) {
         if (defender.type === "player") {
-          console.log("playerDied");
           gameState.playerDeath = true;
         } else if (defender.type === "pestcontrol") {
-          console.log("playerWon");
           gameState.playerWon = true;
         } else {
           gameState.calculateExperienceAndStrength(defender.experienceLootOnKill);

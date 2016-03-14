@@ -38,9 +38,7 @@ const InGameScreen = React.createClass({
 
   renderHealingPotions() {
     let potions = this.props.potions;
-    console.log("hallo");
     return potions.map((potion) => {
-      console.log(potion)
       if (this.props.sightMap.includes(potion.x, potion.y)) {
         return (
           <div
@@ -56,7 +54,6 @@ const InGameScreen = React.createClass({
 
   renderPlayerStats() {
     let player = this.props.player;
-    console.log(player)
     return (
       <div>
         <div className="playerHealth">
