@@ -109,7 +109,7 @@ export function makeGameState() {
           return;
         }
         let itemAtDestinedPlayerPosition = itemAtPosition(x, y);
-        if (itemAtDestinedPlayerPosition) {
+        if (itemAtDestinedPlayerPosition && (gameState.player.health != gameState.player.maxHealth)) {
           gameState.player.health += itemAtDestinedPlayerPosition.healsOnConsume;
           if (gameState.player.health > gameState.player.maxHealth) gameState.player.health = gameState.player.maxHealth;
           gameState.map.potions.splice(gameState.map.potions.indexOf(itemAtDestinedPlayerPosition), 1);
