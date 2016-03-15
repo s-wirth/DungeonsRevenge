@@ -49,6 +49,13 @@ html, body, .gameContainer, .root {
   border-top: 1px solid #2d2d2d;
 }
 
+.movement {
+  float: left;
+  margin-right: 10px;
+  padding-right: 10px;
+  border-right: 1px solid #2d2d2d;
+}
+
 .creature {
   width: $tile-width;
   height: $tile-width;

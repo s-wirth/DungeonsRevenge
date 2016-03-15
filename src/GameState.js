@@ -78,9 +78,11 @@ export function makeGameState() {
 
   function itemAtPosition(x, y) {
     let potions = gameState.map.potions;
-    for (let i = 0; i < potions.length; i++) {
-      let potion = potions[i];
-      if (potion.x === x && potion.y === y) return potions[i];
+    if(potions) {
+      for (let i = 0; i < potions.length; i++) {
+        let potion = potions[i];
+        if (potion.x === x && potion.y === y) return potions[i];
+      }
     }
   }
 

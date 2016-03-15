@@ -38,6 +38,7 @@ const InGameScreen = React.createClass({
 
   renderHealingPotions() {
     let potions = this.props.potions;
+    if (!potions) return null;
     return potions.map((potion) => {
       if (this.props.sightMap.includes(potion.x, potion.y)) {
         return (
@@ -71,6 +72,30 @@ const InGameScreen = React.createClass({
     );
   },
 
+  renderInstructions() {
+    return (
+      <div>
+        <div className="movement">
+          Move Up: ↑
+          <br />
+          Move Down: ↓
+          <br />
+          Move Right: →
+          <br />
+          Move Left: ←
+          <br />
+        </div>
+        <div className="other">
+          Skip Turn: .
+          <br />
+          Heal: walk on Potion
+          <br />
+          Kill Enemy: on contact
+        </div>
+      </div>
+    );
+  },
+
   render() {
     let { map, sightMap, memorisedSightMap } = this.props;
     return (
@@ -84,8 +109,10 @@ const InGameScreen = React.createClass({
           <div className="stats">
             { this.renderPlayerStats() }
           </div>
-          <div className="eventLog"></div>
-          <div className="items"></div>
+          <div className="eventLog">
+          </div>
+          <div className="items">
+            { this.renderInstructions() }</div>
         </div>
       </div>
     );
