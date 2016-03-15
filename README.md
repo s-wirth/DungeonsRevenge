@@ -63,14 +63,14 @@ firebase deploy # Deploys to the production app by default
     * [x] Special Level (done)
     * [x] Winning Screen (done)
 * [x] Performance Fix (done)
-* [ ] Skill/Battle Behaviour
-    * [ ] Level Ups
-    * [ ] Getting Stronger
-    * [ ] Healing
+* [x] Skill/Battle Behaviour
+    * [x] Level Ups
+    * [x] Getting Stronger
+    * [x] Healing
     * [ ] Random Damage Control
-    * [ ] Smarter Enemy Movement
-    * [ ] Enemies Targeting On Sight
-* [ ] Environment Decoration
+    * [x] Smarter Enemy Movement
+    * [x] Enemies Targeting On Sight
+* [x] Environment Decoration (at least kinda...)
 * [ ] Animation
 * [ ] InGame Items
     * [ ] Item Drop on Kill
