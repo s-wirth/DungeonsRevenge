@@ -55,8 +55,10 @@ const InGameScreen = React.createClass({
 
   renderPlayerStats() {
     let player = this.props.player;
+    let map = this.props.map;
     return (
       <div>
+        Current Level: { map.id + 1 }
         <div className="playerHealth">
           <div className="playerHealth__remaining" style={{ width: `${player.health*100/player.maxHealth}%`}}></div>
         </div>
