@@ -1,13 +1,5 @@
 import React from "react";
 import GameState from "GameState";
-import Dungeon from "elements/Dungeon";
-import InGameScreen from "elements/InGameScreen";
-import IntroScreen from "elements/IntroScreen";
-import DeathScreen from "elements/DeathScreen";
-import WinningScreen from "elements/WinningScreen";
-
-// This has to match the tile width in the CSS
-const TILE_WIDTH = 16;
 
 const App = React.createClass({
   getInitialState() {
@@ -29,14 +21,15 @@ const App = React.createClass({
       memorisedSightMap: GameState.map.memorisedSightMap,
       introScreenShown: GameState.introScreenShown,
       playerDeath: GameState.playerDeath,
-      playerWon: GameState.playerWon
+      playerWon: GameState.playerWon,
     });
   },
 
   render() {
-    let { player, map, sightMap, memorisedSightMap, introScreenShown, playerDeath, playerWon, creatures, potions } = this.state;
-    let x = player.x;
-    let y = player.y;
+    let {
+      player, map, sightMap, memorisedSightMap, introScreenShown, playerDeath, playerWon, creatures,
+      potions,
+    } = this.state;
 
     if (!introScreenShown) {
       return (
@@ -46,12 +39,12 @@ const App = React.createClass({
       return (
         <DeathScreen />
       );
-    }  else if (playerWon) {
+    } else if (playerWon) {
       return (
         <WinningScreen />
       );
-    } else {
-      return (
+    }
+    return (
       <InGameScreen
         map={ map }
         sightMap={ sightMap }
@@ -59,10 +52,8 @@ const App = React.createClass({
         player={ player }
         creatures={ creatures }
         potions={ potions } />
-      );
-    }
+    );
   },
 });
 
 export default App;
-

@@ -7,8 +7,14 @@ const TILE_WIDTH = 16;
 
 const DungeonMapRegion = React.createClass({
   shouldComponentUpdate(nextProps) {
-    let sightMapDivision = this.props.sightMap.getDivision(this.props.leftBoundary, this.props.topBoundary);
-    let nextSightMapDivision = nextProps.sightMap.getDivision(nextProps.leftBoundary, nextProps.topBoundary);
+    let { sightMap, leftBoundary, topBoundary } = this.props;
+    let sightMapDivision = sightMap.getDivision(leftBoundary, topBoundary);
+
+    let {
+      sightMap: nextSightMap, leftBoundary: nextLeftBoundary, topBoundary: nextTopBoundary,
+    } = nextProps;
+    let nextSightMapDivision = nextSightMap.getDivision(nextLeftBoundary, nextTopBoundary);
+
     return !Immutable.is(sightMapDivision, nextSightMapDivision);
   },
 
@@ -60,8 +66,8 @@ const SubdividedDungeonMap = React.createClass({
     let width = map.shape[0];
     let height = map.shape[1];
 
-    for (let x = 0; x < divisions; x++ ) {
-      for (let y = 0; y < divisions; y++ ) {
+    for (let x = 0; x < divisions; x++) {
+      for (let y = 0; y < divisions; y++) {
         let leftBoundary = Math.round(width / divisions * x);
         let rightBoundary = Math.round(width / divisions * (x + 1));
         let topBoundary = Math.round(height / divisions * y);
@@ -69,7 +75,9 @@ const SubdividedDungeonMap = React.createClass({
 
         result.push(
           <DungeonMapRegion key={ `${x}-${y}-division` }
-            {...{ map, sightMap, remembered, leftBoundary, rightBoundary, topBoundary, bottomBoundary }}
+            {...{
+              map, sightMap, remembered, leftBoundary, rightBoundary, topBoundary, bottomBoundary,
+            }}
           />
         );
       }

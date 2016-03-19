@@ -1,5 +1,4 @@
 import React from "react";
-import Dungeon from "elements/Dungeon";
 
 // This has to match the tile width in the CSS
 const TILE_WIDTH = 16;
@@ -12,13 +11,15 @@ const InGameScreen = React.createClass({
     if (!creatures) return null;
 
     function renderHealthBar(creature) {
-      if (creature.type != "player") {
+      if (creature.type !== "player") {
+        let width = creature.health * 100 / creature.maxHealth;
         return (
           <div className="health">
-            <div className="health__remaining" style={{ width: `${creature.health*100/creature.maxHealth}%`}}></div>
+            <div className="health__remaining" style={{ width: `${width}%` }} />
           </div>
         );
-      } return null;
+      }
+      return null;
     }
 
     return creatures.map((creature) => {
@@ -33,6 +34,7 @@ const InGameScreen = React.createClass({
           </div>
         );
       }
+      return null;
     });
   },
 
@@ -50,6 +52,7 @@ const InGameScreen = React.createClass({
           </div>
         );
       }
+      return null;
     });
   },
 
@@ -60,16 +63,22 @@ const InGameScreen = React.createClass({
       <div>
         Current Level: { map.id + 1 }
         <div className="playerHealth">
-          <div className="playerHealth__remaining" style={{ width: `${player.health*100/player.maxHealth}%`}}></div>
+          <div
+            className="playerHealth__remaining"
+            style={{ width: `${player.health * 100 / player.maxHealth}%` }}
+          />
         </div>
         Health: { player.health }
         <br />
         <div className="experienceNeeded">
-          <div className="playerExperience" style={{ width: `${player.experience*100/player.experienceNeeded}%`}}></div>
+          <div
+            className="playerExperience"
+            style={{ width: `${player.experience * 100 / player.experienceNeeded}%` }}
+          />
         </div>
-          Experience:  { player.experience } / { player.experienceNeeded }
+          Experience: { player.experience } / { player.experienceNeeded }
         <br />
-          Strength:  { player.strength }
+          Strength: { player.strength }
       </div>
     );
   },
@@ -122,4 +131,3 @@ const InGameScreen = React.createClass({
 });
 
 export default InGameScreen;
-

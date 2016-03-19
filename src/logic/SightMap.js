@@ -8,7 +8,7 @@ export function makeSightMap(width, height, divisions = 8) {
   function divisionCoordinates(x, y) {
     let divisionX = Math.floor(x / divisionWidth);
     let divisionY = Math.floor(y / divisionHeight);
-    return [ divisionX, divisionY, x, y ];
+    return [divisionX, divisionY, x, y];
   }
 
   let sightMap = {
@@ -23,7 +23,7 @@ export function makeSightMap(width, height, divisions = 8) {
     getDivision(x, y) {
       let divisionX = Math.floor(x / divisionWidth);
       let divisionY = Math.floor(y / divisionHeight);
-      return sightMap.visibleTiles.getIn([ divisionX, divisionY ]);
+      return sightMap.visibleTiles.getIn([divisionX, divisionY]);
     },
 
     includes(x, y) {
