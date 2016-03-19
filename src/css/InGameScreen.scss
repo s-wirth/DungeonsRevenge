@@ -1,0 +1,143 @@
+@import "./variables";
+
+.gameContainer {
+  height: 100%;
+}
+
+.scene {
+  position: relative;
+  height: 80%;
+  overflow: auto;
+}
+
+.infoBar {
+  height: 20%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-content: stretch;
+  align-items: flex-start;
+  color: #d3d3d3;
+}
+
+.stats, .eventLog, .items {
+  font-size: 1.4rem;
+  height: 100%;
+  display: inline;
+  flex: 0 1 33.33%;
+  padding: 15px;
+  background: #111111;
+  border-top: 1px solid #2d2d2d;
+}
+
+.movement {
+  float: left;
+  margin-right: 10px;
+  padding-right: 10px;
+  border-right: 1px solid #2d2d2d;
+}
+
+.creature {
+  width: $tile-width;
+  height: $tile-width;
+  text-align: center;
+  line-height: $tile-width;
+  font-weight: bold;
+  position: absolute;
+  transition: all 0.1s;
+}
+
+.player-creature {
+  z-index: 99;
+  background-image: url("../assets/sprites/protagonist-normal.png");
+}
+
+.enemy-creature {
+  background-image: url("../assets/sprites/knightForwards.png");
+}
+
+.pestcontrol-creature{
+  background-image: url("../assets/sprites/pestcontrol.png");
+}
+
+/*_________________________________*/
+.experienceNeeded {
+  background: #25453d;
+  width: 100%;
+  height: 10px;
+}
+
+.playerExperience {
+  height: 100%;
+  background: #00a08b;
+  transition: all 0.1s;
+}
+/*_________________________________*/
+
+.health, .playerHealth {
+  background: #ac0000;
+  width: 100%;
+}
+.playerHealth{
+  height: 10px;
+}
+
+.health {
+  position: absolute;
+  height: 2px;
+  top: -7px;
+}
+
+.health__remaining, .playerHealth__remaining {
+  height: 100%;
+  background-color: #499300;
+  transition: all 0.1s;
+}
+
+/*_________________________________*/
+
+.healingPotion {
+  z-index: 0;
+  width: $tile-width;
+  height: $tile-width;
+  position: absolute;
+  background-image: url("../assets/sprites/items/potion.png");
+}
+
+/*_________________________________*/
+
+.wall-tile,
+.door-tile,
+.floor-tile,
+.stairsDown-tile,
+.stairsUp-tile {
+  width: $tile-width;
+  height: $tile-width;
+  position: absolute;
+  &.fog-of-war {
+    opacity: 0.5;
+  }
+}
+
+.wall-tile {
+  background-image: url("../assets/textures/wall.png");
+}
+
+.door-tile {
+  background-image: url("../assets/sprites/door.png");
+}
+
+.floor-tile {
+  background-image: url("../assets/textures/floor.png");
+  background-position: 25% 75%;
+}
+
+.stairsDown-tile {
+  background-image: url("../assets/textures/stairsDown.png");
+  background-color: black;
+}
+.stairsUp-tile {
+  background-image: url("../assets/textures/stairsUp.png");
+  background-color: #a4a4a4;
+}

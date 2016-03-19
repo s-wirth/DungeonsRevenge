@@ -1,5 +1,5 @@
 /* eslint-disable */
-import css from "main.css";
+import "css/main";
 import React from "react";
 import ReactDom from "react-dom";
 import App from "elements/App";

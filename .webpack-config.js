@@ -59,6 +59,7 @@ function commonConfig() {
     },
     postcss: [ autoprefixer({ browsers: ['last 2 versions'] }) ],
     resolve: {
+      extensions: ["", ".webpack.js", ".web.js", ".js", ".css", ".scss"],
       root: [
         absolutePathTo(SRC_DIR),
       ],

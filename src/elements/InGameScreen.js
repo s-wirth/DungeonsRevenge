@@ -1,5 +1,6 @@
 import React from "react";
 import Dungeon from "elements/Dungeon";
+import "css/InGameScreen";
 
 // This has to match the tile width in the CSS
 const TILE_WIDTH = 16;

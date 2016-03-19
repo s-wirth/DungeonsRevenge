@@ -1,5 +1,6 @@
 import ReactDOM from "react-dom";
 import React from "react";
+import "css/ScrollScreen";
 
 class IntroScreen extends React.Component {
   constructor(props) {
@@ -18,7 +19,10 @@ class IntroScreen extends React.Component {
 
   render() {
     return (
-      <div className="introScreen" tabIndex="99" onKeyUp={ this.onKeyUp }>
+      <div
+        className="ScrollScreen ScrollScreen--introScreen"
+        tabIndex="99" onKeyUp={ this.onKeyUp }
+      >
         <h1>Dungeon's Revenge</h1>
         <h3>
           This is a Rogue Like. To beat it, you have hack your way through the dungeon and defeat
