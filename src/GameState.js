@@ -16,7 +16,7 @@ import {
 
 
 export function makeGameState() {
-  let gameState = new EventEmitter();
+  const gameState = new EventEmitter();
 
   gameState.introScreenShown = false;
   gameState.playerDeath = false;
@@ -32,20 +32,20 @@ export function makeGameState() {
   gameState.map.creatures.push(gameState.player);
 
   function calculateSightMap(creature) {
-    let map = gameState.map;
+    const map = gameState.map;
 
     function lightPasses(x, y) {
       if (creature.x === x && creature.y === y) {
         return true;
       }
-      let tile = gameState.map.get(x, y);
-      let opaqueTiles = ["wall", "door"];
+      const tile = gameState.map.get(x, y);
+      const opaqueTiles = ["wall", "door"];
       /* returns true if tile.type is not in opaqueTiles list*/
       return !tile || opaqueTiles.indexOf(tile.type) === -1;
     }
 
-    let fov = new ROT.FOV.PreciseShadowcasting(lightPasses);
-    let sightMap = makeSightMap(map.width, map.height);
+    const fov = new ROT.FOV.PreciseShadowcasting(lightPasses);
+    const sightMap = makeSightMap(map.width, map.height);
 
     fov.compute(creature.x, creature.y, creature.sightRadius, (x, y, r, visibility) => {
       if (visibility > 0) {
@@ -57,8 +57,8 @@ export function makeGameState() {
   }
 
   function updatePlayerSightMap() {
-    let map = gameState.map;
-    let player = gameState.player;
+    const map = gameState.map;
+    const player = gameState.player;
     map.sightMap = calculateSightMap(player);
 
     if (!map.memorisedSightMap) {
@@ -71,19 +71,19 @@ export function makeGameState() {
   updatePlayerSightMap();
 
   function getCreatureAt(x, y) {
-    let creatures = gameState.map.creatures;
+    const creatures = gameState.map.creatures;
     for (let i = 0; i < creatures.length; i++) {
-      let creature = creatures[i];
+      const creature = creatures[i];
       if (creature.x === x && creature.y === y) return creatures[i];
     }
     return null;
   }
 
   function itemAtPosition(x, y) {
-    let potions = gameState.map.potions;
+    const potions = gameState.map.potions;
     if (potions) {
       for (let i = 0; i < potions.length; i++) {
-        let potion = potions[i];
+        const potion = potions[i];
         if (potion.x === x && potion.y === y) return potions[i];
       }
     }
@@ -93,8 +93,8 @@ export function makeGameState() {
   Object.assign(gameState, {
     updateCreaturePosition(creature, destination) {
       /* eslint no-param-reassign:0 */
-      let { x, y } = _.defaults(destination, creature);
-      let tileAtDestination = gameState.map.get(x, y);
+      const { x, y } = _.defaults(destination, creature);
+      const tileAtDestination = gameState.map.get(x, y);
 
       if (tileAtDestination && tileAtDestination.type === "wall") return;
 
@@ -115,8 +115,8 @@ export function makeGameState() {
           gameState.map.creatures.push(gameState.player);
           return;
         }
-        let itemAtDestination = itemAtPosition(x, y);
-        let player = gameState.player;
+        const itemAtDestination = itemAtPosition(x, y);
+        const player = gameState.player;
         if (itemAtDestination && (player.health !== player.maxHealth)) {
           player.health += itemAtDestination.healsOnConsume;
           if (player.health > player.maxHealth) player.health = player.maxHealth;
@@ -124,7 +124,7 @@ export function makeGameState() {
         }
       }
 
-      let creatureAtDestination = getCreatureAt(destination.x, destination.y);
+      const creatureAtDestination = getCreatureAt(destination.x, destination.y);
       if (creatureAtDestination) {
         gameState.makeCreatureAttack(creature, creatureAtDestination);
         return;
@@ -146,7 +146,7 @@ export function makeGameState() {
     },
 
     makeCreatureAttack(attacker, defender) {
-      let attackerActualDamage = attacker.baseDamage + attacker.strength;
+      const attackerActualDamage = attacker.baseDamage + attacker.strength;
       defender.health -= attackerActualDamage;
       if (defender.health <= 0) {
         if (defender.type === "player") {
@@ -188,7 +188,7 @@ export function makeGameState() {
     },
 
     isTilePassable(x, y) {
-      let tile = gameState.map.get(x, y);
+      const tile = gameState.map.get(x, y);
       return tile && tile.type !== "wall" && !getCreatureAt(x, y);
     },
   });

@@ -10,4 +10,4 @@ const rootElement = document.createElement("div");
 rootElement.className = "root";
 document.body.appendChild(rootElement);
 
-ReactDom.render(<App/>, rootElement);
+ReactDom.render(<App />, rootElement);

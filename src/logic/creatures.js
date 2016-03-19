@@ -4,7 +4,7 @@ let creatureIdCounter = 0;
 
 export function makeCreature(x, y, type, baseDamage = 1, experienceLootOnKill = 1, maxHealth = 5,
   strength = 0, experience = 0, experienceNeeded = 5, sightRadius = 8) {
-  let id = creatureIdCounter += 1;
+  const id = creatureIdCounter += 1;
   return {
     id,
     type,
@@ -29,8 +29,8 @@ function distanceBetween({ x: x1, y: y1 }, { x: x2, y: y2 }) {
 }
 
 function findPath(origin, destination, canPassFn) {
-  let pathfinder = new ROT.Path.Dijkstra(origin.x, origin.y, canPassFn, { topology: 4 });
-  let result = [];
+  const pathfinder = new ROT.Path.Dijkstra(origin.x, origin.y, canPassFn, { topology: 4 });
+  const result = [];
   pathfinder.compute(destination.x, destination.y, (x, y) => result.push({ x, y }));
   return result;
 }
@@ -42,7 +42,7 @@ export function makeCreatureAct(creature, gameState) {
   }
 
   function moveRandomly() {
-    let moveBy = [
+    const moveBy = [
       { x: -1, y: 0 }, { x: 1, y: 0 }, { x: 0, y: -1 }, { x: 0, y: 1 },
     ][Math.round(Math.random() * 3)];
     gameState.updateCreaturePosition(creature, {
@@ -52,15 +52,15 @@ export function makeCreatureAct(creature, gameState) {
   }
 
   function moveTowardsPlayer() {
-    let player = gameState.player;
-    let path = findPath(creature, player, (x, y) => {
+    const player = gameState.player;
+    const path = findPath(creature, player, (x, y) => {
       if (x === creature.x && y === creature.y || x === player.x && y === player.y) {
         return true;
       }
       return gameState.isTilePassable(x, y);
     });
     if (path.length > 0) {
-      let firstStepFromOrigin = path[path.length - 2];
+      const firstStepFromOrigin = path[path.length - 2];
       gameState.updateCreaturePosition(creature, firstStepFromOrigin);
     } else {
       moveRandomly();

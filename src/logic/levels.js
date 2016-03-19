@@ -47,7 +47,7 @@ function setInitialPlayerPosition(map, x, y) {
 
 export function spawnEnemies(rooms) {
   return rooms.map((room) => {
-    let position = randomPositionIn(room);
+    const position = randomPositionIn(room);
     return makeCreature(position[0], position[1], "enemy");
   });
 }
@@ -57,8 +57,8 @@ export function enterPreviousLevel(currentPlayerLevel) {
 }
 
 export function bossLevel(id) {
-  let map = ndarray([], [BOSS_MAP_WIDTH, BOSS_MAP_HEIGHT]);
-  let rotMap = new ROT.Map.Arena(BOSS_MAP_WIDTH, BOSS_MAP_HEIGHT);
+  const map = ndarray([], [BOSS_MAP_WIDTH, BOSS_MAP_HEIGHT]);
+  const rotMap = new ROT.Map.Arena(BOSS_MAP_WIDTH, BOSS_MAP_HEIGHT);
   map.id = id;
   map.width = BOSS_MAP_WIDTH;
   map.height = BOSS_MAP_HEIGHT;
@@ -76,7 +76,7 @@ export function bossLevel(id) {
 }
 
 export function makeMap(id) {
-  let map = ndarray([], [MAP_WIDTH, MAP_HEIGHT]);
+  const map = ndarray([], [MAP_WIDTH, MAP_HEIGHT]);
 
   function makeDoors(x, y) {
     map.set(x, y, makeTile("door"));
@@ -84,23 +84,23 @@ export function makeMap(id) {
 
   function getDoors(rooms) {
     for (let i = 0; i < rooms.length; i++) {
-      let room = rooms[i];
+      const room = rooms[i];
       room.getDoors(makeDoors);
     }
   }
 
   function healingItemsOnLevel(rooms) {
-    let amount = Math.floor(Math.random() * 2) + 1;
-    let potions = [];
+    const amount = Math.floor(Math.random() * 2) + 1;
+    const potions = [];
     for (let i = 0; i <= amount; i++) {
-      let randomRoom = Math.floor(Math.random() * rooms.length);
-      let position = randomPositionIn(rooms[randomRoom]);
+      const randomRoom = Math.floor(Math.random() * rooms.length);
+      const position = randomPositionIn(rooms[randomRoom]);
       potions.push(makeHealingPotion(position[0], position[1]));
     }
     map.potions = potions;
   }
 
-  let rotMap = new ROT.Map.Digger(MAP_WIDTH, MAP_HEIGHT, {
+  const rotMap = new ROT.Map.Digger(MAP_WIDTH, MAP_HEIGHT, {
     roomWidth: [7, 12],
     roomHeight: [7, 13],
     dugPercentage: 0.5,
@@ -113,7 +113,7 @@ export function makeMap(id) {
     map.set(x, y, wall ? makeTile("wall") : makeTile("floor"));
   });
 
-  let rooms = rotMap.getRooms();
+  const rooms = rotMap.getRooms();
 
   if (map.id !== 0) {
     setStairs(map, rooms[0].getCenter(), rooms[rooms.length - 1].getCenter());

@@ -1,15 +1,20 @@
 import React from "react";
 import GameState from "GameState";
+import IntroScreen from "elements/IntroScreen";
+import DeathScreen from "elements/DeathScreen";
+import WinningScreen from "elements/WinningScreen";
+import InGameScreen from "elements/InGameScreen";
 
-const App = React.createClass({
-  getInitialState() {
-    return {};
-  },
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
   componentWillMount() {
     GameState.on("change", () => this.getState());
     this.getState();
-  },
+  }
 
   getState() {
     this.setState({
@@ -23,17 +28,17 @@ const App = React.createClass({
       playerDeath: GameState.playerDeath,
       playerWon: GameState.playerWon,
     });
-  },
+  }
 
   render() {
-    let {
+    const {
       player, map, sightMap, memorisedSightMap, introScreenShown, playerDeath, playerWon, creatures,
       potions,
     } = this.state;
 
     if (!introScreenShown) {
       return (
-        <IntroScreen switchFromIntroToDungeon={ GameState.switchFromIntroToDungeon }/>
+        <IntroScreen switchFromIntroToDungeon={ GameState.switchFromIntroToDungeon } />
       );
     } else if (playerDeath) {
       return (
@@ -51,9 +56,10 @@ const App = React.createClass({
         memorisedSightMap={ memorisedSightMap }
         player={ player }
         creatures={ creatures }
-        potions={ potions } />
+        potions={ potions }
+      />
     );
-  },
-});
+  }
+}
 
 export default App;
