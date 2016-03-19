@@ -66,7 +66,7 @@ DungeonMapRegion.propTypes = {
   topBoundary: React.PropTypes.number.isRequired,
   bottomBoundary: React.PropTypes.number.isRequired,
   map: React.PropTypes.object.isRequired,
-  remembered: React.PropTypes.bool.isRequired,
+  remembered: React.PropTypes.bool,
 };
 
 function SubdividedDungeonMap({ map, sightMap, remembered }) {
@@ -101,7 +101,7 @@ function SubdividedDungeonMap({ map, sightMap, remembered }) {
 SubdividedDungeonMap.propTypes = {
   map: React.PropTypes.object.isRequired,
   sightMap: React.PropTypes.object.isRequired,
-  remembered: React.PropTypes.bool.isRequired,
+  remembered: React.PropTypes.bool,
 };
 
 class Dungeon extends React.Component {
@@ -124,7 +124,6 @@ Dungeon.propTypes = {
   map: React.PropTypes.object.isRequired,
   sightMap: React.PropTypes.object.isRequired,
   memorisedSightMap: React.PropTypes.object.isRequired,
-  remembered: React.PropTypes.bool.isRequired,
 };
 
 export default Dungeon;
