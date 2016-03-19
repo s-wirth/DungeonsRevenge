@@ -65,7 +65,7 @@ function commonConfig() {
       ],
     },
     plugins: [
-      new HtmlWebpackPlugin(),
+      new HtmlWebpackPlugin({ template: "src/index.html" }),
     ],
     externals: { "es6-promise": EXTERNAL_PROMISE },
   };
