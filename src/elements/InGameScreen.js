@@ -132,6 +132,7 @@ class InGameScreen extends React.Component {
       <div className="InGameScreen">
         <div className="InGameScreen__Dungeon" ref="scrollableContainer">
           <Dungeon {...{ map, sightMap, memorisedSightMap, movePlayerTo }} />
+          { renderHealingPotions(potions, sightMap) }
           { renderPlayer(player, map.id, sightMap, skipTurn) }
           { renderCreatures(creatures, sightMap, movePlayerTo) }
         </div>
