@@ -13,7 +13,7 @@ import {
   enterPreviousLevel,
   makeMap,
 } from "logic/levels";
-
+import findPath from "logic/findPath";
 
 export function makeGameState() {
   const gameState = new EventEmitter();
