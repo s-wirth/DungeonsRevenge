@@ -21,7 +21,7 @@ class IntroScreen extends React.Component {
     return (
       <div
         className="ScrollScreen ScrollScreen--introScreen"
-        tabIndex="99" onKeyUp={ this.onKeyUp }
+        tabIndex="99" onKeyUp={ this.onKeyUp } onClick={ this.onKeyUp }
       >
         <h1>Dungeon's Revenge</h1>
         <h3>
