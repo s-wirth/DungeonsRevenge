@@ -1,0 +1,15 @@
+@import "../ProgressBar";
+
+.InfoBar {
+
+}
+
+.InfoBar__container {
+  height: 100%;
+  max-width: 320px;
+  padding: 10px;
+  background: #111111;
+  border: 1px solid #2d2d2d;
+  margin: 0 auto;
+  overflow: hidden;
+}

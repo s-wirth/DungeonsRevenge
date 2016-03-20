@@ -2,6 +2,7 @@ import React from "react";
 import Dungeon from "elements/Dungeon";
 import "css/InGameScreen";
 import Tween from "gsap";
+import InfoBar from "elements/InGameScreen/InfoBar";
 
 // This has to match the tile width in the CSS
 const TILE_WIDTH = 16;
@@ -89,55 +90,6 @@ function renderHealingPotions(potions, sightMap) {
   });
 }
 
-function renderPlayerStats(map, player) {
-  return (
-    <div>
-      Current Level: { map.id + 1 }
-      <div className="playerHealth">
-        <div
-          className="playerHealth__remaining"
-          style={{ width: `${player.health * 100 / player.maxHealth}%` }}
-        />
-      </div>
-      Health: { player.health }
-      <br />
-      <div className="experienceNeeded">
-        <div
-          className="playerExperience"
-          style={{ width: `${player.experience * 100 / player.experienceNeeded}%` }}
-        />
-      </div>
-        Experience: { player.experience } / { player.experienceNeeded }
-      <br />
-        Strength: { player.strength }
-    </div>
-  );
-}
-
-function renderInstructions() {
-  return (
-    <div>
-      <div className="movement">
-        Move Up: ↑
-        <br />
-        Move Down: ↓
-        <br />
-        Move Right: →
-        <br />
-        Move Left: ←
-        <br />
-      </div>
-      <div className="other">
-        Skip Turn: .
-        <br />
-        Heal: walk on Potion
-        <br />
-        Kill Enemy: on contact
-      </div>
-    </div>
-  );
-}
-
 class InGameScreen extends React.Component {
   componentDidMount() {
     this.scrollPlayerIntoView({ animate: false });
@@ -177,23 +129,13 @@ class InGameScreen extends React.Component {
       creatures, sightMap, memorisedSightMap, potions, map, player, movePlayerTo, skipTurn,
     } = this.props;
     return (
-      <div className="gameContainer">
-        <div className="scene" ref="scrollableContainer">
+      <div className="InGameScreen">
+        <div className="InGameScreen__Dungeon" ref="scrollableContainer">
           <Dungeon {...{ map, sightMap, memorisedSightMap, movePlayerTo }} />
-          { renderHealingPotions(potions, sightMap) }
           { renderPlayer(player, map.id, sightMap, skipTurn) }
           { renderCreatures(creatures, sightMap, movePlayerTo) }
         </div>
-        <div className="infoBar">
-          <div className="stats">
-            { renderPlayerStats(map, player) }
-          </div>
-          <div className="eventLog">
-          </div>
-          <div className="items">
-            { renderInstructions() }
-          </div>
-        </div>
+        <InfoBar className="InGameScreen__InfoBar" {...{ map, player }} />
       </div>
     );
   }

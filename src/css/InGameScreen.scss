@@ -1,42 +1,19 @@
 @import "./variables";
 
-.gameContainer {
+.InGameScreen {
   height: 100%;
-}
-
-.scene {
-  position: relative;
-  height: 80%;
-  overflow: auto;
-  padding: 50px;
-}
-
-.infoBar {
-  height: 20%;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  align-content: stretch;
-  align-items: flex-start;
   color: #d3d3d3;
 }
 
-.stats, .eventLog, .items {
-  font-size: 1.4rem;
-  height: 100%;
-  display: inline;
-  flex: 0 1 33.33%;
-  padding: 15px;
-  background: #111111;
-  border-top: 1px solid #2d2d2d;
+$InGameScreen__InfoBar--height: 85px;
+.InGameScreen__Dungeon {
+  position: relative;
+  height: calc(100% - #{$InGameScreen__InfoBar--height});
+  overflow: auto;
 }
 
-.movement {
-  float: left;
-  margin-right: 10px;
-  padding-right: 10px;
-  border-right: 1px solid #2d2d2d;
+.InGameScreen__InfoBar {
+  height: $InGameScreen__InfoBar--height;
 }
 
 .creature {
