@@ -50,7 +50,6 @@
 }
 
 .player-creature {
-  z-index: 99;
   background-image: url("../assets/sprites/protagonist-normal.png");
 }
 
@@ -99,7 +98,6 @@
 /*_________________________________*/
 
 .healingPotion {
-  z-index: 0;
   width: $tile-width;
   height: $tile-width;
   position: absolute;
