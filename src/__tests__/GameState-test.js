@@ -27,7 +27,9 @@ describe("GameState", () => {
 
     it("should emit a 'change' event", (done) => {
       gameState.on('change', done);
-      gameState.updatePlayerPosition({});
+      let destination = { x: 1, y: 2 };
+      gameState.map.set(destination.x, destination.y, { type: "floor" });
+      gameState.updatePlayerPosition(destination);
     });
 
     describe("when the destination tile is a wall tile", () => {
