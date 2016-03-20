@@ -149,6 +149,12 @@ export function makeGameState() {
 
       if (tileAtDestination && tileAtDestination.type === "wall") return;
 
+      const creatureAtDestination = getCreatureAt(destination.x, destination.y);
+      if (creatureAtDestination) {
+        gameState.makeCreatureAttack(creature, creatureAtDestination);
+        return;
+      }
+
       if (creature.type === "player") {
         if (tileAtDestination && tileAtDestination.type === "stairsUp") {
           gameState.map.creatures.splice(gameState.map.creatures.indexOf(creature), 1);
@@ -173,12 +179,6 @@ export function makeGameState() {
           if (player.health > player.maxHealth) player.health = player.maxHealth;
           gameState.map.potions.splice(gameState.map.potions.indexOf(itemAtDestination), 1);
         }
-      }
-
-      const creatureAtDestination = getCreatureAt(destination.x, destination.y);
-      if (creatureAtDestination) {
-        gameState.makeCreatureAttack(creature, creatureAtDestination);
-        return;
       }
 
       creature.x = x;
