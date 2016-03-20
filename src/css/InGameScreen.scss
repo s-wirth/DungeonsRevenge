@@ -10,6 +10,9 @@ $InGameScreen__InfoBar--height: 85px;
   position: relative;
   height: calc(100% - #{$InGameScreen__InfoBar--height});
   overflow: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .InGameScreen__InfoBar {
