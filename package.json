@@ -18,6 +18,7 @@
     "eslint-plugin-react": "~4.2.3",
     "eventemitter2": "^0.4.14",
     "extract-text-webpack-plugin": "^0.8.2",
+    "fastclick": "~1.0.6",
     "file-loader": "^0.8.5",
     "firebase-tools": "~2.1.0",
     "gsap": "~1.18.2",
