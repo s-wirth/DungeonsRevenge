@@ -90,6 +90,57 @@ export function makeGameState() {
     return null;
   }
 
+  function updatePlayerPosition(destination) {
+    gameState.updateCreaturePosition(gameState.player, destination);
+    gameState.allowCreaturesToAct();
+    updatePlayerSightMap();
+    gameState.emit("change");
+  }
+
+  let playerMoveTimeoutID;
+  function abortMovement() {
+    clearTimeout(playerMoveTimeoutID);
+    playerMoveTimeoutID = null;
+  }
+
+  function movePlayerTo({ x, y }) {
+    const STEP_INTERVAL = 200;
+
+    function queueNextStep(takeNextStep) {
+      playerMoveTimeoutID = setTimeout(() => {
+        abortMovement();
+        takeNextStep();
+      }, STEP_INTERVAL);
+    }
+
+    function movementInProgress() {
+      return !!playerMoveTimeoutID;
+    }
+
+    function takeStep() {
+      const player = gameState.player;
+      const path = findPath(player, { x, y }, gameState.isTilePassable);
+      const haveReachedDestination = player.x === x && player.y === y;
+      const canReachDestination = path.length > 0;
+
+      abortMovement();
+      if (haveReachedDestination || !canReachDestination) return;
+
+      const firstStepFromOrigin = path[path.length - 2];
+      const creatureAtDestination = getCreatureAt(firstStepFromOrigin.x, firstStepFromOrigin.y);
+      updatePlayerPosition(firstStepFromOrigin);
+      if (!creatureAtDestination) {
+        queueNextStep(takeStep);
+      }
+    }
+
+    if (movementInProgress()) {
+      abortMovement();
+    } else {
+      takeStep();
+    }
+  }
+
   Object.assign(gameState, {
     updateCreaturePosition(creature, destination) {
       /* eslint no-param-reassign:0 */
@@ -167,11 +218,11 @@ export function makeGameState() {
     },
 
     updatePlayerPosition(destination) {
-      gameState.updateCreaturePosition(gameState.player, destination);
-      gameState.allowCreaturesToAct();
-      updatePlayerSightMap();
-      gameState.emit("change");
+      abortMovement();
+      updatePlayerPosition(destination);
     },
+
+    movePlayerTo,
 
     skipPlayerTurn() {
       gameState.allowCreaturesToAct();
@@ -187,7 +238,7 @@ export function makeGameState() {
       });
     },
 
-    isTilePassable(x, y) {
+    isTilePassable({ x, y }) {
       const tile = gameState.map.get(x, y);
       return tile && tile.type !== "wall" && !getCreatureAt(x, y);
     },
