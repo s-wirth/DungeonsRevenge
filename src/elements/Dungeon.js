@@ -7,6 +7,31 @@ import Immutable from "immutable";
 // This has to match the tile width in the CSS
 const TILE_WIDTH = 16;
 
+function Tile({ x, y, tile, remembered, onClick }) {
+  function onClickHandler() {
+    onClick({ x, y });
+  }
+
+  return (
+    <div
+      className={ classnames(`${tile.type}-tile`, {
+        "fog-of-war": remembered,
+      }) }
+      style={{ left: x * TILE_WIDTH, top: y * TILE_WIDTH }}
+      onClick={ onClickHandler }
+    />
+  );
+}
+Tile.propTypes = {
+  x: React.PropTypes.number.isRequired,
+  y: React.PropTypes.number.isRequired,
+  tile: React.PropTypes.shape({
+    type: React.PropTypes.string.isRequired,
+  }).isRequired,
+  remembered: React.PropTypes.bool,
+  onClick: React.PropTypes.func.isRequired,
+};
+
 class DungeonMapRegion extends React.Component {
   shouldComponentUpdate(nextProps) {
     const { sightMap, leftBoundary, topBoundary } = this.props;
@@ -25,6 +50,7 @@ class DungeonMapRegion extends React.Component {
       map, sightMap, remembered,
       leftBoundary, rightBoundary,
       topBoundary, bottomBoundary,
+      movePlayerTo,
      } = this.props;
 
     if (!map) return null;
@@ -37,12 +63,11 @@ class DungeonMapRegion extends React.Component {
           const mapTile = map.get(x, y);
           if (mapTile && sightMap.includes(x, y)) {
             result.push(
-              <div
-                className={ classnames(`${mapTile.type}-tile`, {
-                  "fog-of-war": remembered,
-                }) }
+              <Tile
                 key={`${x}-${y}`}
-                style={{ left: x * TILE_WIDTH, top: y * TILE_WIDTH }}
+                tile={mapTile}
+                onClick={ movePlayerTo }
+                {...{ x, y, remembered }}
               />
             );
           }
@@ -67,9 +92,10 @@ DungeonMapRegion.propTypes = {
   bottomBoundary: React.PropTypes.number.isRequired,
   map: React.PropTypes.object.isRequired,
   remembered: React.PropTypes.bool,
+  movePlayerTo: React.PropTypes.func.isRequired,
 };
 
-function SubdividedDungeonMap({ map, sightMap, remembered }) {
+function SubdividedDungeonMap({ map, sightMap, remembered, movePlayerTo }) {
   const divisions = sightMap.divisions;
   const result = [];
   const width = map.shape[0];
@@ -86,6 +112,7 @@ function SubdividedDungeonMap({ map, sightMap, remembered }) {
         <DungeonMapRegion key={ `${x}-${y}-division` }
           {...{
             map, sightMap, remembered, leftBoundary, rightBoundary, topBoundary, bottomBoundary,
+            movePlayerTo,
           }}
         />
       );
@@ -102,6 +129,7 @@ SubdividedDungeonMap.propTypes = {
   map: React.PropTypes.object.isRequired,
   sightMap: React.PropTypes.object.isRequired,
   remembered: React.PropTypes.bool,
+  movePlayerTo: React.PropTypes.func.isRequired,
 };
 
 class Dungeon extends React.Component {
@@ -110,12 +138,15 @@ class Dungeon extends React.Component {
   }
 
   render() {
-    const { map, sightMap, memorisedSightMap } = this.props;
+    const { map, sightMap, memorisedSightMap, movePlayerTo } = this.props;
 
     return (
-      <div>
-        <SubdividedDungeonMap map={map} sightMap={memorisedSightMap} remembered />
-        <SubdividedDungeonMap map={map} sightMap={sightMap} />
+      <div
+        className="Dungeon"
+        style={{ width: (map.width * TILE_WIDTH), height: (map.height * TILE_WIDTH) }}
+      >
+        <SubdividedDungeonMap {...{ map, movePlayerTo }} sightMap={memorisedSightMap} remembered />
+        <SubdividedDungeonMap {...{ map, movePlayerTo, sightMap }} />
       </div>
     );
   }
@@ -124,6 +155,7 @@ Dungeon.propTypes = {
   map: React.PropTypes.object.isRequired,
   sightMap: React.PropTypes.object.isRequired,
   memorisedSightMap: React.PropTypes.object.isRequired,
+  movePlayerTo: React.PropTypes.func.isRequired,
 };
 
 export default Dungeon;
