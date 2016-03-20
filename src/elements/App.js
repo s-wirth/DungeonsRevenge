@@ -57,6 +57,8 @@ class App extends React.Component {
         player={ player }
         creatures={ creatures }
         potions={ potions }
+        movePlayerTo={ GameState.movePlayerTo }
+        skipTurn={ GameState.skipPlayerTurn }
       />
     );
   }
