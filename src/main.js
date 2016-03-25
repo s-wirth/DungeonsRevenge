@@ -1,11 +1,8 @@
-/* eslint-disable */
 import "css/main";
 import React from "react";
 import ReactDom from "react-dom";
 import App from "elements/App";
-import controls from "controls";
 import FastClick from "fastclick";
-/* eslint-enable */
 
 FastClick.attach(document.body);
 

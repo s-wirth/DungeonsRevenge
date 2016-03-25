@@ -67,7 +67,9 @@ class App extends React.Component {
         creatures={ creatures }
         items={ items }
         movePlayerTo={ GameState.movePlayerTo }
-        skipTurn={ GameState.skipPlayerTurn }
+        skipPlayerTurn={ GameState.skipPlayerTurn }
+        showInventoryScreen={ GameState.showInventoryScreen }
+        updatePlayerPosition={ GameState.updatePlayerPosition }
       />
     );
   }

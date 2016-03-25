@@ -1,8 +1,10 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import Dungeon from "elements/Dungeon";
 import "css/InGameScreen";
 import Tween from "gsap";
 import InfoBar from "elements/InGameScreen/InfoBar";
+import Mousetrap from "mousetrap";
 
 // This has to match the tile width in the CSS
 const TILE_WIDTH = 16;
@@ -63,12 +65,12 @@ function renderCreatures(creatures, sightMap, movePlayerTo) {
   });
 }
 
-function renderPlayer(player, level, sightMap, skipTurn) {
+function renderPlayer(player, level, sightMap, skipPlayerTurn) {
   return (
     <Creature
       key={ `player-${level}` }
       creature={ player }
-      onClick={ skipTurn }
+      onClick={ skipPlayerTurn }
     />
   );
 }
@@ -93,10 +95,62 @@ function renderItems(items, sightMap) {
 class InGameScreen extends React.Component {
   componentDidMount() {
     this.scrollPlayerIntoView({ animate: false });
+    this.bindControls();
+    ReactDOM.findDOMNode(this).focus();
   }
 
   componentDidUpdate() {
     this.scrollPlayerIntoView();
+  }
+
+  componentWillUnmount() {
+    this.unbindControls();
+  }
+
+  bindControls() {
+    const domNode = ReactDOM.findDOMNode(this);
+    this.mousetrap = Mousetrap(domNode);
+    this.mousetrap.bind(["up", "k"], (event) => {
+      event.preventDefault();
+      this.props.updatePlayerPosition({
+        y: this.props.player.y - 1,
+      });
+    });
+
+    this.mousetrap.bind(["right", "l"], (event) => {
+      event.preventDefault();
+      this.props.updatePlayerPosition({
+        x: this.props.player.x + 1,
+      });
+    });
+
+    this.mousetrap.bind(["down", "j"], (event) => {
+      event.preventDefault();
+      this.props.updatePlayerPosition({
+        y: this.props.player.y + 1,
+      });
+    });
+
+    this.mousetrap.bind(["left", "h"], (event) => {
+      event.preventDefault();
+      this.props.updatePlayerPosition({
+        x: this.props.player.x - 1,
+      });
+    });
+
+    this.mousetrap.bind(".", (event) => {
+      event.preventDefault();
+      this.props.skipPlayerTurn();
+    });
+
+    this.mousetrap.bind("i", (event) => {
+      event.preventDefault();
+      this.props.showInventoryScreen();
+    });
+  }
+
+  unbindControls() {
+    this.mousetrap.reset();
   }
 
   scrollPlayerIntoView({ animate } = { animate: true }) {
@@ -126,14 +180,14 @@ class InGameScreen extends React.Component {
 
   render() {
     const {
-      creatures, sightMap, memorisedSightMap, items, map, player, movePlayerTo, skipTurn,
+      creatures, sightMap, memorisedSightMap, items, map, player, movePlayerTo, skipPlayerTurn,
     } = this.props;
     return (
-      <div className="InGameScreen">
+      <div className="InGameScreen" tabIndex="0">
         <div className="InGameScreen__Dungeon" ref="scrollableContainer">
           <Dungeon {...{ map, sightMap, memorisedSightMap, movePlayerTo }} />
           { renderItems(items, sightMap) }
-          { renderPlayer(player, map.id, sightMap, skipTurn) }
+          { renderPlayer(player, map.id, sightMap, skipPlayerTurn) }
           { renderCreatures(creatures, sightMap, movePlayerTo) }
         </div>
         <InfoBar className="InGameScreen__InfoBar" {...{ map, player }} />
@@ -150,7 +204,9 @@ InGameScreen.propTypes = {
   map: React.PropTypes.object.isRequired,
   player: React.PropTypes.object.isRequired,
   movePlayerTo: React.PropTypes.func.isRequired,
-  skipTurn: React.PropTypes.func.isRequired,
+  updatePlayerPosition: React.PropTypes.func.isRequired,
+  skipPlayerTurn: React.PropTypes.func.isRequired,
+  showInventoryScreen: React.PropTypes.func.isRequired,
 };
 
 export default InGameScreen;
