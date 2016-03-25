@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { mouseTrap } from "react-mousetrap";
 import "css/InventoryScreen";
 import potionSprite from "assets/sprites/items/potion.png";
+import Mousetrap from "mousetrap";
 
 function iconForItem(item) {
   if (item.type === "healingPotion") {
@@ -41,9 +41,15 @@ function renderItemList(inventory) {
 
 class InventoryScreen extends React.Component {
   componentDidMount() {
-    const { bindShortcut, hideInventoryScreen } = this.props;
-    bindShortcut("escape", hideInventoryScreen);
-    ReactDOM.findDOMNode(this).focus();
+    const { hideInventoryScreen } = this.props;
+    const domNode = ReactDOM.findDOMNode(this);
+    this.mousetrap = Mousetrap(domNode);
+    this.mousetrap.bind("escape", hideInventoryScreen);
+    domNode.focus();
+  }
+
+  componentWillUnmount() {
+    this.mousetrap.reset();
   }
 
   render() {
@@ -60,9 +66,8 @@ class InventoryScreen extends React.Component {
   }
 }
 InventoryScreen.propTypes = {
-  bindShortcut: React.PropTypes.func.isRequired,
   hideInventoryScreen: React.PropTypes.func.isRequired,
   inventory: React.PropTypes.array.isRequired,
 };
 
-export default mouseTrap(InventoryScreen);
+export default InventoryScreen;
