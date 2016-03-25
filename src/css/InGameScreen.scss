@@ -19,6 +19,12 @@ $InGameScreen__InfoBar--height: 85px;
   height: $InGameScreen__InfoBar--height;
 }
 
+/*_________________________________*/
+
+.tile, .creature, .item {
+  image-rendering: pixelated;
+}
+
 .creature {
   width: $tile-width;
   height: $tile-width;
@@ -86,14 +92,11 @@ $InGameScreen__InfoBar--height: 85px;
 
 /*_________________________________*/
 
-.wall-tile,
-.door-tile,
-.floor-tile,
-.stairsDown-tile,
-.stairsUp-tile {
+.tile {
   width: $tile-width;
   height: $tile-width;
   position: absolute;
+
   &.fog-of-war {
     opacity: 0.5;
   }
@@ -116,6 +119,7 @@ $InGameScreen__InfoBar--height: 85px;
   background-image: url("../assets/textures/stairsDown.png");
   background-color: black;
 }
+
 .stairsUp-tile {
   background-image: url("../assets/textures/stairsUp.png");
   background-color: #a4a4a4;

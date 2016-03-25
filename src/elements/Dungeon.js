@@ -14,7 +14,7 @@ function Tile({ x, y, tile, remembered, onClick }) {
 
   return (
     <div
-      className={ classnames(`${tile.type}-tile`, {
+      className={ classnames(`tile ${tile.type}-tile`, {
         "fog-of-war": remembered,
       }) }
       style={{ left: x * TILE_WIDTH, top: y * TILE_WIDTH }}

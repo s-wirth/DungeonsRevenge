@@ -54,7 +54,7 @@ function renderCreatures(creatures, sightMap, movePlayerTo) {
     if (creature.type !== "player" && sightMap.includes(creature.x, creature.y)) {
       return (
         <Creature
-          key={`creature-${creature.id}`}
+          key={`creature creature-${creature.id}`}
           creature={ creature }
           onClick={ movePlayerTo }
           showHealthBar
@@ -68,7 +68,7 @@ function renderCreatures(creatures, sightMap, movePlayerTo) {
 function renderPlayer(player, level, sightMap, skipPlayerTurn) {
   return (
     <Creature
-      key={ `player-${level}` }
+      key={ `creature player-${level}` }
       creature={ player }
       onClick={ skipPlayerTurn }
     />
@@ -81,7 +81,7 @@ function renderItems(items, sightMap) {
     if (sightMap.includes(item.x, item.y)) {
       return (
         <div
-          className={ item.type }
+          className={ `item ${item.type}` }
           key={`${item.id}`}
           style={{ left: item.x * TILE_WIDTH, top: item.y * TILE_WIDTH }}
         >

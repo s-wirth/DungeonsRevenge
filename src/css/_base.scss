@@ -40,6 +40,10 @@ a {
 
 }
 
+img {
+  image-rendering: pixelated;
+}
+
 .screen-header {
   border-bottom: $border--default;
   padding-top: 8px;
