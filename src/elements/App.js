@@ -4,6 +4,7 @@ import IntroScreen from "elements/IntroScreen";
 import DeathScreen from "elements/DeathScreen";
 import WinningScreen from "elements/WinningScreen";
 import InGameScreen from "elements/InGameScreen";
+import InventoryScreen from "elements/InventoryScreen";
 
 class App extends React.Component {
   constructor(props) {
@@ -27,13 +28,14 @@ class App extends React.Component {
       introScreenShown: GameState.introScreenShown,
       playerDeath: GameState.playerDeath,
       playerWon: GameState.playerWon,
+      inventoryScreenVisible: GameState.inventoryScreenVisible,
     });
   }
 
   render() {
     const {
       player, map, sightMap, memorisedSightMap, introScreenShown, playerDeath, playerWon, creatures,
-      potions,
+      potions, inventoryScreenVisible,
     } = this.state;
 
     if (!introScreenShown) {
@@ -47,6 +49,13 @@ class App extends React.Component {
     } else if (playerWon) {
       return (
         <WinningScreen />
+      );
+    } else if (inventoryScreenVisible) {
+      return (
+        <InventoryScreen
+          hideInventoryScreen={ GameState.hideInventoryScreen }
+          inventory={ player.inventory }
+        />
       );
     }
     return (

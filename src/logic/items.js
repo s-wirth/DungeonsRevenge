@@ -5,6 +5,7 @@ export function makeHealingPotion(x, y) {
   return {
     id,
     type: "healingPotion",
+    name: "Healing Potion",
     x, y,
     healsOnConsume: 15,
   };
