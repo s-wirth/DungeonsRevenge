@@ -1,3 +1,5 @@
+@import "./variables";
+
 html {
   box-sizing: border-box;
 }
@@ -28,4 +30,17 @@ html, body, .root {
 
 h1 {
   margin-top: 0;
+}
+
+a {
+
+}
+
+.ui-link {
+  color: $text-color--uiLink;
+  text-decoration: none;
+
+  &:hover {
+    color: $text-color--uiLinkHighlighted;
+  }
 }

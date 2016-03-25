@@ -28,4 +28,8 @@
 .ItemList__item--has-focus {
   background: $background--uiHighlighted;
   color: $text-color--uiHighlighted;
+
+  > .ui-link {
+    color: $text-color--uiLinkHighlighted;
+  }
 }

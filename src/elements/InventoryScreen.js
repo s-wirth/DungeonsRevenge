@@ -13,7 +13,43 @@ function iconForItem(item) {
   return null;
 }
 
-function renderItemList(inventory, focusIndex) {
+function renderItem(item, isFocused, activateItem, dropItem) {
+  function onUseClick(event) {
+    event.preventDefault();
+    activateItem(item);
+  }
+  function onDropItemClick(event) {
+    event.preventDefault();
+    dropItem(item);
+  }
+
+  return (
+    <li
+      key={ item.id }
+      className={ classnames(
+        "ItemList__item flex-list flex-list--horizontal flex-list--small-gutters",
+        {
+          "ItemList__item--has-focus": isFocused,
+        }
+      )}
+    >
+      <div className="flex-list__item">
+        { iconForItem(item) }
+      </div>
+      <div className="flex-list__item flex-list__item--expand">
+        { item.name }
+      </div>
+      <a className="flex-list__item ui-link" onClick={ onDropItemClick } href="#">
+        Drop
+      </a>
+      <a className="flex-list__item ui-link" onClick={ onUseClick } href="#">
+        { item.verb || "Use" }
+      </a>
+    </li>
+  );
+}
+
+function renderItemList(inventory, focusIndex, activateItem, dropItem) {
   if (inventory.length === 0) {
     return (
       <div className="ItemList">
@@ -26,23 +62,8 @@ function renderItemList(inventory, focusIndex) {
     <ul className="ItemList">
       {
         inventory.map((item, index) => (
-          <li
-            key={ item.id }
-            className={ classnames(
-              "ItemList__item flex-list flex-list--horizontal flex-list--small-gutters",
-              {
-                "ItemList__item--has-focus": index === focusIndex,
-              }
-            )}
-          >
-            <div className="flex-list__item">
-              { iconForItem(item) }
-            </div>
-            <div className="flex-list__item flex-list__item--expand">
-              { item.name }
-            </div>
-          </li>
-        ))
+          renderItem(item, index === focusIndex, activateItem, dropItem))
+        )
       }
     </ul>
   );
@@ -57,7 +78,9 @@ class InventoryScreen extends React.Component {
     this.highlightNextItem = this.highlightNextItem.bind(this);
     this.highlightPreviousItem = this.highlightPreviousItem.bind(this);
     this.activateFocusedItem = this.activateFocusedItem.bind(this);
+    this.activateItem = this.activateItem.bind(this);
     this.dropFocusedItem = this.dropFocusedItem.bind(this);
+    this.dropItem = this.dropItem.bind(this);
   }
 
   componentDidMount() {
@@ -88,9 +111,13 @@ class InventoryScreen extends React.Component {
   }
 
   activateFocusedItem() {
-    const { activateItem, hideInventoryScreen } = this.props;
     if (!this.focusedItem()) return;
-    activateItem(this.focusedItem());
+    this.activateItem(this.focusedItem());
+  }
+
+  activateItem(item) {
+    const { activateItem, hideInventoryScreen } = this.props;
+    activateItem(item);
     hideInventoryScreen();
   }
 
@@ -118,21 +145,26 @@ class InventoryScreen extends React.Component {
   }
 
   dropFocusedItem() {
-    const { dropItem, hideInventoryScreen } = this.props;
     if (!this.focusedItem()) return;
-    dropItem(this.focusedItem());
+    this.dropItem(this.focusedItem());
+  }
+
+  dropItem(item) {
+    const { hideInventoryScreen, dropItem } = this.props;
+    dropItem(item);
     hideInventoryScreen();
   }
 
   render() {
     const { inventory } = this.props;
     const { focusIndex } = this.state;
+    const { activateItem, dropItem } = this;
 
     return (
       <div className="InventoryScreen" tabIndex="0">
         <div className="InventoryScreen__content">
           <h2>Inventory</h2>
-          { renderItemList(inventory, focusIndex) }
+          { renderItemList(inventory, focusIndex, activateItem, dropItem) }
         </div>
       </div>
     );
