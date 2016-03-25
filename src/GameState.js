@@ -146,6 +146,15 @@ export function makeGameState() {
     }
   }
 
+  function addItemToInventory(item, creature) {
+    if (creature.inventory.length === creature.inventorySize) {
+      throw new Error("Inventory is full");
+    }
+    const items = gameState.map.items;
+    creature.inventory.push(item);
+    items.splice(items.indexOf(item), 1);
+  }
+
   Object.assign(gameState, {
     updateCreaturePosition(creature, destination) {
       /* eslint no-param-reassign:0 */
@@ -179,10 +188,8 @@ export function makeGameState() {
         }
         const itemAtDestination = itemAtPosition(x, y);
         const player = gameState.player;
-        if (itemAtDestination && (player.health !== player.maxHealth)) {
-          player.health += itemAtDestination.healsOnConsume;
-          if (player.health > player.maxHealth) player.health = player.maxHealth;
-          gameState.map.potions.splice(gameState.map.potions.indexOf(itemAtDestination), 1);
+        if (itemAtDestination) {
+          addItemToInventory(itemAtDestination, player);
         }
       }
 
