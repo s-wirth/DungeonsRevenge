@@ -167,6 +167,14 @@ export function makeGameState() {
     }
   }
 
+  function dropItem(item, creature) {
+    creature.inventory.splice(creature.inventory.indexOf(item), 1);
+    item.x = creature.x;
+    item.y = creature.y;
+    gameState.map.items.push(item);
+    gameState.emit("change");
+  }
+
   Object.assign(gameState, {
     updateCreaturePosition(creature, destination) {
       /* eslint no-param-reassign:0 */
@@ -278,6 +286,7 @@ export function makeGameState() {
     },
 
     activateItem,
+    dropItem,
   });
 
   return gameState;
