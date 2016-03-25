@@ -5,6 +5,7 @@ import potionSprite from "assets/sprites/items/potion.png";
 import Mousetrap from "mousetrap";
 import classnames from "classnames";
 import UILink from "elements/UILink";
+import bindFunctions from "util/bindFunctions";
 
 function iconForItem(item) {
   if (item.type === "healingPotion") {
@@ -76,12 +77,14 @@ class InventoryScreen extends React.Component {
     this.state = {
       focusIndex: -1,
     };
-    this.highlightNextItem = this.highlightNextItem.bind(this);
-    this.highlightPreviousItem = this.highlightPreviousItem.bind(this);
-    this.activateFocusedItem = this.activateFocusedItem.bind(this);
-    this.activateItem = this.activateItem.bind(this);
-    this.dropFocusedItem = this.dropFocusedItem.bind(this);
-    this.dropItem = this.dropItem.bind(this);
+    bindFunctions(this, [
+      "highlightNextItem",
+      "highlightPreviousItem",
+      "activateFocusedItem",
+      "activateItem",
+      "dropFocusedItem",
+      "dropItem",
+    ]);
   }
 
   componentDidMount() {
