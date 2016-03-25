@@ -15,7 +15,7 @@ function iconForItem(item) {
   return null;
 }
 
-function renderItem(item, isFocused, activateItem, dropItem) {
+function renderItem(item, isHighlighted, activateItem, dropItem) {
   function onUseClick(event) {
     event.preventDefault();
     activateItem(item);
@@ -31,7 +31,7 @@ function renderItem(item, isFocused, activateItem, dropItem) {
       className={ classnames(
         "ui-list__item ItemList__item flex-list flex-list--horizontal flex-list--small-gutters",
         {
-          "ItemList__item--has-focus": isFocused,
+          "ItemList__item--highlighted": isHighlighted,
         }
       )}
     >
@@ -51,7 +51,7 @@ function renderItem(item, isFocused, activateItem, dropItem) {
   );
 }
 
-function renderItemList(inventory, focusIndex, activateItem, dropItem) {
+function renderItemList(inventory, highlightIndex, activateItem, dropItem) {
   if (inventory.length === 0) {
     return (
       <div className="ui-list">
@@ -64,7 +64,7 @@ function renderItemList(inventory, focusIndex, activateItem, dropItem) {
     <ul className="ui-list">
       {
         inventory.map((item, index) => (
-          renderItem(item, index === focusIndex, activateItem, dropItem))
+          renderItem(item, index === highlightIndex, activateItem, dropItem))
         )
       }
     </ul>
@@ -75,14 +75,14 @@ class InventoryScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      focusIndex: -1,
+      highlightIndex: -1,
     };
     bindFunctions(this, [
       "highlightNextItem",
       "highlightPreviousItem",
-      "activateFocusedItem",
+      "activateHighlightedItem",
       "activateItem",
-      "dropFocusedItem",
+      "dropHighlightedItem",
       "dropItem",
     ]);
   }
@@ -104,19 +104,19 @@ class InventoryScreen extends React.Component {
     this.mousetrap.bind(["escape", "i"], hideInventoryScreen);
     this.mousetrap.bind(["down", "j"], this.highlightNextItem);
     this.mousetrap.bind(["up", "k"], this.highlightPreviousItem);
-    this.mousetrap.bind(["enter"], this.activateFocusedItem);
-    this.mousetrap.bind(["d"], this.dropFocusedItem);
+    this.mousetrap.bind(["enter"], this.activateHighlightedItem);
+    this.mousetrap.bind(["d"], this.dropHighlightedItem);
   }
 
-  focusedItem() {
+  highlightedItem() {
     const { inventory } = this.props;
-    const { focusIndex } = this.state;
-    return inventory[focusIndex];
+    const { highlightIndex } = this.state;
+    return inventory[highlightIndex];
   }
 
-  activateFocusedItem() {
-    if (!this.focusedItem()) return;
-    this.activateItem(this.focusedItem());
+  activateHighlightedItem() {
+    if (!this.highlightedItem()) return;
+    this.activateItem(this.highlightedItem());
   }
 
   activateItem(item) {
@@ -131,26 +131,26 @@ class InventoryScreen extends React.Component {
 
   highlightNextItem() {
     const { inventory } = this.props;
-    let { focusIndex } = this.state;
-    focusIndex += 1;
-    if (focusIndex === inventory.length) focusIndex = inventory.length - 1;
+    let { highlightIndex } = this.state;
+    highlightIndex += 1;
+    if (highlightIndex === inventory.length) highlightIndex = inventory.length - 1;
     this.setState({
-      focusIndex,
+      highlightIndex,
     });
   }
 
   highlightPreviousItem() {
-    let { focusIndex } = this.state;
-    focusIndex -= 1;
-    if (focusIndex < 0) focusIndex = 0;
+    let { highlightIndex } = this.state;
+    highlightIndex -= 1;
+    if (highlightIndex < 0) highlightIndex = 0;
     this.setState({
-      focusIndex,
+      highlightIndex,
     });
   }
 
-  dropFocusedItem() {
-    if (!this.focusedItem()) return;
-    this.dropItem(this.focusedItem());
+  dropHighlightedItem() {
+    if (!this.highlightedItem()) return;
+    this.dropItem(this.highlightedItem());
   }
 
   dropItem(item) {
@@ -161,7 +161,7 @@ class InventoryScreen extends React.Component {
 
   render() {
     const { inventory, hideInventoryScreen } = this.props;
-    const { focusIndex } = this.state;
+    const { highlightIndex } = this.state;
     const { activateItem, dropItem } = this;
 
     return (
@@ -179,7 +179,7 @@ class InventoryScreen extends React.Component {
               ☓
             </UILink>
           </div>
-          { renderItemList(inventory, focusIndex, activateItem, dropItem) }
+          { renderItemList(inventory, highlightIndex, activateItem, dropItem) }
         </div>
       </div>
     );
