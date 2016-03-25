@@ -52,7 +52,7 @@ class InventoryScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      focusIndex: 0,
+      focusIndex: -1,
     };
     this.highlightNextItem = this.highlightNextItem.bind(this);
     this.highlightPreviousItem = this.highlightPreviousItem.bind(this);
