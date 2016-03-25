@@ -100,7 +100,9 @@ class InGameScreen extends React.Component {
   }
 
   componentDidUpdate() {
-    this.scrollPlayerIntoView();
+    setTimeout(() => {
+      this.scrollPlayerIntoView();
+    }, 100);
   }
 
   componentWillUnmount() {
@@ -158,24 +160,25 @@ class InGameScreen extends React.Component {
     const container = this.refs.scrollableContainer;
     const playerLeftOffset = player.x * TILE_WIDTH;
     const playerTopOffset = player.y * TILE_WIDTH;
-    setTimeout(() => {
-      let scrollTop = playerTopOffset - (container.clientHeight / 2);
-      const scrollTopMax = container.scrollHeight - container.clientHeight;
-      if (scrollTop < 0) scrollTop = 0;
-      if (scrollTop > scrollTopMax) scrollTop = scrollTopMax;
 
-      let scrollLeft = playerLeftOffset - (container.clientWidth / 2);
-      const scrollLeftMax = container.scrollWidth - container.clientWidth;
-      if (scrollLeft < 0) scrollLeft = 0;
-      if (scrollLeft > scrollLeftMax) scrollLeft = scrollLeftMax;
+    let scrollTop = playerTopOffset - (container.clientHeight / 2);
+    const scrollTopMax = container.scrollHeight - container.clientHeight;
 
-      if (animate) {
-        Tween.to(container, 1.0, { scrollTop, scrollLeft });
-      } else {
-        container.scrollTop = scrollTop;
-        container.scrollLeft = scrollLeft;
-      }
-    }, 100);
+    if (scrollTop < 0) scrollTop = 0;
+    if (scrollTop > scrollTopMax) scrollTop = scrollTopMax;
+
+    let scrollLeft = playerLeftOffset - (container.clientWidth / 2);
+    const scrollLeftMax = container.scrollWidth - container.clientWidth;
+
+    if (scrollLeft < 0) scrollLeft = 0;
+    if (scrollLeft > scrollLeftMax) scrollLeft = scrollLeftMax;
+
+    if (animate) {
+      Tween.to(container, 1.0, { scrollTop, scrollLeft });
+    } else {
+      container.scrollTop = scrollTop;
+      container.scrollLeft = scrollLeft;
+    }
   }
 
   render() {
