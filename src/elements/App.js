@@ -57,6 +57,7 @@ class App extends React.Component {
           inventory={ player.inventory }
           inventorySize={ player.inventorySize }
           activateItem={ function activateItem(item) { GameState.activateItem(item, player); } }
+          dropItem={ function dropItem(item) { GameState.dropItem(item, player); } }
         />
       );
     }

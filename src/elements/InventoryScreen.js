@@ -57,6 +57,7 @@ class InventoryScreen extends React.Component {
     this.highlightNextItem = this.highlightNextItem.bind(this);
     this.highlightPreviousItem = this.highlightPreviousItem.bind(this);
     this.activateFocusedItem = this.activateFocusedItem.bind(this);
+    this.dropFocusedItem = this.dropFocusedItem.bind(this);
   }
 
   componentDidMount() {
@@ -77,13 +78,19 @@ class InventoryScreen extends React.Component {
     this.mousetrap.bind(["down", "j"], this.highlightNextItem);
     this.mousetrap.bind(["up", "k"], this.highlightPreviousItem);
     this.mousetrap.bind(["enter"], this.activateFocusedItem);
+    this.mousetrap.bind(["d"], this.dropFocusedItem);
+  }
+
+  focusedItem() {
+    const { inventory } = this.props;
+    const { focusIndex } = this.state;
+    return inventory[focusIndex];
   }
 
   activateFocusedItem() {
-    const { activateItem, inventory, hideInventoryScreen } = this.props;
-    const { focusIndex } = this.state;
-    const focusedItem = inventory[focusIndex];
-    activateItem(focusedItem);
+    const { activateItem, hideInventoryScreen } = this.props;
+    if (!this.focusedItem()) return;
+    activateItem(this.focusedItem());
     hideInventoryScreen();
   }
 
@@ -92,10 +99,10 @@ class InventoryScreen extends React.Component {
   }
 
   highlightNextItem() {
-    const { inventorySize } = this.props;
+    const { inventory } = this.props;
     let { focusIndex } = this.state;
     focusIndex += 1;
-    if (focusIndex > inventorySize) focusIndex = inventorySize;
+    if (focusIndex === inventory.length) focusIndex = inventory.length - 1;
     this.setState({
       focusIndex,
     });
@@ -108,6 +115,13 @@ class InventoryScreen extends React.Component {
     this.setState({
       focusIndex,
     });
+  }
+
+  dropFocusedItem() {
+    const { dropItem, hideInventoryScreen } = this.props;
+    if (!this.focusedItem()) return;
+    dropItem(this.focusedItem());
+    hideInventoryScreen();
   }
 
   render() {
@@ -129,6 +143,7 @@ InventoryScreen.propTypes = {
   inventory: React.PropTypes.array.isRequired,
   inventorySize: React.PropTypes.number.isRequired,
   activateItem: React.PropTypes.func.isRequired,
+  dropItem: React.PropTypes.func.isRequired,
 };
 
 export default InventoryScreen;
