@@ -19,8 +19,8 @@ export function makeGameState() {
   const gameState = new EventEmitter();
 
   gameState.introScreenShown = false;
+  gameState.inventoryScreenVisible = false;
   gameState.playerDeath = false;
-
   gameState.playerWon = false;
 
   gameState.map = makeMap();
@@ -246,6 +246,16 @@ export function makeGameState() {
     isTilePassable({ x, y }) {
       const tile = gameState.map.get(x, y);
       return tile && tile.type !== "wall" && !getCreatureAt(x, y);
+    },
+
+    showInventoryScreen() {
+      gameState.inventoryScreenVisible = true;
+      gameState.emit("change");
+    },
+
+    hideInventoryScreen() {
+      gameState.inventoryScreenVisible = false;
+      gameState.emit("change");
     },
   });
 
