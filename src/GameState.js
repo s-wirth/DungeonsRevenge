@@ -220,8 +220,8 @@ export function makeGameState() {
           gameState.calculateExperienceAndStrength(defender.experienceLootOnKill);
           gameState.map.creatures.splice(gameState.map.creatures.indexOf(defender), 1);
         }
-        gameState.emit("change");
       }
+      gameState.emit("change");
     },
 
     switchFromIntroToDungeon() {
