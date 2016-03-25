@@ -1,6 +1,6 @@
 @import "./variables";
 
-.ui-link {
+.UILink {
   color: $text-color--uiLink;
   text-decoration: none;
   padding: 10px;
@@ -9,4 +9,16 @@
   &:hover {
     color: $text-color--uiLinkHighlighted;
   }
+}
+
+.UILink--button, .UILink--flatButton {
+  min-width: 32px;
+  min-height: 32px;
+  padding: 10px;
+  text-align: center;
+  line-height: 12px;
+}
+
+.UILink--button {
+  border: $border--default;
 }

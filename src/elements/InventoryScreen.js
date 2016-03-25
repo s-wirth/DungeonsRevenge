@@ -40,10 +40,10 @@ function renderItem(item, isFocused, activateItem, dropItem) {
       <div className="flex-list__item flex-list__item--expand">
         { item.name }
       </div>
-      <UILink className="flex-list__item ui-link" onClick={ onDropItemClick }>
+      <UILink className="flex-list__item" onClick={ onDropItemClick }>
         <u>D</u>rop
       </UILink>
-      <UILink className="flex-list__item ui-link" onClick={ onUseClick }>
+      <UILink className="flex-list__item" onClick={ onUseClick }>
         { item.verb || "Use" }
       </UILink>
     </li>
@@ -169,8 +169,8 @@ class InventoryScreen extends React.Component {
               Inventory
             </h2>
             <UILink
-              href="#"
-              className="flex-list__item ui-link--close"
+              flatButton
+              className="flex-list__item"
               onClick={ hideInventoryScreen }
             >
               ☓

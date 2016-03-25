@@ -4,10 +4,11 @@ import "css/InGameScreen/InfoBar";
 import stairsIcon from "assets/ui/stairsIcon.png";
 import strengthIcon from "assets/ui/strengthIcon.png";
 import heartIcon from "assets/ui/heartIcon.png";
+import UILink from "elements/UILink";
 
 function renderPlayerStats(map, player) {
   return (
-    <div>
+    <div className="flex-list__item flex-list__item--expand">
       <div className="flex-list flex-list--horizontal flex-list--small-gutters">
         <div className="flex-list__item flex-list flex-list--horizontal flex-list--small-gutters">
           <div className="flex-list__item">
@@ -65,11 +66,14 @@ function renderPlayerStats(map, player) {
   );
 }
 
-export default function InfoBar({ className, map, player }) {
+export default function InfoBar({ className, map, player, showInventoryScreen }) {
   return (
     <div className={ classnames(className, "InfoBar") }>
-      <div className="InfoBar__container">
+      <div className="InfoBar__container flex-list flex-list--horizontal flex-list--gutters">
         { renderPlayerStats(map, player) }
+        <div className="flex-list__item">
+          <UILink button onClick={ showInventoryScreen }>INV</UILink>
+        </div>
       </div>
     </div>
   );
@@ -78,4 +82,5 @@ InfoBar.propTypes = {
   map: React.PropTypes.object.isRequired,
   player: React.PropTypes.object.isRequired,
   className: React.PropTypes.string,
+  showInventoryScreen: React.PropTypes.func.isRequired,
 };
