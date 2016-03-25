@@ -8,21 +8,16 @@
   border: $border--default;
   background: $background--uiDefault;
   max-width: $max-mobile-width;
-  padding: 10px;
   max-height: 100%;
   margin: 10px auto;
   overflow: auto;
   color: #d3d3d3;
 }
 
-.ItemList {
-  border-top: $border--default;
-  border-bottom: $border--default;
-  padding: 0;
-}
-
-.ItemList__emptyMessage, .ItemList__item {
-  padding: 10px;
+.ui-list__emptyMessage {
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: center;
 }
 
 .ItemList__item--has-focus {

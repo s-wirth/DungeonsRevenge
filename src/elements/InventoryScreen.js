@@ -4,6 +4,7 @@ import "css/InventoryScreen";
 import potionSprite from "assets/sprites/items/potion.png";
 import Mousetrap from "mousetrap";
 import classnames from "classnames";
+import UILink from "elements/UILink";
 
 function iconForItem(item) {
   if (item.type === "healingPotion") {
@@ -27,24 +28,24 @@ function renderItem(item, isFocused, activateItem, dropItem) {
     <li
       key={ item.id }
       className={ classnames(
-        "ItemList__item flex-list flex-list--horizontal flex-list--small-gutters",
+        "ui-list__item ItemList__item flex-list flex-list--horizontal flex-list--small-gutters",
         {
           "ItemList__item--has-focus": isFocused,
         }
       )}
     >
-      <div className="flex-list__item">
+      <div className="flex-list__item ui-list__icon">
         { iconForItem(item) }
       </div>
       <div className="flex-list__item flex-list__item--expand">
         { item.name }
       </div>
-      <a className="flex-list__item ui-link" onClick={ onDropItemClick } href="#">
-        Drop
-      </a>
-      <a className="flex-list__item ui-link" onClick={ onUseClick } href="#">
+      <UILink className="flex-list__item ui-link" onClick={ onDropItemClick }>
+        <u>D</u>rop
+      </UILink>
+      <UILink className="flex-list__item ui-link" onClick={ onUseClick }>
         { item.verb || "Use" }
-      </a>
+      </UILink>
     </li>
   );
 }
@@ -52,14 +53,14 @@ function renderItem(item, isFocused, activateItem, dropItem) {
 function renderItemList(inventory, focusIndex, activateItem, dropItem) {
   if (inventory.length === 0) {
     return (
-      <div className="ItemList">
-        <div className="ItemList__emptyMessage">Your inventory is empty</div>
+      <div className="ui-list">
+        <div className="ui-list__emptyMessage">Your inventory is empty</div>
       </div>
     );
   }
 
   return (
-    <ul className="ItemList">
+    <ul className="ui-list">
       {
         inventory.map((item, index) => (
           renderItem(item, index === focusIndex, activateItem, dropItem))
@@ -156,14 +157,25 @@ class InventoryScreen extends React.Component {
   }
 
   render() {
-    const { inventory } = this.props;
+    const { inventory, hideInventoryScreen } = this.props;
     const { focusIndex } = this.state;
     const { activateItem, dropItem } = this;
 
     return (
-      <div className="InventoryScreen" tabIndex="0">
+      <div className="InventoryScreen" tabIndex="0" onClick={ hideInventoryScreen }>
         <div className="InventoryScreen__content">
-          <h2>Inventory</h2>
+          <div className="flex-list flex-list--horizontal screen-header">
+            <h2 className="flex-list__item flex-list__item--expand screen-header__title">
+              Inventory
+            </h2>
+            <UILink
+              href="#"
+              className="flex-list__item ui-link--close"
+              onClick={ hideInventoryScreen }
+            >
+              ☓
+            </UILink>
+          </div>
           { renderItemList(inventory, focusIndex, activateItem, dropItem) }
         </div>
       </div>

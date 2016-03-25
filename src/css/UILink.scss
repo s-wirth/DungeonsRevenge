@@ -1,0 +1,12 @@
+@import "./variables";
+
+.ui-link {
+  color: $text-color--uiLink;
+  text-decoration: none;
+  padding: 10px;
+  cursor: pointer;
+
+  &:hover {
+    color: $text-color--uiLinkHighlighted;
+  }
+}
