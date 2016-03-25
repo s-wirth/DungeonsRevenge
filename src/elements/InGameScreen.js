@@ -184,6 +184,7 @@ class InGameScreen extends React.Component {
   render() {
     const {
       creatures, sightMap, memorisedSightMap, items, map, player, movePlayerTo, skipPlayerTurn,
+      showInventoryScreen,
     } = this.props;
     return (
       <div className="InGameScreen" tabIndex="0">
@@ -193,7 +194,7 @@ class InGameScreen extends React.Component {
           { renderPlayer(player, map.id, sightMap, skipPlayerTurn) }
           { renderCreatures(creatures, sightMap, movePlayerTo) }
         </div>
-        <InfoBar className="InGameScreen__InfoBar" {...{ map, player }} />
+        <InfoBar className="InGameScreen__InfoBar" {...{ map, player, showInventoryScreen }} />
       </div>
     );
   }
