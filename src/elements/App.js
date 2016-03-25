@@ -55,6 +55,7 @@ class App extends React.Component {
         <InventoryScreen
           hideInventoryScreen={ GameState.hideInventoryScreen }
           inventory={ player.inventory }
+          inventorySize={ player.inventorySize }
         />
       );
     }

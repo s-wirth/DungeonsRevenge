@@ -18,9 +18,14 @@
 .ItemList {
   border-top: $border--default;
   border-bottom: $border--default;
+  padding: 0;
+}
+
+.ItemList__emptyMessage, .ItemList__item {
   padding: 10px;
 }
 
-.ItemList__item {
-
+.ItemList__item--has-focus {
+  background: $background--uiHighlighted;
+  color: $text-color--uiHighlighted;
 }
