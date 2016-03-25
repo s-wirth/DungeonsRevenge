@@ -27,6 +27,7 @@ function renderItemList(inventory, focusIndex) {
       {
         inventory.map((item, index) => (
           <li
+            key={ item.id }
             className={ classnames(
               "ItemList__item flex-list flex-list--horizontal flex-list--small-gutters",
               {
@@ -55,6 +56,7 @@ class InventoryScreen extends React.Component {
     };
     this.highlightNextItem = this.highlightNextItem.bind(this);
     this.highlightPreviousItem = this.highlightPreviousItem.bind(this);
+    this.activateFocusedItem = this.activateFocusedItem.bind(this);
   }
 
   componentDidMount() {
@@ -74,6 +76,15 @@ class InventoryScreen extends React.Component {
     this.mousetrap.bind(["escape", "i"], hideInventoryScreen);
     this.mousetrap.bind(["down", "j"], this.highlightNextItem);
     this.mousetrap.bind(["up", "k"], this.highlightPreviousItem);
+    this.mousetrap.bind(["enter"], this.activateFocusedItem);
+  }
+
+  activateFocusedItem() {
+    const { activateItem, inventory, hideInventoryScreen } = this.props;
+    const { focusIndex } = this.state;
+    const focusedItem = inventory[focusIndex];
+    activateItem(focusedItem);
+    hideInventoryScreen();
   }
 
   unbindControls() {
@@ -117,6 +128,7 @@ InventoryScreen.propTypes = {
   hideInventoryScreen: React.PropTypes.func.isRequired,
   inventory: React.PropTypes.array.isRequired,
   inventorySize: React.PropTypes.number.isRequired,
+  activateItem: React.PropTypes.func.isRequired,
 };
 
 export default InventoryScreen;

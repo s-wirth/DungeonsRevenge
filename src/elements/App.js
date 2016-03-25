@@ -56,6 +56,7 @@ class App extends React.Component {
           hideInventoryScreen={ GameState.hideInventoryScreen }
           inventory={ player.inventory }
           inventorySize={ player.inventorySize }
+          activateItem={ function activateItem(item) { GameState.activateItem(item, player); } }
         />
       );
     }
