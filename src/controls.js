@@ -33,3 +33,8 @@ Mousetrap.bind(".", (event) => {
   event.preventDefault();
   GameState.skipPlayerTurn();
 });
+
+Mousetrap.bind("i", (event) => {
+  event.preventDefault();
+  GameState.showInventoryScreen();
+});
