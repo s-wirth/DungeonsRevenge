@@ -22,7 +22,7 @@ class App extends React.Component {
       player: GameState.player,
       map: GameState.map,
       creatures: GameState.map.creatures,
-      potions: GameState.map.potions,
+      items: GameState.map.items,
       sightMap: GameState.map.sightMap,
       memorisedSightMap: GameState.map.memorisedSightMap,
       introScreenShown: GameState.introScreenShown,
@@ -35,7 +35,7 @@ class App extends React.Component {
   render() {
     const {
       player, map, sightMap, memorisedSightMap, introScreenShown, playerDeath, playerWon, creatures,
-      potions, inventoryScreenVisible,
+      items, inventoryScreenVisible,
     } = this.state;
 
     if (!introScreenShown) {
@@ -65,7 +65,7 @@ class App extends React.Component {
         memorisedSightMap={ memorisedSightMap }
         player={ player }
         creatures={ creatures }
-        potions={ potions }
+        items={ items }
         movePlayerTo={ GameState.movePlayerTo }
         skipTurn={ GameState.skipPlayerTurn }
       />

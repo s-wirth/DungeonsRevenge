@@ -73,15 +73,15 @@ function renderPlayer(player, level, sightMap, skipTurn) {
   );
 }
 
-function renderHealingPotions(potions, sightMap) {
-  if (!potions) return null;
-  return potions.map((potion) => {
-    if (sightMap.includes(potion.x, potion.y)) {
+function renderItems(items, sightMap) {
+  if (!items) return null;
+  return items.map((item) => {
+    if (sightMap.includes(item.x, item.y)) {
       return (
         <div
-          className="healingPotion"
-          key={`${potion.id}`}
-          style={{ left: potion.x * TILE_WIDTH, top: potion.y * TILE_WIDTH }}
+          className={ item.type }
+          key={`${item.id}`}
+          style={{ left: item.x * TILE_WIDTH, top: item.y * TILE_WIDTH }}
         >
         </div>
       );
@@ -126,13 +126,13 @@ class InGameScreen extends React.Component {
 
   render() {
     const {
-      creatures, sightMap, memorisedSightMap, potions, map, player, movePlayerTo, skipTurn,
+      creatures, sightMap, memorisedSightMap, items, map, player, movePlayerTo, skipTurn,
     } = this.props;
     return (
       <div className="InGameScreen">
         <div className="InGameScreen__Dungeon" ref="scrollableContainer">
           <Dungeon {...{ map, sightMap, memorisedSightMap, movePlayerTo }} />
-          { renderHealingPotions(potions, sightMap) }
+          { renderItems(items, sightMap) }
           { renderPlayer(player, map.id, sightMap, skipTurn) }
           { renderCreatures(creatures, sightMap, movePlayerTo) }
         </div>
@@ -146,7 +146,7 @@ InGameScreen.propTypes = {
   creatures: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
   sightMap: React.PropTypes.object.isRequired,
   memorisedSightMap: React.PropTypes.object.isRequired,
-  potions: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+  items: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
   map: React.PropTypes.object.isRequired,
   player: React.PropTypes.object.isRequired,
   movePlayerTo: React.PropTypes.func.isRequired,

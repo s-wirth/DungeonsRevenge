@@ -97,7 +97,9 @@ export function makeMap(id) {
       const position = randomPositionIn(rooms[randomRoom]);
       potions.push(makeHealingPotion(position[0], position[1]));
     }
-    map.potions = potions;
+    const position = randomPositionIn(rooms[0]);
+    potions.push(makeHealingPotion(position[0], position[1]));
+    map.items = potions;
   }
 
   const rotMap = new ROT.Map.Digger(MAP_WIDTH, MAP_HEIGHT, {
