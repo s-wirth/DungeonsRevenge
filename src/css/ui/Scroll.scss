@@ -13,6 +13,16 @@
   color: #49280A;
 }
 
+.Scroll--deathScreen {
+  background-image: url("../../assets/scrolls/deathScroll.png");
+  color: black;
+}
+
+.Scroll--winningScreen {
+  background-image: url("../../assets/scrolls/winningScroll.png");
+  color: #87581C;
+}
+
 .Scroll__content {
   width: 100%;
   height: 100%;

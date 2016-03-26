@@ -1,15 +1,24 @@
 import React from "react";
 import skull from "assets/misc/skull.png";
-import "css/ScrollScreen";
+import Screen from "elements/ui/Screen";
+import Scroll from "elements/ui/Scroll";
 
 function DeathScreen() {
   return (
-    <div className="ScrollScreen ScrollScreen--deathScreen">
-      <img src={ skull } className="skullImg" />
-      <h1>You're Dead.</h1>
-      <h3>Not quite as clever as you thought, eh?</h3>
-      <h2>Refresh the page to restart.</h2>
-    </div>
+    <Screen>
+      <Scroll className="Scroll--deathScreen">
+        <img src={ skull } className="skullImg" />
+        <h1>You have died</h1>
+
+        <p>
+          Your body crumbles to dust and your spirit returns to the darkness whence it came.
+        </p>
+
+        <a href="#" onClick={ function reload() { window.location.reload(); } }>
+          Reincarnate
+        </a>
+      </Scroll>
+    </Screen>
   );
 }
 
