@@ -2,17 +2,20 @@ import React from "react";
 import classnames from "classnames";
 import "css/ui/Scroll";
 
-export default function Scroll({ className, children, onClick }) {
-  return (
-    <div
-      className={ classnames("Scroll", className) }
-      onClick={ onClick }
-    >
-      <div className="Scroll__content">
-        { children }
+class Scroll extends React.Component {
+  render() {
+    const { className, children, onClick, onMouseMove, onTouchStart } = this.props;
+    return (
+      <div
+        className={ classnames("Scroll", className) }
+        {...{ onClick, onMouseMove, onTouchStart }}
+      >
+        <div className="Scroll__content" ref="content">
+          { children }
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 Scroll.propTypes = {
   children: React.PropTypes.oneOfType([
@@ -21,5 +24,9 @@ Scroll.propTypes = {
     React.PropTypes.arrayOf(React.PropTypes.element),
   ]),
   onClick: React.PropTypes.func,
+  onMouseMove: React.PropTypes.func,
+  onTouchStart: React.PropTypes.func,
   className: React.PropTypes.string,
 };
+
+export default Scroll;
