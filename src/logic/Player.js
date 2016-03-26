@@ -7,7 +7,7 @@ export function makePlayer(x, y) {
   });
 
   Object.assign(player, {
-    calculateExperienceAndStrength(experience) {
+    gainExperience(experience) {
       player.experience += experience;
       if (player.experience >= player.experienceNeeded) {
         player.experience = 0;

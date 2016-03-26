@@ -261,7 +261,7 @@ export function makeGameState() {
           gameState.visibleScreen = "win";
         } else if (isPlayer(attacker)) {
           logMessage({ type: "success", description: `You killed the ${defender.type}` });
-          gameState.player.calculateExperienceAndStrength(defender.experienceLootOnKill);
+          gameState.player.gainExperience(defender.experienceLootOnKill);
           gameState.map.creatures.splice(gameState.map.creatures.indexOf(defender), 1);
         }
       } else {
