@@ -51,7 +51,7 @@ class IntroScreen extends React.Component {
           <h1>Dungeon's Revenge</h1>
           <p>
             You awake. The familiar stench of the dungeon surrounds you. Grime and detritus
-            litter the floor and you hear critters scampering in the shadows.
+            litter the floor and critters scamper in the shadows.
           </p>
           <p>
             You are a creature of the darkness. Your home has been invaded by
