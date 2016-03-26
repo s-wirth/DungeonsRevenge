@@ -15,7 +15,7 @@ function renderPlayerStats(map, player) {
             <img src={ stairsIcon } width="16" height="16" />
           </div>
           <div className="flex-list__item flex-list__item--expand">
-            { map.id }
+            { map.id + 1 }
           </div>
         </div>
 
@@ -40,7 +40,7 @@ function renderPlayerStats(map, player) {
               style={{ width: `${player.health * 100 / player.maxHealth}%` }}
             />
             <div className="ProgressBar__label">
-              { player.health }
+              { Math.round(player.health) } / { Math.round(player.maxHealth) }
             </div>
           </div>
         </div>
@@ -57,7 +57,7 @@ function renderPlayerStats(map, player) {
               style={{ width: `${player.experience * 100 / player.experienceNeeded}%` }}
             />
             <div className="ProgressBar__label">
-              { player.experience } / { player.experienceNeeded }
+              { Math.round(player.experience) } / { Math.round(player.experienceNeeded) }
             </div>
           </div>
         </div>
