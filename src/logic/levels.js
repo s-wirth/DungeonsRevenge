@@ -48,7 +48,7 @@ function setInitialPlayerPosition(map, x, y) {
 export function spawnEnemies(rooms) {
   return rooms.map((room) => {
     const position = randomPositionIn(room);
-    return makeCreature(position[0], position[1], "enemy");
+    return makeCreature({ x: position[0], y: position[1], type: "enemy" });
   });
 }
 
@@ -69,7 +69,10 @@ export function bossLevel(id) {
   setStairs(map, [1, 2]);
   setInitialPlayerPosition(map, 1, 2);
   map.creatures = [
-    makeCreature(BOSS_MAP_WIDTH - 5, Math.floor(BOSS_MAP_HEIGHT / 2), "pestcontrol", 5, 20),
+    makeCreature({
+      x: BOSS_MAP_WIDTH - 5, y: Math.floor(BOSS_MAP_HEIGHT / 2), type: "pestcontrol", baseDamage: 5,
+      experienceLootOnKill: 20,
+    }),
   ];
 
   return map;
