@@ -4,7 +4,6 @@ import "gsap";
 import bindFunctions from "util/bindFunctions";
 import Screen from "elements/ui/Screen";
 import Scroll from "elements/ui/Scroll";
-import "css/ScrollScreen";
 
 class IntroScreen extends React.Component {
   constructor(props) {
@@ -35,7 +34,9 @@ class IntroScreen extends React.Component {
   }
 
   stopAutoScrolling() {
-    this.tween.kill();
+    if (this.tween) {
+      this.tween.kill();
+    }
   }
 
   render() {
