@@ -1,4 +1,4 @@
-# Wirthslike
+# Dungeon's Revenge
 
 Welcome to Sophie's roguelike, Wirthslike. Feel free to change the name.
 
