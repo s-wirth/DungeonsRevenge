@@ -6,7 +6,7 @@ import {
 } from "logic/creatures";
 
 import {
-  makeHealingPotion,
+  makeItem,
 } from "logic/items";
 
 const MAP_WIDTH = 80;
@@ -97,10 +97,10 @@ export function makeMap(id) {
     for (let i = 0; i <= amount; i++) {
       const randomRoom = Math.floor(Math.random() * rooms.length);
       const position = randomPositionIn(rooms[randomRoom]);
-      potions.push(makeHealingPotion(position[0], position[1]));
+      potions.push(makeItem("healingPotion", { x: position[0], y: position[1] }));
     }
     const position = randomPositionIn(rooms[0]);
-    potions.push(makeHealingPotion(position[0], position[1]));
+    potions.push(makeItem("healingPotion", { x: position[0], y: position[1] }));
     map.items = potions;
   }
 
