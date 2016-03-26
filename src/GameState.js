@@ -5,9 +5,9 @@ import {
   makeSightMap,
 } from "logic/SightMap";
 import {
-  makePlayer,
   makeCreatureAct,
 } from "logic/creatures";
+import { makePlayer } from "logic/Player";
 import {
   enterNextLevel,
   enterPreviousLevel,
@@ -247,17 +247,6 @@ export function makeGameState() {
       creature.y = y;
     },
 
-    calculateExperienceAndStrength(experience) {
-      gameState.player.experience += experience;
-      if (gameState.player.experience >= gameState.player.experienceNeeded) {
-        gameState.player.experience = 0;
-        gameState.player.experienceNeeded += 5;
-        gameState.player.maxHealth += 3;
-        gameState.player.health += 3;
-        gameState.player.strength += 1;
-      }
-    },
-
     makeCreatureAttack(attacker, defender) {
       const attackerActualDamage = attacker.baseDamage + attacker.strength;
 
@@ -270,9 +259,9 @@ export function makeGameState() {
         } else if (defender.type === "pestcontrol") {
           logMessage({ type: "success", description: "Congratulations, you win!" });
           gameState.visibleScreen = "win";
-        } else {
+        } else if (isPlayer(attacker)) {
           logMessage({ type: "success", description: `You killed the ${defender.type}` });
-          gameState.calculateExperienceAndStrength(defender.experienceLootOnKill);
+          gameState.player.calculateExperienceAndStrength(defender.experienceLootOnKill);
           gameState.map.creatures.splice(gameState.map.creatures.indexOf(defender), 1);
         }
       } else {

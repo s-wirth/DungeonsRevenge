@@ -23,13 +23,6 @@ export function makeCreature({ x, y, type, baseDamage = 1, experienceLootOnKill 
   };
 }
 
-export function makePlayer(x, y) {
-  return makeCreature({
-    x, y, type: "player", baseDamage: 3, maxHealth: 15, strength: 1,
-    sightRadius: 5,
-  });
-}
-
 function distanceBetween({ x: x1, y: y1 }, { x: x2, y: y2 }) {
   return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 }
