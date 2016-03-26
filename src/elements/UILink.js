@@ -18,7 +18,7 @@ UILink.propTypes = {
   children: React.PropTypes.oneOfType([
     React.PropTypes.string,
     React.PropTypes.element,
-    React.PropTypes.arrayOf(React.PropTypes.element),
+    React.PropTypes.array,
   ]),
   className: React.PropTypes.string,
   href: React.PropTypes.string,
