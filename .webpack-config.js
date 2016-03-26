@@ -1,5 +1,3 @@
-/* eslint no-var:0, id-length:0, func-names:0 */
-
 var path = require("path");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 var autoprefixer = require("autoprefixer");

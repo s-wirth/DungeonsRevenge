@@ -1,7 +1,7 @@
 let itemIdCounter = 0;
 
 export function makeHealingPotion(x, y) {
-  let id = itemIdCounter += 1;
+  const id = itemIdCounter += 1;
   return {
     id,
     type: "healingPotion",

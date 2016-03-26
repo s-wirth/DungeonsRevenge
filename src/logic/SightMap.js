@@ -1,17 +1,17 @@
 import Immutable from "immutable";
 
 export function makeSightMap(width, height, divisions = 8) {
-  let visibleTilesMatrix = new Immutable.Map();
-  let divisionWidth = width / divisions;
-  let divisionHeight = height / divisions;
+  const visibleTilesMatrix = new Immutable.Map();
+  const divisionWidth = width / divisions;
+  const divisionHeight = height / divisions;
 
   function divisionCoordinates(x, y) {
-    let divisionX = Math.floor(x / divisionWidth);
-    let divisionY = Math.floor(y / divisionHeight);
-    return [ divisionX, divisionY, x, y ];
+    const divisionX = Math.floor(x / divisionWidth);
+    const divisionY = Math.floor(y / divisionHeight);
+    return [divisionX, divisionY, x, y];
   }
 
-  let sightMap = {
+  const sightMap = {
     visibleTiles: visibleTilesMatrix,
 
     divisions,
@@ -21,9 +21,9 @@ export function makeSightMap(width, height, divisions = 8) {
     },
 
     getDivision(x, y) {
-      let divisionX = Math.floor(x / divisionWidth);
-      let divisionY = Math.floor(y / divisionHeight);
-      return sightMap.visibleTiles.getIn([ divisionX, divisionY ]);
+      const divisionX = Math.floor(x / divisionWidth);
+      const divisionY = Math.floor(y / divisionHeight);
+      return sightMap.visibleTiles.getIn([divisionX, divisionY]);
     },
 
     includes(x, y) {
@@ -31,7 +31,7 @@ export function makeSightMap(width, height, divisions = 8) {
     },
 
     combine(otherSightMap) {
-      let combinedSightMap = makeSightMap(width, height, divisions);
+      const combinedSightMap = makeSightMap(width, height, divisions);
       combinedSightMap.visibleTiles = sightMap.visibleTiles.mergeDeep(otherSightMap.visibleTiles);
       return combinedSightMap;
     },

@@ -2,8 +2,8 @@
 
 Welcome to Sophie's roguelike, Wirthslike. Feel free to change the name.
 
-![master build status](https://codeship.com/projects/aa8d5cc0-5d18-0133-84df-5e493a25d753/status?branch=master)
-![staging build status](https://codeship.com/projects/aa8d5cc0-5d18-0133-84df-5e493a25d753/status?branch=staging)
+* `master`: ![master build status](https://codeship.com/projects/aa8d5cc0-5d18-0133-84df-5e493a25d753/status?branch=master)
+* `staging`: ![staging build status](https://codeship.com/projects/aa8d5cc0-5d18-0133-84df-5e493a25d753/status?branch=staging)
 
 ## Setup
 

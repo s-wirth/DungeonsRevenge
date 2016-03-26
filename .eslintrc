@@ -1,9 +1,6 @@
 {
-  "extends": "airbnb/base",
+  "extends": "airbnb",
   "rules": {
     "quotes": [2, "double"],
-    "id-length": 0,
-    "prefer-const": 0,
-    "new-cap": 0,
   }
 }
