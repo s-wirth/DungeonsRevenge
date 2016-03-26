@@ -6,7 +6,7 @@ const MAX_INVENTORY_SIZE = 9;
 export function makeCreature({ x, y, type, baseDamage = 1, experienceLootOnKill = 1, maxHealth = 5,
   strength = 0, experience = 0, experienceNeeded = 5, sightRadius = 8 }) {
   const id = creatureIdCounter += 1;
-  return {
+  const creature = {
     id,
     type,
     x, y,
@@ -21,6 +21,19 @@ export function makeCreature({ x, y, type, baseDamage = 1, experienceLootOnKill 
     inventory: [],
     inventorySize: MAX_INVENTORY_SIZE,
   };
+
+  function increaseHealth(amount) {
+    creature.health += amount;
+    if (creature.health > creature.maxHealth) {
+      creature.health = creature.maxHealth;
+    }
+  }
+
+  Object.assign(creature, {
+    increaseHealth,
+  });
+
+  return creature;
 }
 
 function distanceBetween({ x: x1, y: y1 }, { x: x2, y: y2 }) {
