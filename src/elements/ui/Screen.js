@@ -1,14 +1,15 @@
 import React from "react";
 import "css/ui/Screen";
 
-export default function Screen({ children, onBackdropClick, focusable = true }) {
+export default function Screen({ children, onClick, onKeyPress, focusable = true }) {
   return (
     <div
-      className="Screen"
+      className="Screen flex-list flex-list--center-content"
       tabIndex={ focusable ? 0 : "" }
-      onClick={ onBackdropClick }
+      onClick={ onClick }
+      {...{ onKeyPress }}
     >
-      <div className="Screen__content">
+      <div className="Screen__content flex-list__item">
         { children }
       </div>
     </div>
@@ -21,5 +22,6 @@ Screen.propTypes = {
     React.PropTypes.arrayOf(React.PropTypes.element),
   ]),
   focusable: React.PropTypes.bool,
-  onBackdropClick: React.PropTypes.func,
+  onClick: React.PropTypes.func,
+  onKeyPress: React.PropTypes.func,
 };
