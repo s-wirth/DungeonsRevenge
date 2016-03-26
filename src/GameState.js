@@ -187,16 +187,9 @@ export function makeGameState() {
     items.splice(items.indexOf(item), 1);
   }
 
-  function activateItem(item, creature) {
-    if (item.type === "healingPotion") {
-      const potion = item;
-      creature.health += potion.healsOnConsume;
-      if (creature.health > creature.maxHealth) creature.health = creature.maxHealth;
-      creature.inventory.splice(creature.inventory.indexOf(item), 1);
-      gameState.emit("change");
-    } else {
-      throw new Error("Item type unknown");
-    }
+  function activateItem(item, activatingCreature) {
+    item.activate(activatingCreature);
+    gameState.emit("change");
   }
 
   function dropItem(item, creature) {
