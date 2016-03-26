@@ -70,7 +70,7 @@ export function bossLevel(id) {
   setInitialPlayerPosition(map, 1, 2);
   map.creatures = [
     makeCreature({
-      x: BOSS_MAP_WIDTH - 5, y: Math.floor(BOSS_MAP_HEIGHT / 2), type: "pestcontrol", baseDamage: 5,
+      x: BOSS_MAP_WIDTH - 5, y: Math.floor(BOSS_MAP_HEIGHT / 2), type: "pestcontrol", damage: 5,
       experienceLootOnKill: 20,
     }),
   ];

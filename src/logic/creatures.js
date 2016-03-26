@@ -3,18 +3,17 @@ import findPath from "logic/findPath";
 let creatureIdCounter = 0;
 const MAX_INVENTORY_SIZE = 9;
 
-export function makeCreature({ x, y, type, baseDamage = 1, experienceLootOnKill = 1, maxHealth = 5,
-  strength = 0, experience = 0, experienceNeeded = 5, sightRadius = 8 }) {
+export function makeCreature({ x, y, type, damage = 1, experienceLootOnKill = 1, maxHealth = 5,
+  experience = 0, experienceNeeded = 5, sightRadius = 8 }) {
   const id = creatureIdCounter += 1;
   const creature = {
     id,
     type,
     x, y,
     experienceLootOnKill,
-    strength,
     experience,
     experienceNeeded,
-    baseDamage,
+    damage,
     maxHealth,
     health: maxHealth,
     sightRadius,

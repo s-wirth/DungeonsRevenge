@@ -24,7 +24,7 @@ function renderPlayerStats(map, player) {
             <img src={ strengthIcon } width="16" height="16" />
           </div>
           <div className="flex-list__item">
-            { player.strength }
+            { Math.round(player.damage) }
           </div>
         </div>
       </div>

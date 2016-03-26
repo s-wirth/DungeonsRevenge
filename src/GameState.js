@@ -248,7 +248,7 @@ export function makeGameState() {
     },
 
     makeCreatureAttack(attacker, defender) {
-      const attackerActualDamage = attacker.baseDamage + attacker.strength;
+      const attackerActualDamage = attacker.damage;
 
       defender.health -= attackerActualDamage;
 
