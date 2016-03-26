@@ -49,18 +49,20 @@ export function makePlayer(x, y) {
     player.damage = averagePlayerDamageByWeapon(playerLevel);
   }
 
-  setLevel(INITIAL_PLAYER_LEVEL);
-  player.health = player.maxHealth;
+  function gainExperience(experience) {
+    player.experience += experience;
+    if (player.experience >= player.experienceNeeded) {
+      setLevel(player.level + 1);
+      player.experience = 0;
+    }
+  }
 
   Object.assign(player, {
-    gainExperience(experience) {
-      player.experience += experience;
-      if (player.experience >= player.experienceNeeded) {
-        setLevel(player.level + 1);
-        player.experience = 0;
-      }
-    },
+    gainExperience,
   });
+
+  setLevel(INITIAL_PLAYER_LEVEL);
+  player.health = player.maxHealth;
 
   return player;
 }
