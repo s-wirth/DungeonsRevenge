@@ -1,0 +1,122 @@
+@import "./variables";
+
+.InGameScreen {
+  height: 100%;
+  color: #d3d3d3;
+}
+
+$InGameScreen__InfoBar--height: 85px;
+.InGameScreen__Dungeon {
+  position: relative;
+  height: calc(100% - #{$InGameScreen__InfoBar--height});
+  overflow: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.InGameScreen__InfoBar {
+  height: $InGameScreen__InfoBar--height;
+}
+
+.creature {
+  width: $tile-width;
+  height: $tile-width;
+  text-align: center;
+  line-height: $tile-width;
+  font-weight: bold;
+  position: absolute;
+  transition: all 0.1s;
+}
+
+.player-creature {
+  background-image: url("../assets/sprites/protagonist-normal.png");
+}
+
+.enemy-creature {
+  background-image: url("../assets/sprites/knightForwards.png");
+}
+
+.pestcontrol-creature{
+  background-image: url("../assets/sprites/pestcontrol.png");
+}
+
+/*_________________________________*/
+.experienceNeeded {
+  background: #25453d;
+  width: 100%;
+  height: 10px;
+}
+
+.playerExperience {
+  height: 100%;
+  background: #00a08b;
+  transition: all 0.1s;
+}
+/*_________________________________*/
+
+.health, .playerHealth {
+  background: #ac0000;
+  width: 100%;
+}
+.playerHealth{
+  height: 10px;
+}
+
+.health {
+  position: absolute;
+  height: 2px;
+  top: -7px;
+}
+
+.health__remaining, .playerHealth__remaining {
+  height: 100%;
+  background-color: #499300;
+  transition: all 0.1s;
+}
+
+/*_________________________________*/
+
+.healingPotion {
+  width: $tile-width;
+  height: $tile-width;
+  position: absolute;
+  background-image: url("../assets/sprites/items/potion.png");
+}
+
+/*_________________________________*/
+
+.wall-tile,
+.door-tile,
+.floor-tile,
+.stairsDown-tile,
+.stairsUp-tile {
+  width: $tile-width;
+  height: $tile-width;
+  position: absolute;
+  &.fog-of-war {
+    opacity: 0.5;
+  }
+}
+
+.wall-tile {
+  background-image: url("../assets/textures/wall.png");
+}
+
+.door-tile {
+  background-image: url("../assets/sprites/door.png");
+}
+
+.floor-tile {
+  background-image: url("../assets/textures/floor.png");
+  background-position: 25% 75%;
+}
+
+.stairsDown-tile {
+  background-image: url("../assets/textures/stairsDown.png");
+  background-color: black;
+}
+.stairsUp-tile {
+  background-image: url("../assets/textures/stairsUp.png");
+  background-color: #a4a4a4;
+}

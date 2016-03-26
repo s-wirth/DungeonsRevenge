@@ -13,7 +13,7 @@ import {
   enterPreviousLevel,
   makeMap,
 } from "logic/levels";
-
+import findPath from "logic/findPath";
 
 export function makeGameState() {
   const gameState = new EventEmitter();
@@ -90,6 +90,62 @@ export function makeGameState() {
     return null;
   }
 
+  function updatePlayerPosition(destination) {
+    const { x: originalX, y: originalY } = gameState.player;
+    gameState.updateCreaturePosition(gameState.player, destination);
+
+    const playerDidntMove = originalX === gameState.player.x && gameState.player.y === originalY;
+    if (playerDidntMove) return;
+
+    gameState.allowCreaturesToAct();
+    updatePlayerSightMap();
+    gameState.emit("change");
+  }
+
+  let playerMoveTimeoutID;
+  function abortMovement() {
+    clearTimeout(playerMoveTimeoutID);
+    playerMoveTimeoutID = null;
+  }
+
+  function movePlayerTo({ x, y }) {
+    const STEP_INTERVAL = 200;
+
+    function queueNextStep(takeNextStep) {
+      playerMoveTimeoutID = setTimeout(() => {
+        abortMovement();
+        takeNextStep();
+      }, STEP_INTERVAL);
+    }
+
+    function movementInProgress() {
+      return !!playerMoveTimeoutID;
+    }
+
+    function takeStep() {
+      const player = gameState.player;
+      const path = findPath(player, { x, y }, gameState.isTilePassable);
+      const haveReachedDestination = player.x === x && player.y === y;
+      const canReachDestination = path.length > 0;
+
+      abortMovement();
+      if (haveReachedDestination || !canReachDestination) return;
+
+      const firstStepFromOrigin = path[path.length - 2];
+      const creatureAtDestination = getCreatureAt(firstStepFromOrigin.x, firstStepFromOrigin.y);
+      updatePlayerPosition(firstStepFromOrigin);
+      if (!creatureAtDestination) {
+        queueNextStep(takeStep);
+      }
+    }
+
+    if (movementInProgress()) {
+      abortMovement();
+    } else {
+      takeStep();
+    }
+  }
+
   Object.assign(gameState, {
     updateCreaturePosition(creature, destination) {
       /* eslint no-param-reassign:0 */
@@ -97,6 +153,12 @@ export function makeGameState() {
       const tileAtDestination = gameState.map.get(x, y);
 
       if (tileAtDestination && tileAtDestination.type === "wall") return;
+
+      const creatureAtDestination = getCreatureAt(destination.x, destination.y);
+      if (creatureAtDestination) {
+        gameState.makeCreatureAttack(creature, creatureAtDestination);
+        return;
+      }
 
       if (creature.type === "player") {
         if (tileAtDestination && tileAtDestination.type === "stairsUp") {
@@ -122,12 +184,6 @@ export function makeGameState() {
           if (player.health > player.maxHealth) player.health = player.maxHealth;
           gameState.map.potions.splice(gameState.map.potions.indexOf(itemAtDestination), 1);
         }
-      }
-
-      const creatureAtDestination = getCreatureAt(destination.x, destination.y);
-      if (creatureAtDestination) {
-        gameState.makeCreatureAttack(creature, creatureAtDestination);
-        return;
       }
 
       creature.x = x;
@@ -167,11 +223,11 @@ export function makeGameState() {
     },
 
     updatePlayerPosition(destination) {
-      gameState.updateCreaturePosition(gameState.player, destination);
-      gameState.allowCreaturesToAct();
-      updatePlayerSightMap();
-      gameState.emit("change");
+      abortMovement();
+      updatePlayerPosition(destination);
     },
+
+    movePlayerTo,
 
     skipPlayerTurn() {
       gameState.allowCreaturesToAct();
@@ -187,7 +243,7 @@ export function makeGameState() {
       });
     },
 
-    isTilePassable(x, y) {
+    isTilePassable({ x, y }) {
       const tile = gameState.map.get(x, y);
       return tile && tile.type !== "wall" && !getCreatureAt(x, y);
     },

@@ -1,9 +1,10 @@
 import React from "react";
 import crown from "assets/misc/crown.png";
+import "css/ScrollScreen";
 
 function WinningScreen() {
   return (
-    <div className="winningScreen">
+    <div className="ScrollScreen ScrollScreen--winningScreen">
       <img src={ crown } className="crownImg" />
       <h1>You Won</h1>
       <h3>This is where it ends. You brought glory to your "people".<br />

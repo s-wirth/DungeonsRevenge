@@ -1,4 +1,4 @@
-import ROT from "rot-js";
+import findPath from "logic/findPath";
 
 let creatureIdCounter = 0;
 
@@ -28,13 +28,6 @@ function distanceBetween({ x: x1, y: y1 }, { x: x2, y: y2 }) {
   return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 }
 
-function findPath(origin, destination, canPassFn) {
-  const pathfinder = new ROT.Path.Dijkstra(origin.x, origin.y, canPassFn, { topology: 4 });
-  const result = [];
-  pathfinder.compute(destination.x, destination.y, (x, y) => result.push({ x, y }));
-  return result;
-}
-
 export function makeCreatureAct(creature, gameState) {
   function canSeePlayer() {
     // We ignore obstacles between us and the player
@@ -53,12 +46,7 @@ export function makeCreatureAct(creature, gameState) {
 
   function moveTowardsPlayer() {
     const player = gameState.player;
-    const path = findPath(creature, player, (x, y) => {
-      if (x === creature.x && y === creature.y || x === player.x && y === player.y) {
-        return true;
-      }
-      return gameState.isTilePassable(x, y);
-    });
+    const path = findPath(creature, player, gameState.isTilePassable);
     if (path.length > 0) {
       const firstStepFromOrigin = path[path.length - 2];
       gameState.updateCreaturePosition(creature, firstStepFromOrigin);

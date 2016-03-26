@@ -1,0 +1,42 @@
+.ProgressBar {
+  width: 100%;
+  position: relative;
+}
+
+.ProgressBar--large {
+  height: 10px;
+
+  & > .ProgressBar__label {
+    line-height: 10px;
+  }
+}
+
+.ProgressBar--red {
+  background: #ac0000;
+}
+
+.ProgressBar--blue {
+  background: #25453d;
+}
+
+.ProgressBar__indicator {
+  height: 100%;
+  transition: all 0.1s;
+}
+
+.ProgressBar__indicator--green {
+  background-color: #499300;
+}
+
+.ProgressBar__indicatorBar--cyan {
+  background: #00a08b;
+}
+
+.ProgressBar__label {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  top: 0;
+  text-shadow: 0 0 2px 2px black;
+}
