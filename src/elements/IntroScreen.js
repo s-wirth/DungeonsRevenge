@@ -50,7 +50,7 @@ class IntroScreen extends React.Component {
         >
           <h1>Dungeon's Revenge</h1>
           <p>
-            You awake. The familiar stench of the dungeon surrounds you. Grime and detritus
+            You awaken. The familiar stench of the dungeon surrounds you. Grime and detritus
             litter the floor and critters scamper in the shadows.
           </p>
           <p>
