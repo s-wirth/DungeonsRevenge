@@ -172,13 +172,13 @@ export function makeGameState() {
   function addItemToInventory(item, creature) {
     if (creature.inventory.length === creature.inventorySize) {
       if (isPlayer(creature)) {
-        logMessage({ type: "danger", description: `You can't carry the ${item.type}` });
+        logMessage({ type: "danger", description: `You can't carry the ${item.name}` });
       }
       return;
     }
 
     if (isPlayer(creature)) {
-      logMessage({ type: "success", description: `You picked up the ${item.type}` });
+      logMessage({ type: "success", description: `You picked up the ${item.name}` });
     }
     const items = gameState.map.items;
     creature.inventory.push(item);
