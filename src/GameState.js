@@ -286,7 +286,7 @@ export function makeGameState() {
     },
 
     switchFromIntroToDungeon() {
-      gameState.introScreenShown = true;
+      gameState.introScreenVisible = false;
       logMessage({ description: "Welcome to Dungeon's Revenge" });
       gameState.emit("change");
     },
@@ -333,7 +333,7 @@ export function makeGameState() {
 
   function init() {
     gameState.log = makeLog();
-    gameState.introScreenShown = false;
+    gameState.introScreenVisible = true;
     gameState.inventoryScreenVisible = false;
     gameState.playerDeath = false;
     gameState.playerWon = false;

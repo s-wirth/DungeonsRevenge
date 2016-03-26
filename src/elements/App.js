@@ -25,7 +25,7 @@ class App extends React.Component {
       items: GameState.map.items,
       sightMap: GameState.map.sightMap,
       memorisedSightMap: GameState.map.memorisedSightMap,
-      introScreenShown: GameState.introScreenShown,
+      introScreenVisible: GameState.introScreenVisible,
       playerDeath: GameState.playerDeath,
       playerWon: GameState.playerWon,
       inventoryScreenVisible: GameState.inventoryScreenVisible,
@@ -35,11 +35,11 @@ class App extends React.Component {
 
   render() {
     const {
-      player, map, sightMap, memorisedSightMap, introScreenShown, playerDeath, playerWon, creatures,
-      items, inventoryScreenVisible, logMessages,
+      player, map, sightMap, memorisedSightMap, introScreenVisible, playerDeath, playerWon,
+      creatures, items, inventoryScreenVisible, logMessages,
     } = this.state;
 
-    if (!introScreenShown) {
+    if (introScreenVisible) {
       return (
         <IntroScreen switchFromIntroToDungeon={ GameState.switchFromIntroToDungeon } />
       );
