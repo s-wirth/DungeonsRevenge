@@ -6,6 +6,8 @@ import Mousetrap from "mousetrap";
 import classnames from "classnames";
 import UILink from "elements/UILink";
 import bindFunctions from "util/bindFunctions";
+import Screen from "elements/ui/Screen";
+import Dialog from "elements/ui/Dialog";
 
 function iconForItem(item) {
   if (item.type === "healingPotion") {
@@ -165,23 +167,11 @@ class InventoryScreen extends React.Component {
     const { activateItem, dropItem } = this;
 
     return (
-      <div className="InventoryScreen" tabIndex="0" onClick={ hideInventoryScreen }>
-        <div className="InventoryScreen__content">
-          <div className="flex-list flex-list--horizontal screen-header">
-            <h2 className="flex-list__item flex-list__item--expand screen-header__title">
-              Inventory
-            </h2>
-            <UILink
-              flatButton
-              className="flex-list__item"
-              onClick={ hideInventoryScreen }
-            >
-              ☓
-            </UILink>
-          </div>
+      <Screen onClick={ hideInventoryScreen }>
+        <Dialog title="Inventory" onClose={ hideInventoryScreen }>
           { renderItemList(inventory, highlightIndex, activateItem, dropItem) }
-        </div>
-      </div>
+        </Dialog>
+      </Screen>
     );
   }
 }
