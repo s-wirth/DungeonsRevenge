@@ -29,13 +29,14 @@ class App extends React.Component {
       playerDeath: GameState.playerDeath,
       playerWon: GameState.playerWon,
       inventoryScreenVisible: GameState.inventoryScreenVisible,
+      logMessages: GameState.log.getMessages(),
     });
   }
 
   render() {
     const {
       player, map, sightMap, memorisedSightMap, introScreenShown, playerDeath, playerWon, creatures,
-      items, inventoryScreenVisible,
+      items, inventoryScreenVisible, logMessages,
     } = this.state;
 
     if (!introScreenShown) {
@@ -73,6 +74,7 @@ class App extends React.Component {
         skipPlayerTurn={ GameState.skipPlayerTurn }
         showInventoryScreen={ GameState.showInventoryScreen }
         updatePlayerPosition={ GameState.updatePlayerPosition }
+        logMessages={ logMessages }
       />
     );
   }

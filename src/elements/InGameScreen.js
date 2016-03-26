@@ -5,6 +5,7 @@ import "css/InGameScreen";
 import Tween from "gsap";
 import InfoBar from "elements/InGameScreen/InfoBar";
 import Mousetrap from "mousetrap";
+import Log from "elements/Log";
 
 // This has to match the tile width in the CSS
 const TILE_WIDTH = 16;
@@ -184,17 +185,35 @@ class InGameScreen extends React.Component {
   render() {
     const {
       creatures, sightMap, memorisedSightMap, items, map, player, movePlayerTo, skipPlayerTurn,
-      showInventoryScreen,
+      showInventoryScreen, logMessages,
     } = this.props;
     return (
-      <div className="InGameScreen" tabIndex="0">
-        <div className="InGameScreen__Dungeon" ref="scrollableContainer">
-          <Dungeon {...{ map, sightMap, memorisedSightMap, movePlayerTo }} />
-          { renderItems(items, sightMap) }
-          { renderPlayer(player, map.id, sightMap, skipPlayerTurn) }
-          { renderCreatures(creatures, sightMap, movePlayerTo) }
+      <div className="InGameScreen flex-list flex-list--vertical flex-list--gutters" tabIndex="0">
+        <div
+          className="InGameScreen__main-area flex-list__item flex-list__item--expand flex-list__item--expand-cross
+            flex-list__item--clip"
+          style={{ position: "relative" }}
+        >
+          <Log
+            className="InGameScreen__Log"
+            messages={ logMessages }
+          />
+
+          <div
+            className="InGameScreen__scrollable-container"
+            ref="scrollableContainer"
+          >
+            <Dungeon {...{ map, sightMap, memorisedSightMap, movePlayerTo }} />
+            { renderItems(items, sightMap) }
+            { renderPlayer(player, map.id, sightMap, skipPlayerTurn) }
+            { renderCreatures(creatures, sightMap, movePlayerTo) }
+          </div>
         </div>
-        <InfoBar className="InGameScreen__InfoBar" {...{ map, player, showInventoryScreen }} />
+
+        <InfoBar
+          className="flex-list__item flex-list__item--expand-cross"
+          {...{ map, player, showInventoryScreen }}
+        />
       </div>
     );
   }
@@ -211,6 +230,7 @@ InGameScreen.propTypes = {
   updatePlayerPosition: React.PropTypes.func.isRequired,
   skipPlayerTurn: React.PropTypes.func.isRequired,
   showInventoryScreen: React.PropTypes.func.isRequired,
+  logMessages: React.PropTypes.object.isRequired,
 };
 
 export default InGameScreen;
