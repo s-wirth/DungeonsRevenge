@@ -37,10 +37,7 @@ function averagePlayerDamageByWeapon(dungeonLevel) {
 }
 
 export function makePlayer(x, y) {
-  const player = makeCreature({
-    x, y, type: "player", damage: 3, maxHealth: 0,
-    sightRadius: 5,
-  });
+  const player = makeCreature("player", { x, y });
 
   function setLevel(playerLevel) {
     player.level = playerLevel;

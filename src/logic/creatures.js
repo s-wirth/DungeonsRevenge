@@ -3,23 +3,60 @@ import findPath from "logic/findPath";
 let creatureIdCounter = 0;
 const MAX_INVENTORY_SIZE = 9;
 
-export function makeCreature({ x, y, type, damage = 1, experienceLootOnKill = 1, maxHealth = 5,
-  experience = 0, experienceNeeded = 5, sightRadius = 8 }) {
+const CREATURE_TYPES = {
+  player: {
+    damage: 3,
+    maxHealth: 0,
+    sightRadius: 5,
+    experience: 0,
+  },
+  mutantRat: {
+    experienceLootOnKill: 2.78,
+    maxHealth: 2,
+    damage: 0.68,
+    sightRadius: 8,
+    typeName: "Mutant Rat",
+    description: `Rats that are abnormally big and agressive, due to the magical waste flushed down
+      the sewer.`,
+  },
+  minion: {
+    experienceLootOnKill: 5.52,
+    maxHealth: 3.12,
+    damage: 2.50,
+    sightRadius: 8,
+    typeName: "Minion",
+    description: "Footsoldiers from the surface sent to control the denizens of the dungeon.",
+  },
+  pestcontrol: {
+    experienceLootOnKill: 100,
+    maxHealth: 24.19,
+    damage: 8.98,
+    sightRadius: 8,
+    typeName: "Pest Control",
+    description: "The Pest Control is a huge man in armor with a morning star.",
+  },
+};
+
+function annotateTypes(types) {
+  Object.keys(types).forEach((typeName) => {
+    const typeObject = types[typeName];
+    typeObject.type = typeName;
+  });
+}
+annotateTypes(CREATURE_TYPES);
+
+export function makeCreature(type, { x, y }) {
   const id = creatureIdCounter += 1;
-  const creature = {
+  const creatureType = CREATURE_TYPES[type];
+
+  const creature = Object.assign(Object.create(creatureType), {
     id,
     type,
     x, y,
-    experienceLootOnKill,
-    experience,
-    experienceNeeded,
-    damage,
-    maxHealth,
-    health: maxHealth,
-    sightRadius,
+    health: creatureType.maxHealth,
     inventory: [],
     inventorySize: MAX_INVENTORY_SIZE,
-  };
+  });
 
   function increaseHealth(amount) {
     creature.health += amount;

@@ -254,21 +254,21 @@ export function makeGameState() {
 
       if (defender.health <= 0) {
         if (defender.type === "player") {
-          logMessage({ type: "danger", description: `You were killed by a ${attacker.type}` });
+          logMessage({ type: "danger", description: `You were killed by a ${attacker.typeName}` });
           gameState.visibleScreen = "death";
         } else if (defender.type === "pestcontrol") {
           logMessage({ type: "success", description: "Congratulations, you win!" });
           gameState.visibleScreen = "win";
         } else if (isPlayer(attacker)) {
-          logMessage({ type: "success", description: `You killed the ${defender.type}` });
+          logMessage({ type: "success", description: `You killed the ${defender.typeName}` });
           gameState.player.gainExperience(defender.experienceLootOnKill);
           gameState.map.creatures.splice(gameState.map.creatures.indexOf(defender), 1);
         }
       } else {
         if (defender.type === "player") {
-          logMessage({ type: "danger", description: `The ${attacker.type} hit you!` });
+          logMessage({ type: "danger", description: `The ${attacker.typeName} hit you!` });
         } else if (attacker.type === "player") {
-          logMessage({ type: "danger", description: `You hit the ${defender.type}` });
+          logMessage({ type: "danger", description: `You hit the ${defender.typeName}` });
         }
       }
       gameState.emit("change");
