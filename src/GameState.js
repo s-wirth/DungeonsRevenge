@@ -104,15 +104,9 @@ export function makeGameState() {
   }
 
   function updatePlayerPosition(destination) {
-    const { x: originalX, y: originalY } = gameState.player;
-
     gameState.updateCreaturePosition(gameState.player, destination);
+    updatePlayerSightMap();
     gameState.allowCreaturesToAct();
-
-    const playerMoved = originalX !== gameState.player.x || gameState.player.y !== originalY;
-    if (playerMoved) {
-      updatePlayerSightMap();
-    }
 
     gameState.emit("change");
   }
