@@ -2,10 +2,10 @@ import SewerLevel from "logic/levels/SewerLevel";
 import PestControlLevel from "logic/levels/PestControlLevel";
 
 const LEVELS = [
-  SewerLevel.props({ rats: 1.0, minions: 0.0 }),
-  SewerLevel.props({ rats: 0.8, minions: 0.2 }),
-  SewerLevel.props({ rats: 0.5, minions: 0.5 }),
-  SewerLevel.props({ rats: 0.2, minions: 0.8 }),
+  SewerLevel.props({ rats: 1.0, minions: 0.0, numberOfHealingPotions: 1 }),
+  SewerLevel.props({ rats: 0.8, minions: 0.2, numberOfHealingPotions: 1 }),
+  SewerLevel.props({ rats: 0.5, minions: 0.5, numberOfHealingPotions: 1 }),
+  SewerLevel.props({ rats: 0.2, minions: 0.8, numberOfHealingPotions: 2 }),
   PestControlLevel,
 ];
 

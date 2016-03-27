@@ -54,17 +54,13 @@ const SewerLevel = Map.compose(stampit({
       }
     }
 
-    function healingItemsOnLevel(rooms) {
-      const amount = Math.floor(Math.random() * 2) + 1;
-      const potions = [];
-      for (let i = 0; i <= amount; i++) {
+    function spawnHealingPotions(rooms, number) {
+      for (let i = 0; i < number; i++) {
         const randomRoom = Math.floor(Math.random() * rooms.length);
         const position = randomPositionIn(rooms[randomRoom]);
-        potions.push(makeItem("healingPotion", { x: position[0], y: position[1] }));
+        const potion = makeItem("healingPotion", { x: position[0], y: position[1] });
+        map.addItem(potion);
       }
-      const position = randomPositionIn(rooms[0]);
-      potions.push(makeItem("healingPotion", { x: position[0], y: position[1] }));
-      map.items = potions;
     }
 
     const rotMap = new ROT.Map.Digger(MAP_WIDTH, MAP_HEIGHT, {
@@ -91,7 +87,7 @@ const SewerLevel = Map.compose(stampit({
 
     map.setInitialPlayerPosition(rooms[0].getCenter()[0], rooms[0].getCenter()[1]);
     getDoors(rooms);
-    healingItemsOnLevel(rooms);
+    spawnHealingPotions(rooms, map.numberOfHealingPotions);
 
     spawnEnemies(rooms, map.rats, map.minions);
   },

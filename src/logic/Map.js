@@ -36,6 +36,14 @@ const Map = NoThis.compose(stampit({
       self.creatures.splice(self.creatures.indexOf(creature), 1);
     },
 
+    addItem(self, item) {
+      self.items.push(item);
+    },
+
+    removeItem(self, item) {
+      self.items.splice(self.items.indexOf(item), 1);
+    },
+
     setTile(self, type, { x, y }) {
       self.tiles.set(x, y, {
         type,
