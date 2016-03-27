@@ -36,6 +36,15 @@ const Map = NoThis.compose(stampit({
       self.creatures.splice(self.creatures.indexOf(creature), 1);
     },
 
+    getCreatureAt(self, { x, y }) {
+      const creatures = self.creatures;
+      for (let i = 0; i < creatures.length; i++) {
+        const creature = creatures[i];
+        if (creature.x === x && creature.y === y) return creatures[i];
+      }
+      return null;
+    },
+
     addItem(self, item) {
       self.items.push(item);
     },

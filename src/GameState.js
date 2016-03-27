@@ -92,15 +92,6 @@ export function makeGameState() {
     map.memorisedSightMap = map.memorisedSightMap.combine(map.sightMap);
   }
 
-  function getCreatureAt(x, y) {
-    const creatures = gameState.map.creatures;
-    for (let i = 0; i < creatures.length; i++) {
-      const creature = creatures[i];
-      if (creature.x === x && creature.y === y) return creatures[i];
-    }
-    return null;
-  }
-
   function itemAtPosition(x, y) {
     const items = gameState.map.items;
     if (items) {
@@ -151,12 +142,13 @@ export function makeGameState() {
       const path = findPath(player, { x, y }, gameState.isTilePassable);
       const haveReachedDestination = player.x === x && player.y === y;
       const canReachDestination = path.length > 0;
+      const map = gameState.map;
 
       abortMovement();
       if (haveReachedDestination || !canReachDestination) return;
 
       const firstStepFromOrigin = path[path.length - 2];
-      const creatureAtDestination = getCreatureAt(firstStepFromOrigin.x, firstStepFromOrigin.y);
+      const creatureAtDestination = map.getCreatureAt(firstStepFromOrigin);
       updatePlayerPosition(firstStepFromOrigin);
       if (!creatureAtDestination) {
         queueNextStep(takeStep);
@@ -207,7 +199,7 @@ export function makeGameState() {
 
       if (tileAtDestination && tileAtDestination.type === "wall") return;
 
-      const creatureAtDestination = getCreatureAt(destination.x, destination.y);
+      const creatureAtDestination = gameState.map.getCreatureAt(destination);
       if (creatureAtDestination) {
         gameState.makeCreatureAttack(creature, creatureAtDestination);
         return;
@@ -296,8 +288,9 @@ export function makeGameState() {
     },
 
     isTilePassable({ x, y }) {
-      const tile = gameState.map.tiles.get(x, y);
-      return tile && tile.type !== "wall" && !getCreatureAt(x, y);
+      const map = gameState.map;
+      const tile = map.tiles.get(x, y);
+      return tile && tile.type !== "wall" && !map.getCreatureAt({ x, y });
     },
 
     showInventoryScreen() {
