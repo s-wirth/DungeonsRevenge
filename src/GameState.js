@@ -187,7 +187,6 @@ export function makeGameState() {
 
   Object.assign(gameState, {
     updateCreaturePosition(creature, destination) {
-      /* eslint no-param-reassign:0 */
       const { x, y } = _.defaults(destination, creature);
       const tileAtDestination = gameState.map.tiles.get(x, y);
 
