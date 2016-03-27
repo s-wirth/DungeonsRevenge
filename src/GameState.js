@@ -242,7 +242,6 @@ export function makeGameState() {
         } else if (isPlayer(attacker)) {
           logMessage({ type: "success", description: `You killed the ${defender.typeName}` });
           gameState.player.gainExperience(defender.experienceLootOnKill);
-          gameState.map.creatures.splice(gameState.map.creatures.indexOf(defender), 1);
         }
         gameState.map.creatures.splice(gameState.map.creatures.indexOf(defender), 1);
       } else {
