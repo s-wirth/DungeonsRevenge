@@ -28,6 +28,10 @@ class IntroScreen extends React.Component {
     }, 0);
   }
 
+  componentWillUnmount() {
+    this.stopAutoScrolling();
+  }
+
   closeScreen() {
     const { switchFromIntroToDungeon } = this.props;
     switchFromIntroToDungeon();
