@@ -5,6 +5,8 @@ import {
   makeCreature,
 } from "logic/creatures";
 import stampit from "stampit";
+import samePosition from "util/samePosition";
+import positionArrayToObject from "util/positionArrayToObject";
 
 const MAP_WIDTH = 80;
 const MAP_HEIGHT = 40;
@@ -31,12 +33,11 @@ const SewerLevel = Map.compose(stampit({
       };
     }
 
-    function positionIsUnoccupied({ x, y }) {
-      if (map.stairsDownPosition && x === map.stairsDownPosition.x && map.stairsDownPosition.y) {
-        return true;
-      }
-      return (x === map.stairsUpPosition.x && y === map.stairsUpPosition.y) ||
-        !map.getCreatureAt({ x, y });
+    function positionIsOccupied(position) {
+      return samePosition(position, map.stairsDownPosition) ||
+        samePosition(position, map.stairsUpPosition) ||
+        samePosition(position, map.initialPlayerPosition) ||
+        map.getCreatureAt(position);
     }
 
     function unoccupiedPositionIn(room) {
@@ -44,7 +45,7 @@ const SewerLevel = Map.compose(stampit({
 
       for (let attempts = 0; attempts < MAX_ATTEMPTS; attempts++) {
         const position = randomPositionIn(room);
-        if (positionIsUnoccupied(position)) {
+        if (!positionIsOccupied(position)) {
           return position;
         }
       }
