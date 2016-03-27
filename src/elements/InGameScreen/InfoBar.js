@@ -21,6 +21,15 @@ function renderPlayerStats(map, player) {
 
         <div className="flex-list__item flex-list flex-list--horizontal flex-list--small-gutters">
           <div className="flex-list__item">
+            LVL
+          </div>
+          <div className="flex-list__item">
+            { player.level }
+          </div>
+        </div>
+
+        <div className="flex-list__item flex-list flex-list--horizontal flex-list--small-gutters">
+          <div className="flex-list__item">
             <img src={ strengthIcon } width="16" height="16" />
           </div>
           <div className="flex-list__item">
