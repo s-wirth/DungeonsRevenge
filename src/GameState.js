@@ -183,7 +183,7 @@ export function makeGameState() {
       logMessage({ type: "success", description: `You picked up the ${item.typeName}` });
     }
     const items = gameState.map.items;
-    creature.inventory.push(item);
+    creature.addToInventory(item);
     items.splice(items.indexOf(item), 1);
   }
 
@@ -193,7 +193,7 @@ export function makeGameState() {
   }
 
   function dropItem(item, creature) {
-    creature.inventory.splice(creature.inventory.indexOf(item), 1);
+    creature.removeFromInventory(item);
     item.x = creature.x;
     item.y = creature.y;
     gameState.map.items.push(item);

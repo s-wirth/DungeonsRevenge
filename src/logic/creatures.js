@@ -69,9 +69,14 @@ export function makeCreature(type, { x, y }) {
     creature.inventory.splice(creature.inventory.indexOf(item), 1);
   }
 
+  function addToInventory(item) {
+    creature.inventory.push(item);
+  }
+
   Object.assign(creature, {
     increaseHealth,
     removeFromInventory,
+    addToInventory,
   });
 
   return creature;
