@@ -1,3 +1,5 @@
+@import "./variables";
+
 html {
   box-sizing: border-box;
 }
@@ -21,10 +23,48 @@ body {
 
 html, body, .root {
   height: 100%;
+  overflow: hidden;
 }
 
 /*_________________________________*/
 
 h1 {
   margin-top: 0;
+}
+
+h2 {
+  margin: 0;
+}
+
+a {
+
+}
+
+img {
+  image-rendering: pixelated;
+}
+
+.screen-header {
+  border-bottom: $border--default;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.screen-header__title {
+  padding-left: 10px;
+  color: $text-color--heading;
+  font-weight: normal;
+}
+
+.ui-list {
+  line-height: 32px;
+  padding: 0;
+  margin: 0;
+}
+
+.ui-list__icon {
+  width: 32px;
+  height: 32px;
+  vertical-align: middle;
+  text-align: center;
 }

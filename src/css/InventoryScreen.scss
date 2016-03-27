@@ -1,0 +1,30 @@
+@import "./variables";
+
+.InventoryScreen {
+  outline: none;
+}
+
+.InventoryScreen__content {
+  border: $border--default;
+  background: $background--uiDefault;
+  max-width: $max-mobile-width;
+  max-height: 100%;
+  margin: 10px auto;
+  overflow: auto;
+  color: #d3d3d3;
+}
+
+.ui-list__emptyMessage {
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: center;
+}
+
+.ItemList__item--highlighted {
+  background: $background--uiHighlighted;
+  color: $text-color--uiHighlighted;
+
+  > .UILink {
+    color: $text-color--uiLinkHighlighted;
+  }
+}

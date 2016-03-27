@@ -1,6 +1,7 @@
 import findPath from "logic/findPath";
 
 let creatureIdCounter = 0;
+const MAX_INVENTORY_SIZE = 9;
 
 export function makeCreature(x, y, type, baseDamage = 1, experienceLootOnKill = 1, maxHealth = 5,
   strength = 0, experience = 0, experienceNeeded = 5, sightRadius = 8) {
@@ -17,6 +18,8 @@ export function makeCreature(x, y, type, baseDamage = 1, experienceLootOnKill = 
     maxHealth,
     health: maxHealth,
     sightRadius,
+    inventory: [],
+    inventorySize: MAX_INVENTORY_SIZE,
   };
 }
 

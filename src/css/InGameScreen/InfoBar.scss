@@ -1,4 +1,5 @@
 @import "../ProgressBar";
+@import "../variables";
 
 .InfoBar {
 
@@ -6,10 +7,10 @@
 
 .InfoBar__container {
   height: 100%;
-  max-width: 320px;
+  max-width: $max-mobile-width;
   padding: 10px;
-  background: #111111;
-  border: 1px solid #2d2d2d;
+  background: $background--uiDefault;
+  border: $border--default;
   margin: 0 auto;
   overflow: hidden;
 }

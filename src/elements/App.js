@@ -4,6 +4,7 @@ import IntroScreen from "elements/IntroScreen";
 import DeathScreen from "elements/DeathScreen";
 import WinningScreen from "elements/WinningScreen";
 import InGameScreen from "elements/InGameScreen";
+import InventoryScreen from "elements/InventoryScreen";
 
 class App extends React.Component {
   constructor(props) {
@@ -21,19 +22,20 @@ class App extends React.Component {
       player: GameState.player,
       map: GameState.map,
       creatures: GameState.map.creatures,
-      potions: GameState.map.potions,
+      items: GameState.map.items,
       sightMap: GameState.map.sightMap,
       memorisedSightMap: GameState.map.memorisedSightMap,
       introScreenShown: GameState.introScreenShown,
       playerDeath: GameState.playerDeath,
       playerWon: GameState.playerWon,
+      inventoryScreenVisible: GameState.inventoryScreenVisible,
     });
   }
 
   render() {
     const {
       player, map, sightMap, memorisedSightMap, introScreenShown, playerDeath, playerWon, creatures,
-      potions,
+      items, inventoryScreenVisible,
     } = this.state;
 
     if (!introScreenShown) {
@@ -48,6 +50,16 @@ class App extends React.Component {
       return (
         <WinningScreen />
       );
+    } else if (inventoryScreenVisible) {
+      return (
+        <InventoryScreen
+          hideInventoryScreen={ GameState.hideInventoryScreen }
+          inventory={ player.inventory }
+          inventorySize={ player.inventorySize }
+          activateItem={ function activateItem(item) { GameState.activateItem(item, player); } }
+          dropItem={ function dropItem(item) { GameState.dropItem(item, player); } }
+        />
+      );
     }
     return (
       <InGameScreen
@@ -56,9 +68,11 @@ class App extends React.Component {
         memorisedSightMap={ memorisedSightMap }
         player={ player }
         creatures={ creatures }
-        potions={ potions }
+        items={ items }
         movePlayerTo={ GameState.movePlayerTo }
-        skipTurn={ GameState.skipPlayerTurn }
+        skipPlayerTurn={ GameState.skipPlayerTurn }
+        showInventoryScreen={ GameState.showInventoryScreen }
+        updatePlayerPosition={ GameState.updatePlayerPosition }
       />
     );
   }

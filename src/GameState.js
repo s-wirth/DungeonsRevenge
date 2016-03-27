@@ -19,8 +19,8 @@ export function makeGameState() {
   const gameState = new EventEmitter();
 
   gameState.introScreenShown = false;
+  gameState.inventoryScreenVisible = false;
   gameState.playerDeath = false;
-
   gameState.playerWon = false;
 
   gameState.map = makeMap();
@@ -80,11 +80,11 @@ export function makeGameState() {
   }
 
   function itemAtPosition(x, y) {
-    const potions = gameState.map.potions;
-    if (potions) {
-      for (let i = 0; i < potions.length; i++) {
-        const potion = potions[i];
-        if (potion.x === x && potion.y === y) return potions[i];
+    const items = gameState.map.items;
+    if (items) {
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        if (item.x === x && item.y === y) return items[i];
       }
     }
     return null;
@@ -146,6 +146,35 @@ export function makeGameState() {
     }
   }
 
+  function addItemToInventory(item, creature) {
+    if (creature.inventory.length === creature.inventorySize) {
+      throw new Error("Inventory is full");
+    }
+    const items = gameState.map.items;
+    creature.inventory.push(item);
+    items.splice(items.indexOf(item), 1);
+  }
+
+  function activateItem(item, creature) {
+    if (item.type === "healingPotion") {
+      const potion = item;
+      creature.health += potion.healsOnConsume;
+      if (creature.health > creature.maxHealth) creature.health = creature.maxHealth;
+      creature.inventory.splice(creature.inventory.indexOf(item), 1);
+      gameState.emit("change");
+    } else {
+      throw new Error("Item type unknown");
+    }
+  }
+
+  function dropItem(item, creature) {
+    creature.inventory.splice(creature.inventory.indexOf(item), 1);
+    item.x = creature.x;
+    item.y = creature.y;
+    gameState.map.items.push(item);
+    gameState.emit("change");
+  }
+
   Object.assign(gameState, {
     updateCreaturePosition(creature, destination) {
       /* eslint no-param-reassign:0 */
@@ -179,10 +208,8 @@ export function makeGameState() {
         }
         const itemAtDestination = itemAtPosition(x, y);
         const player = gameState.player;
-        if (itemAtDestination && (player.health !== player.maxHealth)) {
-          player.health += itemAtDestination.healsOnConsume;
-          if (player.health > player.maxHealth) player.health = player.maxHealth;
-          gameState.map.potions.splice(gameState.map.potions.indexOf(itemAtDestination), 1);
+        if (itemAtDestination) {
+          addItemToInventory(itemAtDestination, player);
         }
       }
 
@@ -213,8 +240,8 @@ export function makeGameState() {
           gameState.calculateExperienceAndStrength(defender.experienceLootOnKill);
           gameState.map.creatures.splice(gameState.map.creatures.indexOf(defender), 1);
         }
-        gameState.emit("change");
       }
+      gameState.emit("change");
     },
 
     switchFromIntroToDungeon() {
@@ -247,6 +274,19 @@ export function makeGameState() {
       const tile = gameState.map.get(x, y);
       return tile && tile.type !== "wall" && !getCreatureAt(x, y);
     },
+
+    showInventoryScreen() {
+      gameState.inventoryScreenVisible = true;
+      gameState.emit("change");
+    },
+
+    hideInventoryScreen() {
+      gameState.inventoryScreenVisible = false;
+      gameState.emit("change");
+    },
+
+    activateItem,
+    dropItem,
   });
 
   return gameState;

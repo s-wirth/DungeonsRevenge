@@ -1,8 +1,10 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import Dungeon from "elements/Dungeon";
 import "css/InGameScreen";
 import Tween from "gsap";
 import InfoBar from "elements/InGameScreen/InfoBar";
+import Mousetrap from "mousetrap";
 
 // This has to match the tile width in the CSS
 const TILE_WIDTH = 16;
@@ -52,7 +54,7 @@ function renderCreatures(creatures, sightMap, movePlayerTo) {
     if (creature.type !== "player" && sightMap.includes(creature.x, creature.y)) {
       return (
         <Creature
-          key={`creature-${creature.id}`}
+          key={`creature creature-${creature.id}`}
           creature={ creature }
           onClick={ movePlayerTo }
           showHealthBar
@@ -63,25 +65,25 @@ function renderCreatures(creatures, sightMap, movePlayerTo) {
   });
 }
 
-function renderPlayer(player, level, sightMap, skipTurn) {
+function renderPlayer(player, level, sightMap, skipPlayerTurn) {
   return (
     <Creature
-      key={ `player-${level}` }
+      key={ `creature player-${level}` }
       creature={ player }
-      onClick={ skipTurn }
+      onClick={ skipPlayerTurn }
     />
   );
 }
 
-function renderHealingPotions(potions, sightMap) {
-  if (!potions) return null;
-  return potions.map((potion) => {
-    if (sightMap.includes(potion.x, potion.y)) {
+function renderItems(items, sightMap) {
+  if (!items) return null;
+  return items.map((item) => {
+    if (sightMap.includes(item.x, item.y)) {
       return (
         <div
-          className="healingPotion"
-          key={`${potion.id}`}
-          style={{ left: potion.x * TILE_WIDTH, top: potion.y * TILE_WIDTH }}
+          className={ `item ${item.type}` }
+          key={`${item.id}`}
+          style={{ left: item.x * TILE_WIDTH, top: item.y * TILE_WIDTH }}
         >
         </div>
       );
@@ -93,10 +95,64 @@ function renderHealingPotions(potions, sightMap) {
 class InGameScreen extends React.Component {
   componentDidMount() {
     this.scrollPlayerIntoView({ animate: false });
+    this.bindControls();
+    ReactDOM.findDOMNode(this).focus();
   }
 
   componentDidUpdate() {
-    this.scrollPlayerIntoView();
+    setTimeout(() => {
+      this.scrollPlayerIntoView();
+    }, 100);
+  }
+
+  componentWillUnmount() {
+    this.unbindControls();
+  }
+
+  bindControls() {
+    const domNode = ReactDOM.findDOMNode(this);
+    this.mousetrap = Mousetrap(domNode);
+    this.mousetrap.bind(["up", "k"], (event) => {
+      event.preventDefault();
+      this.props.updatePlayerPosition({
+        y: this.props.player.y - 1,
+      });
+    });
+
+    this.mousetrap.bind(["right", "l"], (event) => {
+      event.preventDefault();
+      this.props.updatePlayerPosition({
+        x: this.props.player.x + 1,
+      });
+    });
+
+    this.mousetrap.bind(["down", "j"], (event) => {
+      event.preventDefault();
+      this.props.updatePlayerPosition({
+        y: this.props.player.y + 1,
+      });
+    });
+
+    this.mousetrap.bind(["left", "h"], (event) => {
+      event.preventDefault();
+      this.props.updatePlayerPosition({
+        x: this.props.player.x - 1,
+      });
+    });
+
+    this.mousetrap.bind(".", (event) => {
+      event.preventDefault();
+      this.props.skipPlayerTurn();
+    });
+
+    this.mousetrap.bind("i", (event) => {
+      event.preventDefault();
+      this.props.showInventoryScreen();
+    });
+  }
+
+  unbindControls() {
+    this.mousetrap.reset();
   }
 
   scrollPlayerIntoView({ animate } = { animate: true }) {
@@ -104,39 +160,41 @@ class InGameScreen extends React.Component {
     const container = this.refs.scrollableContainer;
     const playerLeftOffset = player.x * TILE_WIDTH;
     const playerTopOffset = player.y * TILE_WIDTH;
-    setTimeout(() => {
-      let scrollTop = playerTopOffset - (container.clientHeight / 2);
-      const scrollTopMax = container.scrollHeight - container.clientHeight;
-      if (scrollTop < 0) scrollTop = 0;
-      if (scrollTop > scrollTopMax) scrollTop = scrollTopMax;
 
-      let scrollLeft = playerLeftOffset - (container.clientWidth / 2);
-      const scrollLeftMax = container.scrollWidth - container.clientWidth;
-      if (scrollLeft < 0) scrollLeft = 0;
-      if (scrollLeft > scrollLeftMax) scrollLeft = scrollLeftMax;
+    let scrollTop = playerTopOffset - (container.clientHeight / 2);
+    const scrollTopMax = container.scrollHeight - container.clientHeight;
 
-      if (animate) {
-        Tween.to(container, 1.0, { scrollTop, scrollLeft });
-      } else {
-        container.scrollTop = scrollTop;
-        container.scrollLeft = scrollLeft;
-      }
-    }, 100);
+    if (scrollTop < 0) scrollTop = 0;
+    if (scrollTop > scrollTopMax) scrollTop = scrollTopMax;
+
+    let scrollLeft = playerLeftOffset - (container.clientWidth / 2);
+    const scrollLeftMax = container.scrollWidth - container.clientWidth;
+
+    if (scrollLeft < 0) scrollLeft = 0;
+    if (scrollLeft > scrollLeftMax) scrollLeft = scrollLeftMax;
+
+    if (animate) {
+      Tween.to(container, 1.0, { scrollTop, scrollLeft });
+    } else {
+      container.scrollTop = scrollTop;
+      container.scrollLeft = scrollLeft;
+    }
   }
 
   render() {
     const {
-      creatures, sightMap, memorisedSightMap, potions, map, player, movePlayerTo, skipTurn,
+      creatures, sightMap, memorisedSightMap, items, map, player, movePlayerTo, skipPlayerTurn,
+      showInventoryScreen,
     } = this.props;
     return (
-      <div className="InGameScreen">
+      <div className="InGameScreen" tabIndex="0">
         <div className="InGameScreen__Dungeon" ref="scrollableContainer">
           <Dungeon {...{ map, sightMap, memorisedSightMap, movePlayerTo }} />
-          { renderHealingPotions(potions, sightMap) }
-          { renderPlayer(player, map.id, sightMap, skipTurn) }
+          { renderItems(items, sightMap) }
+          { renderPlayer(player, map.id, sightMap, skipPlayerTurn) }
           { renderCreatures(creatures, sightMap, movePlayerTo) }
         </div>
-        <InfoBar className="InGameScreen__InfoBar" {...{ map, player }} />
+        <InfoBar className="InGameScreen__InfoBar" {...{ map, player, showInventoryScreen }} />
       </div>
     );
   }
@@ -146,11 +204,13 @@ InGameScreen.propTypes = {
   creatures: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
   sightMap: React.PropTypes.object.isRequired,
   memorisedSightMap: React.PropTypes.object.isRequired,
-  potions: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+  items: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
   map: React.PropTypes.object.isRequired,
   player: React.PropTypes.object.isRequired,
   movePlayerTo: React.PropTypes.func.isRequired,
-  skipTurn: React.PropTypes.func.isRequired,
+  updatePlayerPosition: React.PropTypes.func.isRequired,
+  skipPlayerTurn: React.PropTypes.func.isRequired,
+  showInventoryScreen: React.PropTypes.func.isRequired,
 };
 
 export default InGameScreen;
