@@ -32,11 +32,24 @@
   overflow: auto;
 }
 
+.flex-list__item--clip {
+  min-height: 0;
+  overflow: hidden;
+}
+
 .flex-list--horizontal.flex-list--gutters > .flex-list__item {
   padding-left: 16px;
 
   &:first-child {
     padding-left: 0;
+  }
+}
+
+.flex-list--vertical.flex-list--gutters > .flex-list__item {
+  padding-top: 16px;
+
+  &:first-child {
+    padding-top: 0;
   }
 }
 

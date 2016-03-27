@@ -14,22 +14,47 @@ import {
   makeMap,
 } from "logic/levels";
 import findPath from "logic/findPath";
+import Immutable from "immutable";
+
+const LOG_MESSAGE_DELAY = 2000;
+
+function makeLog() {
+  let messages = Immutable.List();
+  let messageId = 0;
+
+  const log = {
+    getMessages() {
+      return messages;
+    },
+    addMessage({ type, description }) {
+      messageId += 1;
+      const message = Immutable.fromJS({ id: messageId, type, description });
+      messages = messages.push(message);
+      return message;
+    },
+    removeMessage(message) {
+      messages = messages.filter((m) => m.get("id") !== message.get("id"));
+    },
+  };
+
+  return log;
+}
+
+function isPlayer(creature) {
+  return creature.type === "player";
+}
 
 export function makeGameState() {
   const gameState = new EventEmitter();
 
-  gameState.introScreenShown = false;
-  gameState.inventoryScreenVisible = false;
-  gameState.playerDeath = false;
-  gameState.playerWon = false;
-
-  gameState.map = makeMap();
-  gameState.player = makePlayer(
-    gameState.map.initialPlayerPosition.x,
-    gameState.map.initialPlayerPosition.y
-  );
-
-  gameState.map.creatures.push(gameState.player);
+  function logMessage({ type, description }) {
+    const message = gameState.log.addMessage({ type, description });
+    setTimeout(() => {
+      gameState.log.removeMessage(message);
+      gameState.emit("change");
+    }, LOG_MESSAGE_DELAY);
+    gameState.emit("change");
+  }
 
   function calculateSightMap(creature) {
     const map = gameState.map;
@@ -67,8 +92,6 @@ export function makeGameState() {
 
     map.memorisedSightMap = map.memorisedSightMap.combine(map.sightMap);
   }
-
-  updatePlayerSightMap();
 
   function getCreatureAt(x, y) {
     const creatures = gameState.map.creatures;
@@ -148,7 +171,14 @@ export function makeGameState() {
 
   function addItemToInventory(item, creature) {
     if (creature.inventory.length === creature.inventorySize) {
-      throw new Error("Inventory is full");
+      if (isPlayer(creature)) {
+        logMessage({ type: "danger", description: `You can't carry the ${item.type}` });
+      }
+      return;
+    }
+
+    if (isPlayer(creature)) {
+      logMessage({ type: "success", description: `You picked up the ${item.type}` });
     }
     const items = gameState.map.items;
     creature.inventory.push(item);
@@ -230,15 +260,26 @@ export function makeGameState() {
 
     makeCreatureAttack(attacker, defender) {
       const attackerActualDamage = attacker.baseDamage + attacker.strength;
+
       defender.health -= attackerActualDamage;
+
       if (defender.health <= 0) {
         if (defender.type === "player") {
+          logMessage({ type: "danger", description: `You were killed by a ${attacker.type}` });
           gameState.playerDeath = true;
         } else if (defender.type === "pestcontrol") {
+          logMessage({ type: "success", description: "Congratulations, you win!" });
           gameState.playerWon = true;
         } else {
+          logMessage({ type: "success", description: `You killed the ${defender.type}` });
           gameState.calculateExperienceAndStrength(defender.experienceLootOnKill);
           gameState.map.creatures.splice(gameState.map.creatures.indexOf(defender), 1);
+        }
+      } else {
+        if (defender.type === "player") {
+          logMessage({ type: "danger", description: `The ${attacker.type} hit you!` });
+        } else if (attacker.type === "player") {
+          logMessage({ type: "danger", description: `You hit the ${defender.type}` });
         }
       }
       gameState.emit("change");
@@ -246,6 +287,7 @@ export function makeGameState() {
 
     switchFromIntroToDungeon() {
       gameState.introScreenShown = true;
+      logMessage({ description: "Welcome to Dungeon's Revenge" });
       gameState.emit("change");
     },
 
@@ -289,6 +331,25 @@ export function makeGameState() {
     dropItem,
   });
 
+  function init() {
+    gameState.log = makeLog();
+    gameState.introScreenShown = false;
+    gameState.inventoryScreenVisible = false;
+    gameState.playerDeath = false;
+    gameState.playerWon = false;
+
+    gameState.map = makeMap();
+    gameState.player = makePlayer(
+      gameState.map.initialPlayerPosition.x,
+      gameState.map.initialPlayerPosition.y
+    );
+
+    gameState.map.creatures.push(gameState.player);
+
+    updatePlayerSightMap();
+  }
+
+  init();
   return gameState;
 }
 

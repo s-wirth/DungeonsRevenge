@@ -5,18 +5,25 @@
   color: #d3d3d3;
 }
 
-$InGameScreen__InfoBar--height: 85px;
-.InGameScreen__Dungeon {
+.InGameScreen__main-area {
   position: relative;
-  height: calc(100% - #{$InGameScreen__InfoBar--height});
+}
+
+.InGameScreen__Log {
+  width: 100%;
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.InGameScreen__scrollable-container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
   overflow: auto;
   &::-webkit-scrollbar {
     display: none;
   }
-}
-
-.InGameScreen__InfoBar {
-  height: $InGameScreen__InfoBar--height;
 }
 
 /*_________________________________*/
