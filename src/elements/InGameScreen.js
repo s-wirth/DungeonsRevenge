@@ -160,6 +160,7 @@ class InGameScreen extends React.Component {
   scrollPlayerIntoView({ animate } = { animate: true }) {
     const { player } = this.props;
     const container = this.refs.scrollableContainer;
+    if (!container) return;
     const playerLeftOffset = player.x * TILE_WIDTH;
     const playerTopOffset = player.y * TILE_WIDTH;
 
