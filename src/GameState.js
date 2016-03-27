@@ -63,7 +63,7 @@ export function makeGameState() {
       if (creature.x === x && creature.y === y) {
         return true;
       }
-      const tile = gameState.map.get(x, y);
+      const tile = map.tiles.get(x, y);
       const opaqueTiles = ["wall", "door"];
       /* returns true if tile.type is not in opaqueTiles list*/
       return !tile || opaqueTiles.indexOf(tile.type) === -1;
@@ -204,7 +204,7 @@ export function makeGameState() {
     updateCreaturePosition(creature, destination) {
       /* eslint no-param-reassign:0 */
       const { x, y } = _.defaults(destination, creature);
-      const tileAtDestination = gameState.map.get(x, y);
+      const tileAtDestination = gameState.map.tiles.get(x, y);
 
       if (tileAtDestination && tileAtDestination.type === "wall") return;
 
@@ -297,7 +297,7 @@ export function makeGameState() {
     },
 
     isTilePassable({ x, y }) {
-      const tile = gameState.map.get(x, y);
+      const tile = gameState.map.tiles.get(x, y);
       return tile && tile.type !== "wall" && !getCreatureAt(x, y);
     },
 

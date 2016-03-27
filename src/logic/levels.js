@@ -1,5 +1,5 @@
-import ndarray from "ndarray";
 import ROT from "rot-js";
+import Map from "logic/Map";
 
 import {
   makeCreature,
@@ -28,23 +28,6 @@ function randomPositionIn(room) {
   ];
 }
 
-function setStairs(map, stairsDownPosition, stairsUpPosition) {
-  /* eslint no-param-reassign:0 */
-  if (stairsDownPosition) {
-    map.stairsDownPosition = stairsDownPosition;
-    map.set(stairsDownPosition[0], stairsDownPosition[1], makeTile("stairsDown"));
-  }
-  if (stairsUpPosition) {
-    map.stairsUpPosition = stairsUpPosition;
-    map.set(stairsUpPosition[0], stairsUpPosition[1], makeTile("stairsUp"));
-  }
-}
-
-function setInitialPlayerPosition(map, x, y) {
-  /* eslint no-param-reassign:0 */
-  map.initialPlayerPosition = { x, y };
-}
-
 export function spawnEnemies(rooms) {
   return rooms.map((room) => {
     const position = randomPositionIn(room);
@@ -57,17 +40,14 @@ export function enterPreviousLevel(currentPlayerLevel) {
 }
 
 export function bossLevel(id) {
-  const map = ndarray([], [BOSS_MAP_WIDTH, BOSS_MAP_HEIGHT]);
+  const map = Map.create({ id, width: BOSS_MAP_WIDTH, height: BOSS_MAP_HEIGHT });
   const rotMap = new ROT.Map.Arena(BOSS_MAP_WIDTH, BOSS_MAP_HEIGHT);
-  map.id = id;
-  map.width = BOSS_MAP_WIDTH;
-  map.height = BOSS_MAP_HEIGHT;
 
   rotMap.create((x, y, wall) => {
-    map.set(x, y, wall ? makeTile("wall") : makeTile("floor"));
+    map.tiles.set(x, y, wall ? makeTile("wall") : makeTile("floor"));
   });
-  setStairs(map, [1, 2]);
-  setInitialPlayerPosition(map, 1, 2);
+  map.setStairs(map, [1, 2]);
+  map.setInitialPlayerPosition(1, 2);
   map.creatures = [
     makeCreature("pestcontrol", {
       x: BOSS_MAP_WIDTH - 5, y: Math.floor(BOSS_MAP_HEIGHT / 2),
@@ -78,10 +58,10 @@ export function bossLevel(id) {
 }
 
 export function makeMap(id) {
-  const map = ndarray([], [MAP_WIDTH, MAP_HEIGHT]);
+  const map = Map.create({ id, width: MAP_WIDTH, height: MAP_HEIGHT });
 
   function makeDoors(x, y) {
-    map.set(x, y, makeTile("door"));
+    map.tiles.set(x, y, makeTile("door"));
   }
 
   function getDoors(rooms) {
@@ -109,23 +89,20 @@ export function makeMap(id) {
     roomHeight: [7, 13],
     dugPercentage: 0.5,
   });
-  map.id = id || 0;
-  map.width = MAP_WIDTH;
-  map.height = MAP_HEIGHT;
 
   rotMap.create((x, y, wall) => {
-    map.set(x, y, wall ? makeTile("wall") : makeTile("floor"));
+    map.tiles.set(x, y, wall ? makeTile("wall") : makeTile("floor"));
   });
 
   const rooms = rotMap.getRooms();
 
   if (map.id !== 0) {
-    setStairs(map, rooms[0].getCenter(), rooms[rooms.length - 1].getCenter());
+    map.setStairs(rooms[0].getCenter(), rooms[rooms.length - 1].getCenter());
   } else {
-    setStairs(map, null, rooms[rooms.length - 1].getCenter());
+    map.setStairs(null, rooms[rooms.length - 1].getCenter());
   }
 
-  setInitialPlayerPosition(map, rooms[0].getCenter()[0], rooms[0].getCenter()[1]);
+  map.setInitialPlayerPosition(rooms[0].getCenter()[0], rooms[0].getCenter()[1]);
   getDoors(rooms);
   healingItemsOnLevel(rooms);
 
