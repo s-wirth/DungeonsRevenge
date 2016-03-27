@@ -21,8 +21,8 @@ const PestControlLevel = Map.compose(stampit({
       }
     });
 
-    map.setStairs([1, 2]);
-    map.setInitialPlayerPosition(1, 2);
+    map.setStairs({ x: 1, y: 2 });
+    map.setInitialPlayerPosition({ x: 1, y: 2 });
 
     map.creatures = [
       makeCreature("pestcontrol", {

@@ -82,7 +82,7 @@ const SewerLevel = Map.compose(stampit({
       for (let i = 0; i < number; i++) {
         const randomRoom = Math.floor(Math.random() * rooms.length);
         const position = randomPositionIn(rooms[randomRoom]);
-        const potion = makeItem("healingPotion", { x: position[0], y: position[1] });
+        const potion = makeItem("healingPotion", { x: position.x, y: position.y });
         map.addItem(potion);
       }
     }
@@ -104,10 +104,18 @@ const SewerLevel = Map.compose(stampit({
     const rooms = rotMap.getRooms();
 
     if (map.id !== 0) {
-      map.setStairs(rooms[0].getCenter(), rooms[rooms.length - 1].getCenter());
+      map.setStairs(
+        positionArrayToObject(rooms[0].getCenter()),
+        positionArrayToObject(rooms[rooms.length - 1].getCenter())
+      );
     } else {
-      map.setStairs(null, rooms[rooms.length - 1].getCenter());
-      map.setInitialPlayerPosition(rooms[0].getCenter()[0], rooms[0].getCenter()[1]);
+      map.setStairs(
+        null,
+        positionArrayToObject(rooms[rooms.length - 1].getCenter())
+      );
+      map.setInitialPlayerPosition(
+        positionArrayToObject(rooms[0].getCenter())
+      );
     }
 
     makeDoors(rooms);

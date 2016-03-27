@@ -16,16 +16,16 @@ const Map = NoThis.compose(stampit({
     setStairs(self, stairsDownPosition, stairsUpPosition) {
       if (stairsDownPosition) {
         self.stairsDownPosition = stairsDownPosition;
-        self.setTile("stairsDown", { x: stairsDownPosition[0], y: stairsDownPosition[1] });
+        self.setTile("stairsDown", stairsDownPosition);
       }
       if (stairsUpPosition) {
         self.stairsUpPosition = stairsUpPosition;
-        self.setTile("stairsUp", { x: stairsUpPosition[0], y: stairsUpPosition[1] });
+        self.setTile("stairsUp", stairsUpPosition);
       }
     },
 
-    setInitialPlayerPosition(self, x, y) {
-      self.initialPlayerPosition = { x, y };
+    setInitialPlayerPosition(self, position) {
+      self.initialPlayerPosition = position;
     },
 
     addCreature(self, creature) {
