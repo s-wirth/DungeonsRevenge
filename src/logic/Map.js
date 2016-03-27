@@ -1,6 +1,6 @@
 import ndarray from "ndarray";
 import stampit from "stampit";
-import NoThis from "util/NoThis";
+import NoThis from "util/stamps/NoThis";
 
 const DEFAULT_MAP_WIDTH = 80;
 const DEFAULT_MAP_HEIGHT = 40;
