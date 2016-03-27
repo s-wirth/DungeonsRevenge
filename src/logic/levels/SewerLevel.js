@@ -1,8 +1,6 @@
 import ROT from "rot-js";
 import Map from "logic/Map";
-import {
-  makeItem,
-} from "logic/items";
+import items from "logic/items";
 import {
   makeCreature,
 } from "logic/creatures";
@@ -82,7 +80,7 @@ const SewerLevel = Map.compose(stampit({
       for (let i = 0; i < number; i++) {
         const randomRoom = Math.floor(Math.random() * rooms.length);
         const position = randomPositionIn(rooms[randomRoom]);
-        const potion = makeItem("healingPotion", { x: position.x, y: position.y });
+        const potion = items.healingPotion.create({ x: position.x, y: position.y });
         map.addItem(potion);
       }
     }

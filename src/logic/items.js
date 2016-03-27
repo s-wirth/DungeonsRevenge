@@ -1,33 +1,24 @@
-import _ from "lodash";
+import Item from "logic/items/Item";
 
-let itemIdCounter = 0;
-
-const ITEM_TYPES = {
-  healingPotion: {
-    type: "healingPotion",
-    typeName: "Healing Potion",
-    activate(item, activatingCreature) {
-      const AMOUNT_HEALED = 5;
-      activatingCreature.increaseHealth(AMOUNT_HEALED);
-      activatingCreature.removeFromInventory(item);
-    },
-  },
-};
-export default ITEM_TYPES;
-
-export function makeItem(type, { x, y }) {
-  const id = itemIdCounter += 1;
-  const itemType = ITEM_TYPES[type];
-  const item = Object.assign(Object.create(itemType), {
-    id,
-    x, y,
-  });
-
-  // Methods on the returned object will have their first argument bound to the item instance
-  _.functions(itemType).forEach((methodName) => {
-    const method = itemType[methodName];
-    item[methodName] = method.bind(null, item);
-  });
-
-  return item;
+function restoreFullHealth(item, activatingCreature) {
+  activatingCreature.increaseHealth(activatingCreature.maxHealth);
 }
+
+function consumeItem(item, activatingCreature) {
+  activatingCreature.removeFromInventory(item);
+}
+
+const ITEM_TYPES = [
+  Item.props({
+    type: "healingPotion",
+    name: "healing potion",
+    effects: [restoreFullHealth, consumeItem],
+  }),
+];
+
+const ITEM_TYPES_DICT = ITEM_TYPES.reduce((dict, itemType) => {
+  dict[itemType.fixed.props.type] = itemType;
+  return dict;
+}, {});
+
+export default ITEM_TYPES_DICT;
