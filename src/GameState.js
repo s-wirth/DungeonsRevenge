@@ -11,7 +11,6 @@ import { makePlayer } from "logic/Player";
 import {
   enterNextLevel,
   enterPreviousLevel,
-  makeMap,
 } from "logic/levels";
 import findPath from "logic/findPath";
 import Immutable from "immutable";
@@ -319,7 +318,7 @@ export function makeGameState() {
     gameState.log = makeLog();
     gameState.visibleScreen = "intro";
 
-    gameState.map = makeMap();
+    gameState.map = enterNextLevel();
     gameState.player = makePlayer(
       gameState.map.initialPlayerPosition.x,
       gameState.map.initialPlayerPosition.y

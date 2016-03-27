@@ -6,21 +6,20 @@ export function enterPreviousLevel(currentPlayerLevel) {
 }
 
 export function enterNextLevel(currentPlayerLevel) {
-  if (!currentPlayerLevel.nextLevel) {
-    let newLevel;
-
-    if (currentPlayerLevel.id === 4) {
-      newLevel = PestControlLevel(currentPlayerLevel.id + 1);
-    } else {
-      newLevel = SewerLevel(currentPlayerLevel.id + 1);
-    }
-
-    currentPlayerLevel.nextLevel = newLevel;
-    newLevel.previousLevel = currentPlayerLevel;
-    return newLevel;
+  if (!currentPlayerLevel) {
+    return LEVELS[0](0);
   }
 
-  return currentPlayerLevel.nextLevel;
-}
+  if (currentPlayerLevel.nextLevel) {
+    return currentPlayerLevel.nextLevel;
+  }
 
-export { Sewer as makeMap };
+  const newLevelId = currentPlayerLevel.id + 1;
+  const newLevelType = LEVELS[newLevelId];
+  const newLevel = newLevelType(newLevelId);
+
+  currentPlayerLevel.nextLevel = newLevel;
+  newLevel.previousLevel = currentPlayerLevel;
+
+  return newLevel;
+}
