@@ -82,7 +82,7 @@ const SewerLevel = Map.compose(stampit({
     if (map.id !== 0) {
       map.setStairs(rooms[0].getCenter(), rooms[rooms.length - 1].getCenter());
     } else {
-      map.setStairs(null, rooms[0].getCenter());
+      map.setStairs(null, rooms[rooms.length - 1].getCenter());
     }
 
     map.setInitialPlayerPosition(rooms[0].getCenter()[0], rooms[0].getCenter()[1]);
