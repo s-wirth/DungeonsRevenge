@@ -10,19 +10,13 @@ import stampit from "stampit";
 
 const MAP_WIDTH = 80;
 const MAP_HEIGHT = 40;
+const NUMBER_OF_ENEMIES = 12;
 
 function randomPositionIn(room) {
   return [
     Math.floor(room.getLeft() + (room.getRight() - room.getLeft()) * Math.random()),
     Math.floor(room.getTop() + (room.getBottom() - room.getTop()) * Math.random()),
   ];
-}
-
-export function spawnEnemies(rooms) {
-  return rooms.map((room) => {
-    const position = randomPositionIn(room);
-    return makeCreature("mutantRat", { x: position[0], y: position[1] });
-  });
 }
 
 const SewerLevel = Map.compose(stampit({
@@ -32,6 +26,23 @@ const SewerLevel = Map.compose(stampit({
   },
 
   init({ instance: map }) {
+    function spawnNumberOfEnemies(type, number, rooms) {
+      for (let i = 0; i < number; i++) {
+        const room = rooms[Math.floor(Math.random() * rooms.length)];
+        const position = randomPositionIn(room);
+        const creature = makeCreature(type, { x: position[0], y: position[1] });
+        map.addCreature(creature);
+      }
+    }
+
+    function spawnEnemies(rooms, proportionOfRats, proportionOfMinions) {
+      const ratsToSpawn = proportionOfRats * NUMBER_OF_ENEMIES;
+      const minionsToSpawn = proportionOfMinions * NUMBER_OF_ENEMIES;
+
+      spawnNumberOfEnemies("mutantRat", ratsToSpawn, rooms);
+      spawnNumberOfEnemies("minion", minionsToSpawn, rooms);
+    }
+
     function makeDoors(x, y) {
       map.setTile("door", { x, y });
     }
@@ -82,7 +93,7 @@ const SewerLevel = Map.compose(stampit({
     getDoors(rooms);
     healingItemsOnLevel(rooms);
 
-    map.creatures = spawnEnemies(rooms);
+    spawnEnemies(rooms, map.rats, map.minions);
   },
 }));
 
