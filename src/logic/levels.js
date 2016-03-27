@@ -1,13 +1,13 @@
 import SewerLevel from "logic/levels/SewerLevel";
 import PestControlLevel from "logic/levels/PestControlLevel";
 
-const LEVELS = {
-  0: (id) => SewerLevel({ id }),
-  1: (id) => SewerLevel({ id }),
-  2: (id) => SewerLevel({ id }),
-  3: (id) => SewerLevel({ id }),
-  4: PestControlLevel,
-};
+const LEVELS = [
+  SewerLevel,
+  SewerLevel,
+  SewerLevel,
+  SewerLevel,
+  PestControlLevel,
+];
 
 export function enterPreviousLevel(currentPlayerLevel) {
   return currentPlayerLevel.previousLevel;
@@ -15,7 +15,7 @@ export function enterPreviousLevel(currentPlayerLevel) {
 
 export function enterNextLevel(currentPlayerLevel) {
   if (!currentPlayerLevel) {
-    return LEVELS[0](0);
+    return LEVELS[0]({ id: 0 });
   }
 
   if (currentPlayerLevel.nextLevel) {
@@ -24,7 +24,7 @@ export function enterNextLevel(currentPlayerLevel) {
 
   const newLevelId = currentPlayerLevel.id + 1;
   const newLevelType = LEVELS[newLevelId];
-  const newLevel = newLevelType(newLevelId);
+  const newLevel = newLevelType({ id: newLevelId });
 
   currentPlayerLevel.nextLevel = newLevel;
   newLevel.previousLevel = currentPlayerLevel;

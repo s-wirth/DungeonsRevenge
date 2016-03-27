@@ -2,26 +2,25 @@ import ndarray from "ndarray";
 import stampit from "stampit";
 import NoThis from "util/NoThis";
 
-function makeTile(type) {
-  return {
-    type,
-  };
-}
+const DEFAULT_MAP_WIDTH = 80;
+const DEFAULT_MAP_HEIGHT = 40;
 
 const Map = NoThis.compose(stampit({
   props: {
     id: 0,
+    width: DEFAULT_MAP_WIDTH,
+    height: DEFAULT_MAP_HEIGHT,
   },
 
   methods: {
     setStairs(self, stairsDownPosition, stairsUpPosition) {
       if (stairsDownPosition) {
         self.stairsDownPosition = stairsDownPosition;
-        self.tiles.set(stairsDownPosition[0], stairsDownPosition[1], makeTile("stairsDown"));
+        self.setTile("stairsDown", { x: stairsDownPosition[0], y: stairsDownPosition[1] });
       }
       if (stairsUpPosition) {
         self.stairsUpPosition = stairsUpPosition;
-        self.tiles.set(stairsUpPosition[0], stairsUpPosition[1], makeTile("stairsUp"));
+        self.setTile("stairsUp", { x: stairsUpPosition[0], y: stairsUpPosition[1] });
       }
     },
 
