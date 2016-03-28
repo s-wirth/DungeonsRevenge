@@ -22,12 +22,19 @@ export function wander(ai, { creature, world, actions }) {
 }
 
 export function huntPlayer(ai, { creature, world, actions }) {
-  if (!world.canSeePlayer()) return;
+  if (world.canSeePlayer()) {
+    ai.lastSeenPlayerPosition = world.playerPosition();
+  }
 
-  const path = findPath(creature, world.playerPosition(), world.isTilePassable);
-  if (path.length > 0) {
+  const lastSeenPlayerPosition = ai.lastSeenPlayerPosition;
+  if (!lastSeenPlayerPosition) return;
+
+  const path = findPath(creature, lastSeenPlayerPosition, world.isTilePassable);
+  if (path.length > 1) {
     const firstStepFromOrigin = path[path.length - 2];
     actions.updatePosition(firstStepFromOrigin);
+  } else {
+    ai.lastSeenPlayerPosition = null;
   }
 }
 
