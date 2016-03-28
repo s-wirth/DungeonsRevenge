@@ -1,8 +1,10 @@
 import ROT from "rot-js";
+import samePosition from "util/samePosition";
 
 export default function findPath(origin, destination, isTilePassable) {
   function canPass(x, y) {
-    if (x === origin.x && y === origin.y || x === destination.x && y === destination.y) {
+    const position = { x, y };
+    if (samePosition(position, origin) || samePosition(position, destination)) {
       return true;
     }
     return isTilePassable({ x, y });

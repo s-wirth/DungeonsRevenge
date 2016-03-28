@@ -13,9 +13,8 @@ export function wander(ai, { creature, world, actions }) {
       y: creature.y + moveBy.y,
     };
 
-    if (!world.creatureAt(newPosition)) {
+    if (world.isTilePassable(newPosition) && !world.creatureAt(newPosition)) {
       actions.updatePosition(newPosition);
-      return;
     }
   }
 }
@@ -28,7 +27,11 @@ export function huntPlayer(ai, { creature, world, actions }) {
   const lastSeenPlayerPosition = ai.lastSeenPlayerPosition;
   if (!lastSeenPlayerPosition) return;
 
-  const path = findPath(creature, lastSeenPlayerPosition, world.isTilePassable);
+  function passableAndUnoccupied(position) {
+    return world.isTilePassable(position) && !world.creatureAt(position);
+  }
+
+  const path = findPath(creature, lastSeenPlayerPosition, passableAndUnoccupied);
   if (path.length > 1) {
     const firstStepFromOrigin = path[path.length - 2];
     actions.updatePosition(firstStepFromOrigin);

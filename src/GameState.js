@@ -279,7 +279,7 @@ export function makeGameState() {
     isTilePassable({ x, y }) {
       const map = gameState.map;
       const tile = map.tiles.get(x, y);
-      return tile && tile.type !== "wall" && !map.getCreatureAt({ x, y });
+      return tile && tile.type !== "wall";
     },
 
     showInventoryScreen() {
