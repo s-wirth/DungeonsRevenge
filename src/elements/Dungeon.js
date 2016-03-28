@@ -60,7 +60,7 @@ class DungeonMapRegion extends React.Component {
 
       for (let x = leftBoundary; x < rightBoundary; x++) {
         for (let y = topBoundary; y < bottomBoundary; y++) {
-          const mapTile = map.get(x, y);
+          const mapTile = map.tiles.get(x, y);
           if (mapTile && sightMap.includes(x, y)) {
             result.push(
               <Tile
@@ -96,10 +96,9 @@ DungeonMapRegion.propTypes = {
 };
 
 function SubdividedDungeonMap({ map, sightMap, remembered, movePlayerTo }) {
+  const { width, height } = map;
   const divisions = sightMap.divisions;
   const result = [];
-  const width = map.shape[0];
-  const height = map.shape[1];
 
   for (let x = 0; x < divisions; x++) {
     for (let y = 0; y < divisions; y++) {

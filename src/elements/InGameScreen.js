@@ -191,8 +191,8 @@ class InGameScreen extends React.Component {
     return (
       <div className="InGameScreen flex-list flex-list--vertical flex-list--gutters" tabIndex="0">
         <div
-          className="InGameScreen__main-area flex-list__item flex-list__item--expand flex-list__item--expand-cross
-            flex-list__item--clip"
+          className="InGameScreen__main-area flex-list__item flex-list__item--expand
+            flex-list__item--expand-cross flex-list__item--clip"
           style={{ position: "relative" }}
         >
           <Log

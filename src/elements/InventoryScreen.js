@@ -41,7 +41,7 @@ function renderItem(item, isHighlighted, activateItem, dropItem) {
         { iconForItem(item) }
       </div>
       <div className="flex-list__item flex-list__item--expand">
-        { item.name }
+        { item.typeName }
       </div>
       <UILink className="flex-list__item" onClick={ onDropItemClick }>
         <u>D</u>rop

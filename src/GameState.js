@@ -5,13 +5,12 @@ import {
   makeSightMap,
 } from "logic/SightMap";
 import {
-  makePlayer,
   makeCreatureAct,
 } from "logic/creatures";
+import { makePlayer } from "logic/Player";
 import {
   enterNextLevel,
   enterPreviousLevel,
-  makeMap,
 } from "logic/levels";
 import findPath from "logic/findPath";
 import Immutable from "immutable";
@@ -63,7 +62,7 @@ export function makeGameState() {
       if (creature.x === x && creature.y === y) {
         return true;
       }
-      const tile = gameState.map.get(x, y);
+      const tile = map.tiles.get(x, y);
       const opaqueTiles = ["wall", "door"];
       /* returns true if tile.type is not in opaqueTiles list*/
       return !tile || opaqueTiles.indexOf(tile.type) === -1;
@@ -115,13 +114,15 @@ export function makeGameState() {
 
   function updatePlayerPosition(destination) {
     const { x: originalX, y: originalY } = gameState.player;
+
     gameState.updateCreaturePosition(gameState.player, destination);
-
-    const playerDidntMove = originalX === gameState.player.x && gameState.player.y === originalY;
-    if (playerDidntMove) return;
-
     gameState.allowCreaturesToAct();
-    updatePlayerSightMap();
+
+    const playerMoved = originalX !== gameState.player.x || gameState.player.y !== originalY;
+    if (playerMoved) {
+      updatePlayerSightMap();
+    }
+
     gameState.emit("change");
   }
 
@@ -172,33 +173,26 @@ export function makeGameState() {
   function addItemToInventory(item, creature) {
     if (creature.inventory.length === creature.inventorySize) {
       if (isPlayer(creature)) {
-        logMessage({ type: "danger", description: `You can't carry the ${item.name}` });
+        logMessage({ type: "danger", description: `You can't carry the ${item.typeName}` });
       }
       return;
     }
 
     if (isPlayer(creature)) {
-      logMessage({ type: "success", description: `You picked up the ${item.name}` });
+      logMessage({ type: "success", description: `You picked up the ${item.typeName}` });
     }
     const items = gameState.map.items;
-    creature.inventory.push(item);
+    creature.addToInventory(item);
     items.splice(items.indexOf(item), 1);
   }
 
-  function activateItem(item, creature) {
-    if (item.type === "healingPotion") {
-      const potion = item;
-      creature.health += potion.healsOnConsume;
-      if (creature.health > creature.maxHealth) creature.health = creature.maxHealth;
-      creature.inventory.splice(creature.inventory.indexOf(item), 1);
-      gameState.emit("change");
-    } else {
-      throw new Error("Item type unknown");
-    }
+  function activateItem(item, activatingCreature) {
+    item.activate(activatingCreature);
+    gameState.emit("change");
   }
 
   function dropItem(item, creature) {
-    creature.inventory.splice(creature.inventory.indexOf(item), 1);
+    creature.removeFromInventory(item);
     item.x = creature.x;
     item.y = creature.y;
     gameState.map.items.push(item);
@@ -209,7 +203,7 @@ export function makeGameState() {
     updateCreaturePosition(creature, destination) {
       /* eslint no-param-reassign:0 */
       const { x, y } = _.defaults(destination, creature);
-      const tileAtDestination = gameState.map.get(x, y);
+      const tileAtDestination = gameState.map.tiles.get(x, y);
 
       if (tileAtDestination && tileAtDestination.type === "wall") return;
 
@@ -247,39 +241,28 @@ export function makeGameState() {
       creature.y = y;
     },
 
-    calculateExperienceAndStrength(experience) {
-      gameState.player.experience += experience;
-      if (gameState.player.experience >= gameState.player.experienceNeeded) {
-        gameState.player.experience = 0;
-        gameState.player.experienceNeeded += 5;
-        gameState.player.maxHealth += 3;
-        gameState.player.health += 3;
-        gameState.player.strength += 1;
-      }
-    },
-
     makeCreatureAttack(attacker, defender) {
-      const attackerActualDamage = attacker.baseDamage + attacker.strength;
+      const attackerActualDamage = attacker.damage;
 
       defender.health -= attackerActualDamage;
 
       if (defender.health <= 0) {
         if (defender.type === "player") {
-          logMessage({ type: "danger", description: `You were killed by a ${attacker.type}` });
+          logMessage({ type: "danger", description: `You were killed by a ${attacker.typeName}` });
           gameState.visibleScreen = "death";
         } else if (defender.type === "pestcontrol") {
           logMessage({ type: "success", description: "Congratulations, you win!" });
           gameState.visibleScreen = "win";
-        } else {
-          logMessage({ type: "success", description: `You killed the ${defender.type}` });
-          gameState.calculateExperienceAndStrength(defender.experienceLootOnKill);
+        } else if (isPlayer(attacker)) {
+          logMessage({ type: "success", description: `You killed the ${defender.typeName}` });
+          gameState.player.gainExperience(defender.experienceLootOnKill);
           gameState.map.creatures.splice(gameState.map.creatures.indexOf(defender), 1);
         }
       } else {
         if (defender.type === "player") {
-          logMessage({ type: "danger", description: `The ${attacker.type} hit you!` });
+          logMessage({ type: "danger", description: `The ${attacker.typeName} hit you!` });
         } else if (attacker.type === "player") {
-          logMessage({ type: "danger", description: `You hit the ${defender.type}` });
+          logMessage({ type: "danger", description: `You hit the ${defender.typeName}` });
         }
       }
       gameState.emit("change");
@@ -313,7 +296,7 @@ export function makeGameState() {
     },
 
     isTilePassable({ x, y }) {
-      const tile = gameState.map.get(x, y);
+      const tile = gameState.map.tiles.get(x, y);
       return tile && tile.type !== "wall" && !getCreatureAt(x, y);
     },
 
@@ -335,7 +318,7 @@ export function makeGameState() {
     gameState.log = makeLog();
     gameState.visibleScreen = "intro";
 
-    gameState.map = makeMap();
+    gameState.map = enterNextLevel();
     gameState.player = makePlayer(
       gameState.map.initialPlayerPosition.x,
       gameState.map.initialPlayerPosition.y

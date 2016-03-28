@@ -13,14 +13,14 @@ describe("GameState", () => {
 
   it("should initially set the player's position to a passable tile", () => {
     let player = gameState.player;
-    expect(gameState.map.get(player.x, player.y).type).not.toEqual("wall");
+    expect(gameState.map.tiles.get(player.x, player.y).type).not.toEqual("wall");
   });
 
   describe(".updatePlayerPosition()", () => {
 
     it("should change the player's position", () => {
       let destination = { x: 1, y: 2 };
-      gameState.map.set(destination.x, destination.y, { type: "floor" });
+      gameState.map.tiles.set(destination.x, destination.y, { type: "floor" });
       gameState.updatePlayerPosition(destination);
       expect(gameState.player).toEqual(destination);
     });
@@ -28,7 +28,7 @@ describe("GameState", () => {
     it("should emit a 'change' event", (done) => {
       gameState.on('change', done);
       let destination = { x: 1, y: 2 };
-      gameState.map.set(destination.x, destination.y, { type: "floor" });
+      gameState.map.tiles.set(destination.x, destination.y, { type: "floor" });
       gameState.updatePlayerPosition(destination);
     });
 
@@ -39,7 +39,7 @@ describe("GameState", () => {
       beforeEach(() => {
         origin = { x: gameState.player.x, y: gameState.player.y };
         destination = { x: origin.x, y: origin.y + 1 };
-        gameState.map.set(
+        gameState.map.tiles.set(
           destination.x, destination.y, { type: "wall" }
         );
       });
