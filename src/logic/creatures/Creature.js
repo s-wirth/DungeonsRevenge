@@ -4,7 +4,7 @@ import UniqueId from "util/stamps/UniqueId";
 
 const MAX_INVENTORY_SIZE = 9;
 
-const Creature = stampit.compose(NoThis, UniqueId, stampit({
+const Creature = stampit.compose(NoThis, UniqueId(), stampit({
   props: {
     inventorySize: MAX_INVENTORY_SIZE,
   },

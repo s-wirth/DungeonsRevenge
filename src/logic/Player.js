@@ -61,7 +61,7 @@ const Player = Creature.compose(stampit({
     gainExperience(player, experience) {
       player.experience += experience;
       if (player.experience >= player.experienceNeeded) {
-        player.setLevel(player.level + 1);
+        setLevel(player, player.level + 1);
         player.experience = 0;
       }
     },
@@ -71,9 +71,5 @@ const Player = Creature.compose(stampit({
     setLevel(player, INITIAL_PLAYER_LEVEL);
   },
 }));
-
-export function makePlayer(x, y) {
-  return Player.create({ x, y });
-}
 
 export default Player;

@@ -6,8 +6,8 @@ import {
 } from "logic/SightMap";
 import {
   makeCreatureAct,
+  default as creatureTypes,
 } from "logic/creatures";
-import { makePlayer } from "logic/Player";
 import {
   enterNextLevel,
   enterPreviousLevel,
@@ -305,10 +305,7 @@ export function makeGameState() {
     gameState.visibleScreen = "intro";
 
     gameState.map = enterNextLevel();
-    gameState.player = makePlayer(
-      gameState.map.initialPlayerPosition.x,
-      gameState.map.initialPlayerPosition.y
-    );
+    gameState.player = creatureTypes.player.create(gameState.map.initialPlayerPosition);
 
     gameState.map.creatures.push(gameState.player);
 
