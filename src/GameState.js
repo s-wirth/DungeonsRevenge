@@ -14,6 +14,7 @@ import {
 } from "logic/levels";
 import findPath from "logic/findPath";
 import Immutable from "immutable";
+import samePosition from "util/samePosition";
 
 const LOG_MESSAGE_DELAY = 2000;
 
@@ -117,7 +118,7 @@ export function makeGameState() {
     playerMoveTimeoutID = null;
   }
 
-  function movePlayerTo({ x, y }) {
+  function movePlayerTo(destination) {
     const STEP_INTERVAL = 200;
 
     function queueNextStep(takeNextStep) {
@@ -127,33 +128,28 @@ export function makeGameState() {
       }, STEP_INTERVAL);
     }
 
-    function movementInProgress() {
-      return !!playerMoveTimeoutID;
-    }
-
     function takeStep() {
       const player = gameState.player;
-      const path = findPath(player, { x, y }, gameState.isTilePassable);
-      const haveReachedDestination = player.x === x && player.y === y;
+      const path = findPath(player, destination, gameState.isTilePassable);
+      const haveReachedDestination = samePosition(player, destination);
       const canReachDestination = path.length > 0;
       const map = gameState.map;
 
       abortMovement();
       if (haveReachedDestination || !canReachDestination) return;
 
-      const firstStepFromOrigin = path[path.length - 2];
-      const creatureAtDestination = map.getCreatureAt(firstStepFromOrigin);
-      updatePlayerPosition(firstStepFromOrigin);
-      if (!creatureAtDestination) {
+      const nextPosition = path[path.length - 2]; // Last position is origin
+      const creatureBlockingPath = map.getCreatureAt(nextPosition);
+
+      updatePlayerPosition(nextPosition);
+
+      if (!(creatureBlockingPath || samePosition(nextPosition, destination))) {
         queueNextStep(takeStep);
       }
     }
 
-    if (movementInProgress()) {
-      abortMovement();
-    } else {
-      takeStep();
-    }
+    abortMovement();
+    takeStep();
   }
 
   function addItemToInventory(item, creature) {
