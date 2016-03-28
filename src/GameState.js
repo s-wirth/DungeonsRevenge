@@ -172,13 +172,13 @@ export function makeGameState() {
   function addItemToInventory(item, creature) {
     if (creature.inventory.length === creature.inventorySize) {
       if (isPlayer(creature)) {
-        logMessage({ type: "danger", description: `You can't carry the ${item.type}` });
+        logMessage({ type: "danger", description: `You can't carry the ${item.name}` });
       }
       return;
     }
 
     if (isPlayer(creature)) {
-      logMessage({ type: "success", description: `You picked up the ${item.type}` });
+      logMessage({ type: "success", description: `You picked up the ${item.name}` });
     }
     const items = gameState.map.items;
     creature.inventory.push(item);
@@ -266,10 +266,10 @@ export function makeGameState() {
       if (defender.health <= 0) {
         if (defender.type === "player") {
           logMessage({ type: "danger", description: `You were killed by a ${attacker.type}` });
-          gameState.playerDeath = true;
+          gameState.visibleScreen = "death";
         } else if (defender.type === "pestcontrol") {
           logMessage({ type: "success", description: "Congratulations, you win!" });
-          gameState.playerWon = true;
+          gameState.visibleScreen = "win";
         } else {
           logMessage({ type: "success", description: `You killed the ${defender.type}` });
           gameState.calculateExperienceAndStrength(defender.experienceLootOnKill);
@@ -286,7 +286,7 @@ export function makeGameState() {
     },
 
     switchFromIntroToDungeon() {
-      gameState.introScreenShown = true;
+      gameState.visibleScreen = "inGame";
       logMessage({ description: "Welcome to Dungeon's Revenge" });
       gameState.emit("change");
     },
@@ -318,12 +318,12 @@ export function makeGameState() {
     },
 
     showInventoryScreen() {
-      gameState.inventoryScreenVisible = true;
+      gameState.visibleScreen = "inventory";
       gameState.emit("change");
     },
 
     hideInventoryScreen() {
-      gameState.inventoryScreenVisible = false;
+      gameState.visibleScreen = "inGame";
       gameState.emit("change");
     },
 
@@ -333,10 +333,7 @@ export function makeGameState() {
 
   function init() {
     gameState.log = makeLog();
-    gameState.introScreenShown = false;
-    gameState.inventoryScreenVisible = false;
-    gameState.playerDeath = false;
-    gameState.playerWon = false;
+    gameState.visibleScreen = "intro";
 
     gameState.map = makeMap();
     gameState.player = makePlayer(

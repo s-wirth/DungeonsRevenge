@@ -37,23 +37,17 @@ h2 {
 }
 
 a {
+  color: inherit;
+  text-decoration: none;
+  font-weight: bold;
 
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 img {
   image-rendering: pixelated;
-}
-
-.screen-header {
-  border-bottom: $border--default;
-  padding-top: 8px;
-  padding-bottom: 8px;
-}
-
-.screen-header__title {
-  padding-left: 10px;
-  color: $text-color--heading;
-  font-weight: normal;
 }
 
 .ui-list {

@@ -1,0 +1,18 @@
+@import "../variables";
+
+.Screen {
+  height: 100%;
+  outline: none;
+}
+
+.Screen__content {
+  max-width: $max-mobile-width;
+  max-height: 100%;
+  overflow: auto;
+  color: #d3d3d3;
+}
+
+.Screen__content--dialog {
+  border: $border--default;
+  background: $background--uiDefault;
+}

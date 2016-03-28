@@ -101,13 +101,14 @@ class InGameScreen extends React.Component {
   }
 
   componentDidUpdate() {
-    setTimeout(() => {
+    this.scrollTimeout = setTimeout(() => {
       this.scrollPlayerIntoView();
     }, 100);
   }
 
   componentWillUnmount() {
     this.unbindControls();
+    clearTimeout(this.scrollTimeout);
   }
 
   bindControls() {

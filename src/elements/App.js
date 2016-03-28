@@ -25,33 +25,29 @@ class App extends React.Component {
       items: GameState.map.items,
       sightMap: GameState.map.sightMap,
       memorisedSightMap: GameState.map.memorisedSightMap,
-      introScreenShown: GameState.introScreenShown,
-      playerDeath: GameState.playerDeath,
-      playerWon: GameState.playerWon,
-      inventoryScreenVisible: GameState.inventoryScreenVisible,
       logMessages: GameState.log.getMessages(),
+      visibleScreen: GameState.visibleScreen,
     });
   }
 
   render() {
     const {
-      player, map, sightMap, memorisedSightMap, introScreenShown, playerDeath, playerWon, creatures,
-      items, inventoryScreenVisible, logMessages,
+      player, map, sightMap, memorisedSightMap, creatures, items, logMessages, visibleScreen,
     } = this.state;
 
-    if (!introScreenShown) {
+    if (visibleScreen === "intro") {
       return (
         <IntroScreen switchFromIntroToDungeon={ GameState.switchFromIntroToDungeon } />
       );
-    } else if (playerDeath) {
+    } else if (visibleScreen === "death") {
       return (
         <DeathScreen />
       );
-    } else if (playerWon) {
+    } else if (visibleScreen === "win") {
       return (
         <WinningScreen />
       );
-    } else if (inventoryScreenVisible) {
+    } else if (visibleScreen === "inventory") {
       return (
         <InventoryScreen
           hideInventoryScreen={ GameState.hideInventoryScreen }
@@ -61,22 +57,24 @@ class App extends React.Component {
           dropItem={ function dropItem(item) { GameState.dropItem(item, player); } }
         />
       );
+    } else if (visibleScreen === "inGame") {
+      return (
+        <InGameScreen
+          map={ map }
+          sightMap={ sightMap }
+          memorisedSightMap={ memorisedSightMap }
+          player={ player }
+          creatures={ creatures }
+          items={ items }
+          movePlayerTo={ GameState.movePlayerTo }
+          skipPlayerTurn={ GameState.skipPlayerTurn }
+          showInventoryScreen={ GameState.showInventoryScreen }
+          updatePlayerPosition={ GameState.updatePlayerPosition }
+          logMessages={ logMessages }
+        />
+      );
     }
-    return (
-      <InGameScreen
-        map={ map }
-        sightMap={ sightMap }
-        memorisedSightMap={ memorisedSightMap }
-        player={ player }
-        creatures={ creatures }
-        items={ items }
-        movePlayerTo={ GameState.movePlayerTo }
-        skipPlayerTurn={ GameState.skipPlayerTurn }
-        showInventoryScreen={ GameState.showInventoryScreen }
-        updatePlayerPosition={ GameState.updatePlayerPosition }
-        logMessages={ logMessages }
-      />
-    );
+    throw new Error(`Unknown screen name ${visibleScreen}`);
   }
 }
 
