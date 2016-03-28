@@ -298,6 +298,7 @@ export function makeGameState() {
 
     activateItem,
     dropItem,
+    calculateSightMap,
   });
 
   function init() {

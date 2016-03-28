@@ -53,10 +53,16 @@ const AI = stampit.compose(NoThis, stampit({
         },
       };
 
+      let _sightMap = null;
+      function getSightMap() {
+        if (_sightMap) return _sightMap;
+        _sightMap = gameState.calculateSightMap(creature);
+        return _sightMap;
+      }
+
       const observableWorld = {
         canSeePlayer() {
-          // We ignore obstacles between the creature and the player
-          return distanceBetween(creature, player) < creature.sightRadius;
+          return getSightMap().includes(player.x, player.y);
         },
 
         isTilePassable: gameState.isTilePassable,
