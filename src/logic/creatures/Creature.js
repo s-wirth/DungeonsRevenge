@@ -27,9 +27,14 @@ const Creature = stampit.compose(NoThis, UniqueId(), stampit({
   },
 
   init({ instance }) {
+    let ai = null;
+    if (instance.ai) {
+      ai = instance.ai.create({ creature: instance });
+    }
     Object.assign(instance, {
       health: instance.maxHealth,
       inventory: [],
+      ai,
     });
   },
 }));
