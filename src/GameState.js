@@ -16,7 +16,7 @@ import findPath from "logic/findPath";
 import Immutable from "immutable";
 import samePosition from "util/samePosition";
 
-const LOG_MESSAGE_DELAY = 2000;
+const LOG_MESSAGE_DELAY = 4000;
 
 function makeLog() {
   let messages = Immutable.List();
