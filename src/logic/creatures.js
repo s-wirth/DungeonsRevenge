@@ -75,11 +75,7 @@ const CREATURE_TYPES = [
 ];
 
 const CREATURE_TYPES_HASH = hashFromList(CREATURE_TYPES, (stamp) => stamp.fixed.props.type);
-
-export function makeCreature(type, { x, y }) {
-  const creatureType = CREATURE_TYPES_HASH[type];
-  return creatureType({ x, y });
-}
+export default CREATURE_TYPES_HASH;
 
 function distanceBetween({ x: x1, y: y1 }, { x: x2, y: y2 }) {
   return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));

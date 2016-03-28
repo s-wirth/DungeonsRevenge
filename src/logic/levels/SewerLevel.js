@@ -1,9 +1,7 @@
 import ROT from "rot-js";
 import Map from "logic/Map";
 import items from "logic/items";
-import {
-  makeCreature,
-} from "logic/creatures";
+import creatures from "logic/creatures";
 import stampit from "stampit";
 import samePosition from "util/samePosition";
 import positionArrayToObject from "util/positionArrayToObject";
@@ -57,7 +55,7 @@ const SewerLevel = Map.compose(stampit({
       for (let i = 0; i < number; i++) {
         const room = rooms[Math.floor(Math.random() * rooms.length)];
         const position = unoccupiedPositionIn(room);
-        const creature = makeCreature(type, position);
+        const creature = creatures[type].create(position);
         map.addCreature(creature);
       }
     }

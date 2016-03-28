@@ -1,4 +1,4 @@
-import { makeCreature } from "logic/creatures";
+import creatures from "logic/creatures";
 
 const INITIAL_PLAYER_LEVEL = 1;
 const MAX_PLAYER_LEVEL = 30;
@@ -37,7 +37,7 @@ function averagePlayerDamageByWeapon(dungeonLevel) {
 }
 
 export function makePlayer(x, y) {
-  const player = makeCreature("player", { x, y });
+  const player = creatures.player.create({ x, y });
 
   function setLevel(playerLevel) {
     player.level = playerLevel;
