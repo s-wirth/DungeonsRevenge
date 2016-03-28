@@ -1,6 +1,5 @@
 import stampit from "stampit";
 import NoThis from "util/stamps/NoThis";
-import distanceBetween from "util/distanceBetween";
 import findPath from "logic/findPath";
 
 export function wander(ai, { creature, world, actions }) {
