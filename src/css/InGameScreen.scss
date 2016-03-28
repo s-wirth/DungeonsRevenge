@@ -94,6 +94,10 @@
 
 /*_________________________________*/
 
+.item {
+  pointer-events: none;
+}
+
 .healingPotion {
   width: $tile-width;
   height: $tile-width;
