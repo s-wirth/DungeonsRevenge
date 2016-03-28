@@ -3,14 +3,22 @@ import NoThis from "util/stamps/NoThis";
 import distanceBetween from "util/distanceBetween";
 import findPath from "logic/findPath";
 
-export function wander(ai, { creature, actions }) {
-  const moveBy = [
-    { x: -1, y: 0 }, { x: 1, y: 0 }, { x: 0, y: -1 }, { x: 0, y: 1 },
-  ][Math.round(Math.random() * 3)];
-  actions.updatePosition({
-    x: creature.x + moveBy.x,
-    y: creature.y + moveBy.y,
-  });
+export function wander(ai, { creature, world, actions }) {
+  const MAX_ATTEMPTS = 10;
+  for (let attempts = 0; attempts < MAX_ATTEMPTS; attempts++) {
+    const moveBy = [
+      { x: -1, y: 0 }, { x: 1, y: 0 }, { x: 0, y: -1 }, { x: 0, y: 1 },
+    ][Math.round(Math.random() * 3)];
+    const newPosition = {
+      x: creature.x + moveBy.x,
+      y: creature.y + moveBy.y,
+    };
+
+    if (!world.creatureAt(newPosition)) {
+      actions.updatePosition(newPosition);
+      return;
+    }
+  }
 }
 
 export function huntPlayer(ai, { creature, world, actions }) {
@@ -49,6 +57,10 @@ const AI = stampit.compose(NoThis, stampit({
         playerPosition() {
           if (!observableWorld.canSeePlayer()) return null;
           return { x: player.x, y: player.y };
+        },
+
+        creatureAt(position) {
+          return gameState.map.getCreatureAt(position);
         },
       };
 
