@@ -1,40 +1,49 @@
+import stampit from "stampit";
 import findPath from "logic/findPath";
 
 let creatureIdCounter = 0;
 const MAX_INVENTORY_SIZE = 9;
 
 const CREATURE_TYPES = {
-  player: {
-    damage: 3,
-    maxHealth: 0,
-    sightRadius: 5,
-    experience: 0,
-  },
-  mutantRat: {
-    experienceLootOnKill: 2.78,
-    maxHealth: 2,
-    damage: 0.68,
-    sightRadius: 8,
-    typeName: "Mutant Rat",
-    description: `Rats that are abnormally big and agressive, due to the magical waste flushed down
-      the sewer.`,
-  },
-  minion: {
-    experienceLootOnKill: 5.52,
-    maxHealth: 3.12,
-    damage: 2.50,
-    sightRadius: 8,
-    typeName: "Minion",
-    description: "Footsoldiers from the surface sent to control the denizens of the dungeon.",
-  },
-  pestcontrol: {
-    experienceLootOnKill: 100,
-    maxHealth: 24.19,
-    damage: 8.98,
-    sightRadius: 8,
-    typeName: "Pest Control",
-    description: "The Pest Control is a huge man in armor with a morning star.",
-  },
+  player: stampit({
+    props: {
+      damage: 3,
+      maxHealth: 0,
+      sightRadius: 5,
+      experience: 0,
+    },
+  }),
+  mutantRat: stampit({
+    props: {
+      experienceLootOnKill: 2.78,
+      maxHealth: 2,
+      damage: 0.68,
+      sightRadius: 8,
+      typeName: "Mutant Rat",
+      description: `Rats that are abnormally big and agressive, due to the magical waste flushed
+        down the sewer.`,
+    },
+  }),
+  minion: stampit({
+    props: {
+      experienceLootOnKill: 5.52,
+      maxHealth: 3.12,
+      damage: 2.50,
+      sightRadius: 8,
+      typeName: "Minion",
+      description: "Footsoldiers from the surface sent to control the denizens of the dungeon.",
+    },
+  }),
+  pestcontrol: stampit({
+    props: {
+      experienceLootOnKill: 100,
+      maxHealth: 24.19,
+      damage: 8.98,
+      sightRadius: 8,
+      typeName: "Pest Control",
+      description: "The Pest Control is a huge man in armor with a morning star.",
+    },
+  }),
 };
 
 function annotateTypes(types) {
@@ -49,11 +58,11 @@ export function makeCreature(type, { x, y }) {
   const id = creatureIdCounter += 1;
   const creatureType = CREATURE_TYPES[type];
 
-  const creature = Object.assign(Object.create(creatureType), {
+  const creature = creatureType({
     id,
     type,
     x, y,
-    health: creatureType.maxHealth,
+    health: creatureType.fixed.props.maxHealth,
     inventory: [],
     inventorySize: MAX_INVENTORY_SIZE,
   });
