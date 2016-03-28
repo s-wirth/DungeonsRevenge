@@ -3,6 +3,10 @@ import React from "react";
 import ReactDom from "react-dom";
 import App from "elements/App";
 import FastClick from "fastclick";
+import BackgroundMusic from "services/BackgroundMusic";
+import GameState from "GameState";
+
+BackgroundMusic.create({ gameState: GameState });
 
 FastClick.attach(document.body);
 

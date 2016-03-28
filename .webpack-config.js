@@ -55,11 +55,15 @@ function commonConfig() {
           test: /\.woff$/,
           loader: 'url?limit=100000'
         },
+        {
+          test: /\.(ogg|mp3|flac)$/,
+          loader: 'url?limit=100000'
+        },
       ],
     },
     postcss: [ autoprefixer({ browsers: ['last 2 versions'] }) ],
     resolve: {
-      extensions: ["", ".webpack.js", ".web.js", ".js", ".css", ".scss"],
+      extensions: ["", ".webpack.js", ".web.js", ".js", ".css", ".scss", ".mp3", ".ogg", ".flac"],
       root: [
         absolutePathTo(SRC_DIR),
       ],
