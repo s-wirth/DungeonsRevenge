@@ -5,6 +5,8 @@ import stairsIcon from "assets/ui/stairsIcon.png";
 import strengthIcon from "assets/ui/strengthIcon.png";
 import heartIcon from "assets/ui/heartIcon.png";
 import UILink from "elements/UILink";
+import audioOnIcon from "assets/ui/audioOnIcon.png";
+import audioOffIcon from "assets/ui/audioOffIcon.png";
 
 function renderPlayerStats(map, player) {
   return (
@@ -75,13 +77,19 @@ function renderPlayerStats(map, player) {
   );
 }
 
-export default function InfoBar({ className, map, player, showInventoryScreen }) {
+export default function InfoBar({ className, map, player, showInventoryScreen, audioEnabled,
+  toggleAudio }) {
   return (
     <div className={ classnames(className, "InfoBar") }>
       <div className="InfoBar__container flex-list flex-list--horizontal flex-list--gutters">
         { renderPlayerStats(map, player) }
         <div className="flex-list__item">
           <UILink button onClick={ showInventoryScreen }>INV</UILink>
+        </div>
+        <div className="flex-list__item">
+          <UILink button onClick={ toggleAudio }>
+            <img src={ audioEnabled ? audioOnIcon : audioOffIcon } />
+          </UILink>
         </div>
       </div>
     </div>
@@ -92,4 +100,6 @@ InfoBar.propTypes = {
   player: React.PropTypes.object.isRequired,
   className: React.PropTypes.string,
   showInventoryScreen: React.PropTypes.func.isRequired,
+  toggleAudio: React.PropTypes.func.isRequired,
+  audioEnabled: React.PropTypes.bool,
 };

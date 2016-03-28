@@ -48,6 +48,11 @@ function isPlayer(creature) {
 export function makeGameState() {
   const gameState = new EventEmitter();
 
+  function playSoundEffect(soundEffect) {
+    if (!gameState.audioEnabled) return;
+    soundEffect().play();
+  }
+
   function logMessage({ type, description }) {
     const message = gameState.log.addMessage({ type, description });
     setTimeout(() => {
@@ -106,7 +111,13 @@ export function makeGameState() {
   }
 
   function updatePlayerPosition(destination) {
+    const originalPosition = { x: gameState.player.x, y: gameState.player.y };
     gameState.updateCreaturePosition(gameState.player, destination);
+
+    if (!samePosition(gameState.player, originalPosition)) {
+      playSoundEffect(SoundEffects.footstepOnStone);
+    }
+
     updatePlayerSightMap();
     gameState.allowCreaturesToAct();
 
@@ -179,6 +190,11 @@ export function makeGameState() {
     item.x = creature.x;
     item.y = creature.y;
     gameState.map.items.push(item);
+    gameState.emit("change");
+  }
+
+  function toggleAudio() {
+    gameState.audioEnabled = !gameState.audioEnabled;
     gameState.emit("change");
   }
 
@@ -297,11 +313,13 @@ export function makeGameState() {
     activateItem,
     dropItem,
     calculateSightMap,
+    toggleAudio,
   });
 
   function init() {
     gameState.log = makeLog();
     gameState.visibleScreen = "intro";
+    gameState.audioEnabled = true;
 
     gameState.map = enterNextLevel();
     gameState.player = creatureTypes.player.create(gameState.map.initialPlayerPosition);

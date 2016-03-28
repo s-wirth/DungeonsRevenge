@@ -59,6 +59,10 @@ const BackgroundMusic = NoThis.compose(stampit({
     updateBackgroundMusic(instance) {
       const { gameState } = instance;
 
+      if (!gameState.audioEnabled) {
+        instance.playTrack(null);
+      }
+
       if (gameState.visibleScreen === "inGame" || gameState.visibleScreen === "inventory") {
         const { map } = gameState;
         const desiredTrack = map.music || normalBackgroundMusic;
