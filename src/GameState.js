@@ -15,6 +15,7 @@ import {
 import findPath from "logic/findPath";
 import Immutable from "immutable";
 import samePosition from "util/samePosition";
+import SoundEffects from "services/SoundEffects";
 
 const LOG_MESSAGE_DELAY = 4000;
 
@@ -231,6 +232,7 @@ export function makeGameState() {
         if (defender.type === "player") {
           logMessage({ type: "danger", description: `You were killed by a ${attacker.typeName}` });
           gameState.visibleScreen = "death";
+          SoundEffects.playerDeath().play();
         } else if (defender.type === "pestcontrol") {
           logMessage({ type: "success", description: "Congratulations, you win!" });
           gameState.visibleScreen = "win";
