@@ -1,4 +1,5 @@
 import Item from "logic/items/Item";
+import hashFromList from "util/hashFromList";
 
 function restoreFullHealth(item, activatingCreature) {
   activatingCreature.increaseHealth(activatingCreature.maxHealth);
@@ -16,9 +17,5 @@ const ITEM_TYPES = [
   }),
 ];
 
-const ITEM_TYPES_DICT = ITEM_TYPES.reduce((dict, itemType) => {
-  dict[itemType.fixed.props.type] = itemType;
-  return dict;
-}, {});
-
-export default ITEM_TYPES_DICT;
+const ITEM_TYPES_HASH = hashFromList(ITEM_TYPES, (stamp) => stamp.fixed.props.type);
+export default ITEM_TYPES_HASH;

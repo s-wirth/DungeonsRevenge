@@ -1,5 +1,6 @@
 import stampit from "stampit";
 import findPath from "logic/findPath";
+import hashFromList from "util/hashFromList";
 
 let creatureIdCounter = 0;
 const MAX_INVENTORY_SIZE = 9;
@@ -51,14 +52,11 @@ const CREATURE_TYPES = [
   }),
 ];
 
-const CREATURE_TYPES_DICT = CREATURE_TYPES.reduce((dict, creatureType) => {
-  dict[creatureType.fixed.props.type] = creatureType;
-  return dict;
-}, {});
+const CREATURE_TYPES_HASH = hashFromList(CREATURE_TYPES, (stamp) => stamp.fixed.props.type);
 
 export function makeCreature(type, { x, y }) {
   const id = creatureIdCounter += 1;
-  const creatureType = CREATURE_TYPES_DICT[type];
+  const creatureType = CREATURE_TYPES_HASH[type];
 
   const creature = creatureType({
     id,
