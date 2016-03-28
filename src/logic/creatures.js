@@ -1,15 +1,10 @@
 import Creature from "logic/creatures/Creature";
 import findPath from "logic/findPath";
 import hashFromList from "util/hashFromList";
+import Player from "logic/Player";
 
 const CREATURE_TYPES = [
-  Creature.props({
-    type: "player",
-    damage: 3,
-    maxHealth: 0,
-    sightRadius: 5,
-    experience: 0,
-  }),
+  Player,
   Creature.props({
     type: "mutantRat",
     typeName: "Mutant Rat",
