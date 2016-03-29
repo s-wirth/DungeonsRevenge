@@ -1,5 +1,4 @@
 import stampit from "stampit";
-import creatures from "logic/creatures";
 import Creature from "logic/creatures/Creature";
 
 const INITIAL_PLAYER_LEVEL = 1;
