@@ -28,17 +28,18 @@
 
 /*_________________________________*/
 
-.tile, .creature, .item {
+.tile, .creature, .item, .feature {
   image-rendering: pixelated;
+  width: $tile-width;
+  height: $tile-width;
+  position: absolute;
+
+  &.fog-of-war {
+    opacity: 0.5;
+  }
 }
 
 .creature {
-  width: $tile-width;
-  height: $tile-width;
-  text-align: center;
-  line-height: $tile-width;
-  font-weight: bold;
-  position: absolute;
   transition: all 0.1s;
 }
 
@@ -108,13 +109,6 @@
 /*_________________________________*/
 
 .tile {
-  width: $tile-width;
-  height: $tile-width;
-  position: absolute;
-
-  &.fog-of-war {
-    opacity: 0.5;
-  }
 }
 
 .wall-tile {
@@ -126,16 +120,13 @@
 }
 
 .floor-tile {
-  background-image: url("../assets/textures/floor.png");
-  background-position: 25% 75%;
+  background-image: url("../assets/terrain/floor-darkBrown.png");
 }
 
-.stairsDown-tile {
-  background-image: url("../assets/textures/stairsDown.png");
-  background-color: black;
+.feature--stairsUp {
+  background-image: url("../assets/dungeonFeatures/stairsUp.png");
 }
 
-.stairsUp-tile {
-  background-image: url("../assets/textures/stairsUp.png");
-  background-color: #a4a4a4;
+.feature--stairsDown {
+  background-image: url("../assets/dungeonFeatures/stairsDown.png");
 }

@@ -1,6 +1,7 @@
 import ndarray from "ndarray";
 import stampit from "stampit";
 import NoThis from "util/stamps/NoThis";
+import Immutable from "immutable";
 
 const DEFAULT_MAP_WIDTH = 80;
 const DEFAULT_MAP_HEIGHT = 40;
@@ -17,10 +18,12 @@ const Map = NoThis.compose(stampit({
       if (stairsDownPosition) {
         self.stairsDownPosition = stairsDownPosition;
         self.setTile("stairsDown", stairsDownPosition);
+        self.setFeature("stairsDown", stairsDownPosition);
       }
       if (stairsUpPosition) {
         self.stairsUpPosition = stairsUpPosition;
         self.setTile("stairsUp", stairsUpPosition);
+        self.setFeature("stairsUp", stairsUpPosition);
       }
     },
 
@@ -45,6 +48,14 @@ const Map = NoThis.compose(stampit({
       return null;
     },
 
+    setFeature(self, type, { x, y }) {
+      self.features = self.features.setIn([x, y], { type });
+    },
+
+    getFeature(self, { x, y }) {
+      return self.features.getIn([x, y]);
+    },
+
     addItem(self, item) {
       self.items.push(item);
     },
@@ -63,6 +74,7 @@ const Map = NoThis.compose(stampit({
   init({ instance: self }) {
     const { width, height } = self;
     self.tiles = ndarray([], [width, height]);
+    self.features = Immutable.Map();
     self.creatures = [];
     self.items = [];
   },
