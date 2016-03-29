@@ -92,15 +92,6 @@ export function makeGameState() {
     map.memorisedSightMap = map.memorisedSightMap.combine(map.sightMap);
   }
 
-  function getCreatureAt(x, y) {
-    const creatures = gameState.map.creatures;
-    for (let i = 0; i < creatures.length; i++) {
-      const creature = creatures[i];
-      if (creature.x === x && creature.y === y) return creatures[i];
-    }
-    return null;
-  }
-
   function itemAtPosition(x, y) {
     const items = gameState.map.items;
     if (items) {
@@ -113,15 +104,9 @@ export function makeGameState() {
   }
 
   function updatePlayerPosition(destination) {
-    const { x: originalX, y: originalY } = gameState.player;
-
     gameState.updateCreaturePosition(gameState.player, destination);
+    updatePlayerSightMap();
     gameState.allowCreaturesToAct();
-
-    const playerMoved = originalX !== gameState.player.x || gameState.player.y !== originalY;
-    if (playerMoved) {
-      updatePlayerSightMap();
-    }
 
     gameState.emit("change");
   }
@@ -151,12 +136,13 @@ export function makeGameState() {
       const path = findPath(player, { x, y }, gameState.isTilePassable);
       const haveReachedDestination = player.x === x && player.y === y;
       const canReachDestination = path.length > 0;
+      const map = gameState.map;
 
       abortMovement();
       if (haveReachedDestination || !canReachDestination) return;
 
       const firstStepFromOrigin = path[path.length - 2];
-      const creatureAtDestination = getCreatureAt(firstStepFromOrigin.x, firstStepFromOrigin.y);
+      const creatureAtDestination = map.getCreatureAt(firstStepFromOrigin);
       updatePlayerPosition(firstStepFromOrigin);
       if (!creatureAtDestination) {
         queueNextStep(takeStep);
@@ -173,13 +159,13 @@ export function makeGameState() {
   function addItemToInventory(item, creature) {
     if (creature.inventory.length === creature.inventorySize) {
       if (isPlayer(creature)) {
-        logMessage({ type: "danger", description: `You can't carry the ${item.typeName}` });
+        logMessage({ type: "danger", description: `You can't carry the ${item.name}` });
       }
       return;
     }
 
     if (isPlayer(creature)) {
-      logMessage({ type: "success", description: `You picked up the ${item.typeName}` });
+      logMessage({ type: "success", description: `You picked up the ${item.name}` });
     }
     const items = gameState.map.items;
     creature.addToInventory(item);
@@ -201,13 +187,12 @@ export function makeGameState() {
 
   Object.assign(gameState, {
     updateCreaturePosition(creature, destination) {
-      /* eslint no-param-reassign:0 */
       const { x, y } = _.defaults(destination, creature);
       const tileAtDestination = gameState.map.tiles.get(x, y);
 
       if (tileAtDestination && tileAtDestination.type === "wall") return;
 
-      const creatureAtDestination = getCreatureAt(destination.x, destination.y);
+      const creatureAtDestination = gameState.map.getCreatureAt(destination);
       if (creatureAtDestination) {
         gameState.makeCreatureAttack(creature, creatureAtDestination);
         return;
@@ -217,16 +202,16 @@ export function makeGameState() {
         if (tileAtDestination && tileAtDestination.type === "stairsUp") {
           gameState.map.creatures.splice(gameState.map.creatures.indexOf(creature), 1);
           gameState.map = enterNextLevel(gameState.map);
-          creature.x = gameState.map.stairsDownPosition[0];
-          creature.y = gameState.map.stairsDownPosition[1];
+          creature.x = gameState.map.stairsDownPosition.x;
+          creature.y = gameState.map.stairsDownPosition.y;
           gameState.map.creatures.push(gameState.player);
           return;
         }
         if (tileAtDestination && tileAtDestination.type === "stairsDown") {
           gameState.map.creatures.splice(gameState.map.creatures.indexOf(creature), 1);
           gameState.map = enterPreviousLevel(gameState.map);
-          creature.x = gameState.map.stairsUpPosition[0];
-          creature.y = gameState.map.stairsUpPosition[1];
+          creature.x = gameState.map.stairsUpPosition.x;
+          creature.y = gameState.map.stairsUpPosition.y;
           gameState.map.creatures.push(gameState.player);
           return;
         }
@@ -256,8 +241,8 @@ export function makeGameState() {
         } else if (isPlayer(attacker)) {
           logMessage({ type: "success", description: `You killed the ${defender.typeName}` });
           gameState.player.gainExperience(defender.experienceLootOnKill);
-          gameState.map.creatures.splice(gameState.map.creatures.indexOf(defender), 1);
         }
+        gameState.map.creatures.splice(gameState.map.creatures.indexOf(defender), 1);
       } else {
         if (defender.type === "player") {
           logMessage({ type: "danger", description: `The ${attacker.typeName} hit you!` });
@@ -296,8 +281,9 @@ export function makeGameState() {
     },
 
     isTilePassable({ x, y }) {
-      const tile = gameState.map.tiles.get(x, y);
-      return tile && tile.type !== "wall" && !getCreatureAt(x, y);
+      const map = gameState.map;
+      const tile = map.tiles.get(x, y);
+      return tile && tile.type !== "wall" && !map.getCreatureAt({ x, y });
     },
 
     showInventoryScreen() {

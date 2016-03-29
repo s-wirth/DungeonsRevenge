@@ -1,6 +1,6 @@
 import ndarray from "ndarray";
 import stampit from "stampit";
-import NoThis from "util/NoThis";
+import NoThis from "util/stamps/NoThis";
 
 const DEFAULT_MAP_WIDTH = 80;
 const DEFAULT_MAP_HEIGHT = 40;
@@ -16,16 +16,16 @@ const Map = NoThis.compose(stampit({
     setStairs(self, stairsDownPosition, stairsUpPosition) {
       if (stairsDownPosition) {
         self.stairsDownPosition = stairsDownPosition;
-        self.setTile("stairsDown", { x: stairsDownPosition[0], y: stairsDownPosition[1] });
+        self.setTile("stairsDown", stairsDownPosition);
       }
       if (stairsUpPosition) {
         self.stairsUpPosition = stairsUpPosition;
-        self.setTile("stairsUp", { x: stairsUpPosition[0], y: stairsUpPosition[1] });
+        self.setTile("stairsUp", stairsUpPosition);
       }
     },
 
-    setInitialPlayerPosition(self, x, y) {
-      self.initialPlayerPosition = { x, y };
+    setInitialPlayerPosition(self, position) {
+      self.initialPlayerPosition = position;
     },
 
     addCreature(self, creature) {
@@ -34,6 +34,15 @@ const Map = NoThis.compose(stampit({
 
     removeCreature(self, creature) {
       self.creatures.splice(self.creatures.indexOf(creature), 1);
+    },
+
+    getCreatureAt(self, { x, y }) {
+      const creatures = self.creatures;
+      for (let i = 0; i < creatures.length; i++) {
+        const creature = creatures[i];
+        if (creature.x === x && creature.y === y) return creatures[i];
+      }
+      return null;
     },
 
     addItem(self, item) {
