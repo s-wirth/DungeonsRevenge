@@ -26,9 +26,11 @@ const BackgroundMusic = NoThis.compose(stampit({
         return instance.setActiveTransition(Promise.resolve());
       }
 
-      return instance.setActiveTransition(new Promise(resolve => {
-        currentMusic.fadeOut(0, FADE_DURATION, resolve);
-      }));
+      return instance.setActiveTransition(
+        new Promise(resolve => {
+          currentMusic.fade(1, 0, FADE_DURATION, resolve);
+        }).then(() => currentMusic.stop())
+      );
     },
 
     playTrack(instance, desiredTrack) {
@@ -50,7 +52,8 @@ const BackgroundMusic = NoThis.compose(stampit({
             });
             instance.currentMusic.track = desiredTrack;
             instance.setActiveTransition(new Promise(resolve => {
-              instance.currentMusic.fadeIn(1, FADE_DURATION, resolve);
+              instance.currentMusic.play();
+              instance.currentMusic.fade(0, 1, FADE_DURATION, resolve);
             }));
           });
       }
