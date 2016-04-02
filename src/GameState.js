@@ -242,6 +242,7 @@ export function makeGameState() {
     makeCreatureAttack(attacker, defender) {
       const attackerActualDamage = attacker.damage;
 
+      SoundEffects.attack().play();
       defender.health -= attackerActualDamage;
 
       if (defender.health <= 0) {
