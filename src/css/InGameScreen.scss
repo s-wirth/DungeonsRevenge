@@ -112,21 +112,25 @@
 }
 
 .wall-tile {
-  background-image: url("../assets/textures/wall.png");
+  background-image: url("../assets/terrain/bricks-darkBlue.png");
 }
 
 .door-tile {
-  background-image: url("../assets/sprites/door.png");
+  background-image: url("../assets/features/door.png");
+}
+
+.door-tile--open {
+  background-image: url("../assets/features/doorOpen.png");
 }
 
 .floor-tile {
-  background-image: url("../assets/terrain/floor-darkBrown.png");
+  background-image: url("../assets/terrain/floor-darkDirt.png");
 }
 
 .feature--stairsUp {
-  background-image: url("../assets/dungeonFeatures/stairsUp.png");
+  background-image: url("../assets/features/stairsUp.png");
 }
 
 .feature--stairsDown {
-  background-image: url("../assets/dungeonFeatures/stairsDown.png");
+  background-image: url("../assets/features/stairsDown.png");
 }
