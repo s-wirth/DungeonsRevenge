@@ -17,12 +17,10 @@ const Map = NoThis.compose(stampit({
     setStairs(self, stairsDownPosition, stairsUpPosition) {
       if (stairsDownPosition) {
         self.stairsDownPosition = stairsDownPosition;
-        self.setTile("stairsDown", stairsDownPosition);
         self.setFeature("stairsDown", stairsDownPosition);
       }
       if (stairsUpPosition) {
         self.stairsUpPosition = stairsUpPosition;
-        self.setTile("stairsUp", stairsUpPosition);
         self.setFeature("stairsUp", stairsUpPosition);
       }
     },

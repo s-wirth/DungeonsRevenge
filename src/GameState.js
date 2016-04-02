@@ -212,7 +212,8 @@ export function makeGameState() {
       }
 
       if (creature.type === "player") {
-        if (tileAtDestination && tileAtDestination.type === "stairsUp") {
+        const featureAtDestination = gameState.map.getFeature({ x, y });
+        if (featureAtDestination && featureAtDestination.type === "stairsUp") {
           gameState.map.creatures.splice(gameState.map.creatures.indexOf(creature), 1);
           gameState.map = enterNextLevel(gameState.map);
           creature.x = gameState.map.stairsDownPosition.x;
@@ -220,7 +221,7 @@ export function makeGameState() {
           gameState.map.creatures.push(gameState.player);
           return;
         }
-        if (tileAtDestination && tileAtDestination.type === "stairsDown") {
+        if (featureAtDestination && featureAtDestination.type === "stairsDown") {
           gameState.map.creatures.splice(gameState.map.creatures.indexOf(creature), 1);
           gameState.map = enterPreviousLevel(gameState.map);
           creature.x = gameState.map.stairsUpPosition.x;
