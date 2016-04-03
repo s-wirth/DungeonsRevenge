@@ -2,6 +2,7 @@ import ndarray from "ndarray";
 import stampit from "stampit";
 import NoThis from "util/stamps/NoThis";
 import Immutable from "immutable";
+import terrain from "logic/terrain";
 
 const DEFAULT_MAP_WIDTH = 80;
 const DEFAULT_MAP_HEIGHT = 40;
@@ -63,9 +64,9 @@ const Map = NoThis.compose(stampit({
     },
 
     setTile(self, type, { x, y }) {
-      self.tiles.set(x, y, {
-        type,
-      });
+      self.tiles.set(x, y, terrain[type]({
+        x, y, type,
+      }));
     },
   },
 
