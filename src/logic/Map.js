@@ -66,7 +66,27 @@ const Map = NoThis.compose(stampit({
     setTile(self, type, { x, y }) {
       self.tiles.set(x, y, terrain[type]({
         x, y, type,
+        adjacentTiles: self.adjacentTiles,
       }));
+    },
+
+    getTile(self, { x, y }) {
+      if (x < 0 || x >= self.width) return null;
+      if (y < 0 || y >= self.height) return null;
+      return self.tiles.get(x, y);
+    },
+
+    adjacentTiles(self, { x, y }) {
+      return {
+        NW: self.getTile({ x: x - 1, y: y - 1 }),
+        N: self.getTile({ x, y: y - 1 }),
+        NE: self.getTile({ x: x + 1, y: y - 1 }),
+        E: self.getTile({ x: x + 1, y }),
+        SE: self.getTile({ x: x + 1, y: y + 1 }),
+        S: self.getTile({ x, y: y + 1 }),
+        SW: self.getTile({ x: x - 1, y: y + 1 }),
+        W: self.getTile({ x: x - 1, y }),
+      };
     },
   },
 
