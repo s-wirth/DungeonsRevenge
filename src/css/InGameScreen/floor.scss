@@ -1,0 +1,78 @@
+@mixin floorTile($tilesetX, $tilesetY, $tileX, $tileY) {
+  $tileWidth: 16px;
+  $tilesetWidth: 7 * $tileWidth;
+  $tilesetHeight: 3 * $tileWidth;
+  $tilesetOffsetX: $tilesetX * $tilesetWidth;
+  $tilesetOffsetY: $tilesetY * $tilesetHeight;
+  $tileOffsetX: $tilesetOffsetX + ($tileX * $tileWidth);
+  $tileOffsetY: $tilesetOffsetY + ($tileY * $tileWidth);
+  background-position: (-$tileOffsetX) (-$tileOffsetY);
+}
+
+.tile--floor {
+  background-image: url("../assets/terrain/floor.png");
+}
+
+.tile--floor-____ {
+  @include floorTile(0, 8, 1, 1);
+}
+
+.tile--floor-___W {
+  @include floorTile(0, 8, 0, 1);
+}
+
+.tile--floor-__S_ {
+  @include floorTile(0, 8, 1, 2);
+}
+
+.tile--floor-__SW {
+  @include floorTile(0, 8, 0, 2);
+}
+
+.tile--floor-_E__ {
+  @include floorTile(0, 8, 2, 1);
+}
+
+.tile--floor-_E_W {
+  @include floorTile(0, 8, 3, 1);
+}
+
+.tile--floor-_ES_ {
+  @include floorTile(0, 8, 2, 2);
+}
+
+.tile--floor-_ESW {
+  @include floorTile(0, 8, 3, 2);
+}
+
+.tile--floor-N___ {
+  @include floorTile(0, 8, 1, 0);
+}
+
+.tile--floor-N__W {
+  @include floorTile(0, 8, 0, 0);
+}
+
+.tile--floor-N_S_ {
+  @include floorTile(0, 8, 5, 1);
+}
+
+.tile--floor-N_SW {
+  @include floorTile(0, 8, 4, 1);
+}
+
+.tile--floor-NE__ {
+  @include floorTile(0, 8, 2, 0);
+}
+
+.tile--floor-NE_W {
+  @include floorTile(0, 8, 3, 0);
+}
+
+.tile--floor-NES_ {
+  @include floorTile(0, 8, 6, 1);
+}
+
+.tile--floor-NESW {
+  @include floorTile(0, 8, 5, 0);
+}
