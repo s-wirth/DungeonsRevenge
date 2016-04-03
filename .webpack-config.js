@@ -45,7 +45,7 @@ function commonConfig() {
         },
         {
           test: /\.(png|jpg|jpeg|gif)$/i,
-          loader: 'url?limit=25000'
+          loader: 'url?limit=100000'
         },
         {
           test: /\.ttf$/,
@@ -57,7 +57,7 @@ function commonConfig() {
         },
         {
           test: /\.(ogg|mp3|flac)$/,
-          loader: 'url?limit=100000'
+          loader: 'url?limit=25000'
         },
       ],
     },
