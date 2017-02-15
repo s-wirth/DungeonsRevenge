@@ -36,6 +36,9 @@ app here: https://wirthlike.firebaseapp.com
 
 Whenever you push to `staging` it will be deployed to the staging Firebase app: https://wirthlike-staging.firebaseapp.com
 
+## Documentation (it's not very up to date...)
+[Documentation](https://s-wirth.github.io/RoguelikeDocumentation/)
+
 ## Manual Deployment
 
 You can manually deploy to Firebase by running:
