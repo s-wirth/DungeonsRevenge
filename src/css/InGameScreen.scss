@@ -1,4 +1,6 @@
 @import "./variables";
+@import "./InGameScreen/wall";
+@import "./InGameScreen/floor";
 
 .InGameScreen {
   height: 100%;
@@ -28,17 +30,18 @@
 
 /*_________________________________*/
 
-.tile, .creature, .item {
+.tile, .creature, .item, .feature {
   image-rendering: pixelated;
+  width: $tile-width;
+  height: $tile-width;
+  position: absolute;
+
+  &.fog-of-war {
+    opacity: 0.5;
+  }
 }
 
 .creature {
-  width: $tile-width;
-  height: $tile-width;
-  text-align: center;
-  line-height: $tile-width;
-  font-weight: bold;
-  position: absolute;
   transition: all 0.1s;
 }
 
@@ -47,7 +50,7 @@
 }
 
 .mutantRat-creature {
-  background-image: url("../assets/sprites/rabid-rat.png");
+  background-image: url("../assets/sprites/rat.png");
 }
 
 .minion-creature {
@@ -94,6 +97,10 @@
 
 /*_________________________________*/
 
+.item {
+  pointer-events: none;
+}
+
 .healingPotion {
   width: $tile-width;
   height: $tile-width;
@@ -104,34 +111,20 @@
 /*_________________________________*/
 
 .tile {
-  width: $tile-width;
-  height: $tile-width;
-  position: absolute;
-
-  &.fog-of-war {
-    opacity: 0.5;
-  }
 }
 
-.wall-tile {
-  background-image: url("../assets/textures/wall.png");
+.tile--door {
+  background-image: url("../assets/features/door.png");
 }
 
-.door-tile {
-  background-image: url("../assets/sprites/door.png");
+.tile--door-open {
+  background-image: url("../assets/features/doorOpen.png");
 }
 
-.floor-tile {
-  background-image: url("../assets/textures/floor.png");
-  background-position: 25% 75%;
+.feature--stairsUp {
+  background-image: url("../assets/features/stairsUp.png");
 }
 
-.stairsDown-tile {
-  background-image: url("../assets/textures/stairsDown.png");
-  background-color: black;
-}
-
-.stairsUp-tile {
-  background-image: url("../assets/textures/stairsUp.png");
-  background-color: #a4a4a4;
+.feature--stairsDown {
+  background-image: url("../assets/features/stairsDown.png");
 }

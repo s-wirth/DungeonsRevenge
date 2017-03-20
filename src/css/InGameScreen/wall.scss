@@ -1,0 +1,82 @@
+@mixin wallTile($tilesetX, $tilesetY, $tileX, $tileY) {
+  $tileWidth: 16px;
+  $tilesetWidth: 6 * $tileWidth;
+  $tilesetHeight: 3 * $tileWidth;
+  $tilesetOffsetX: $tilesetX * $tilesetWidth;
+  $tilesetOffsetY: $tilesetY * $tilesetHeight;
+  $tileOffsetX: $tilesetOffsetX + ($tileX * $tileWidth);
+  $tileOffsetY: $tilesetOffsetY + ($tileY * $tileWidth);
+  background-position: (-$tileOffsetX) (-$tileOffsetY);
+}
+
+.tile--wall {
+  background-image: url("../assets/terrain/wall.png");
+}
+
+.tile--wall-blank {
+  @include wallTile(0, 4, 3, 0);
+}
+
+.tile--wall-edgesIntersect-____ {
+  @include wallTile(0, 4, 1, 1);
+}
+
+.tile--wall-edgesIntersect-___W {
+  @include wallTile(0, 4, 1, 0);
+}
+
+.tile--wall-edgesIntersect-__S_ {
+  @include wallTile(0, 4, 0, 1);
+}
+
+.tile--wall-edgesIntersect-__SW {
+  @include wallTile(0, 4, 2, 0);
+}
+
+.tile--wall-edgesIntersect-_E__ {
+  @include wallTile(0, 4, 1, 0);
+}
+
+.tile--wall-edgesIntersect-_E_W {
+  @include wallTile(0, 4, 1, 0);
+}
+
+.tile--wall-edgesIntersect-_ES_ {
+  @include wallTile(0, 4, 0, 0);
+}
+
+.tile--wall-edgesIntersect-_ESW {
+  @include wallTile(0, 4, 4, 0);
+}
+
+.tile--wall-edgesIntersect-N___ {
+  @include wallTile(0, 4, 1, 1);
+}
+
+.tile--wall-edgesIntersect-N__W {
+  @include wallTile(0, 4, 2, 2);
+}
+
+.tile--wall-edgesIntersect-N_S_ {
+  @include wallTile(0, 4, 0, 1);
+}
+
+.tile--wall-edgesIntersect-N_SW {
+  @include wallTile(0, 4, 5, 1);
+}
+
+.tile--wall-edgesIntersect-NE__ {
+  @include wallTile(0, 4, 0, 2);
+}
+
+.tile--wall-edgesIntersect-NE_W {
+  @include wallTile(0, 4, 4, 2);
+}
+
+.tile--wall-edgesIntersect-NES_ {
+  @include wallTile(0, 4, 3, 1);
+}
+
+.tile--wall-edgesIntersect-NESW {
+  @include wallTile(0, 4, 4, 1);
+}

@@ -14,7 +14,7 @@ function Tile({ x, y, tile, remembered, onClick }) {
 
   return (
     <div
-      className={ classnames(`tile ${tile.type}-tile`, {
+      className={ classnames(`tile tile--${tile.type} tile--${tile.type}-${tile.variant()}`, {
         "fog-of-war": remembered,
       }) }
       style={{ left: x * TILE_WIDTH, top: y * TILE_WIDTH }}
@@ -30,6 +30,25 @@ Tile.propTypes = {
   }).isRequired,
   remembered: React.PropTypes.bool,
   onClick: React.PropTypes.func.isRequired,
+};
+
+function Feature({ x, y, feature, remembered }) {
+  return (
+    <div
+      className={ classnames(`feature feature--${feature.type}`, {
+        "fog-of-war": remembered,
+      }) }
+      style={{ left: x * TILE_WIDTH, top: y * TILE_WIDTH }}
+    />
+  );
+}
+Feature.propTypes = {
+  x: React.PropTypes.number.isRequired,
+  y: React.PropTypes.number.isRequired,
+  feature: React.PropTypes.shape({
+    type: React.PropTypes.string.isRequired,
+  }).isRequired,
+  remembered: React.PropTypes.bool,
 };
 
 class DungeonMapRegion extends React.Component {
@@ -64,9 +83,19 @@ class DungeonMapRegion extends React.Component {
           if (mapTile && sightMap.includes(x, y)) {
             result.push(
               <Tile
-                key={`${x}-${y}`}
+                key={`tile-${x}-${y}`}
                 tile={mapTile}
                 onClick={ movePlayerTo }
+                {...{ x, y, remembered }}
+              />
+            );
+          }
+          const feature = map.getFeature({ x, y });
+          if (feature && sightMap.includes(x, y)) {
+            result.push(
+              <Feature
+                key={`feature-${x}-${y}`}
+                feature={feature}
                 {...{ x, y, remembered }}
               />
             );

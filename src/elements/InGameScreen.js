@@ -187,7 +187,7 @@ class InGameScreen extends React.Component {
   render() {
     const {
       creatures, sightMap, memorisedSightMap, items, map, player, movePlayerTo, skipPlayerTurn,
-      showInventoryScreen, logMessages,
+      showInventoryScreen, logMessages, audioEnabled, toggleAudio,
     } = this.props;
     return (
       <div className="InGameScreen flex-list flex-list--vertical flex-list--gutters" tabIndex="0">
@@ -214,7 +214,7 @@ class InGameScreen extends React.Component {
 
         <InfoBar
           className="flex-list__item flex-list__item--expand-cross"
-          {...{ map, player, showInventoryScreen }}
+          {...{ map, player, showInventoryScreen, audioEnabled, toggleAudio }}
         />
       </div>
     );
@@ -233,6 +233,8 @@ InGameScreen.propTypes = {
   skipPlayerTurn: React.PropTypes.func.isRequired,
   showInventoryScreen: React.PropTypes.func.isRequired,
   logMessages: React.PropTypes.object.isRequired,
+  audioEnabled: React.PropTypes.bool,
+  toggleAudio: React.PropTypes.func.isRequired,
 };
 
 export default InGameScreen;

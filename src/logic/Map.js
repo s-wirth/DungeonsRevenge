@@ -1,6 +1,8 @@
 import ndarray from "ndarray";
 import stampit from "stampit";
 import NoThis from "util/stamps/NoThis";
+import Immutable from "immutable";
+import terrain from "logic/terrain";
 
 const DEFAULT_MAP_WIDTH = 80;
 const DEFAULT_MAP_HEIGHT = 40;
@@ -16,11 +18,11 @@ const Map = NoThis.compose(stampit({
     setStairs(self, stairsDownPosition, stairsUpPosition) {
       if (stairsDownPosition) {
         self.stairsDownPosition = stairsDownPosition;
-        self.setTile("stairsDown", stairsDownPosition);
+        self.setFeature("stairsDown", stairsDownPosition);
       }
       if (stairsUpPosition) {
         self.stairsUpPosition = stairsUpPosition;
-        self.setTile("stairsUp", stairsUpPosition);
+        self.setFeature("stairsUp", stairsUpPosition);
       }
     },
 
@@ -45,6 +47,14 @@ const Map = NoThis.compose(stampit({
       return null;
     },
 
+    setFeature(self, type, { x, y }) {
+      self.features = self.features.setIn([x, y], { type });
+    },
+
+    getFeature(self, { x, y }) {
+      return self.features.getIn([x, y]);
+    },
+
     addItem(self, item) {
       self.items.push(item);
     },
@@ -54,15 +64,36 @@ const Map = NoThis.compose(stampit({
     },
 
     setTile(self, type, { x, y }) {
-      self.tiles.set(x, y, {
-        type,
-      });
+      self.tiles.set(x, y, terrain[type]({
+        x, y, type,
+        adjacentTiles: self.adjacentTiles,
+      }));
+    },
+
+    getTile(self, { x, y }) {
+      if (x < 0 || x >= self.width) return null;
+      if (y < 0 || y >= self.height) return null;
+      return self.tiles.get(x, y);
+    },
+
+    adjacentTiles(self, { x, y }) {
+      return {
+        NW: self.getTile({ x: x - 1, y: y - 1 }),
+        N: self.getTile({ x, y: y - 1 }),
+        NE: self.getTile({ x: x + 1, y: y - 1 }),
+        E: self.getTile({ x: x + 1, y }),
+        SE: self.getTile({ x: x + 1, y: y + 1 }),
+        S: self.getTile({ x, y: y + 1 }),
+        SW: self.getTile({ x: x - 1, y: y + 1 }),
+        W: self.getTile({ x: x - 1, y }),
+      };
     },
   },
 
   init({ instance: self }) {
     const { width, height } = self;
     self.tiles = ndarray([], [width, height]);
+    self.features = Immutable.Map();
     self.creatures = [];
     self.items = [];
   },
