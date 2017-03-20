@@ -27,12 +27,14 @@ class App extends React.Component {
       memorisedSightMap: GameState.map.memorisedSightMap,
       logMessages: GameState.log.getMessages(),
       visibleScreen: GameState.visibleScreen,
+      audioEnabled: GameState.audioEnabled,
     });
   }
 
   render() {
     const {
       player, map, sightMap, memorisedSightMap, creatures, items, logMessages, visibleScreen,
+      audioEnabled,
     } = this.state;
 
     if (visibleScreen === "intro") {
@@ -71,6 +73,8 @@ class App extends React.Component {
           showInventoryScreen={ GameState.showInventoryScreen }
           updatePlayerPosition={ GameState.updatePlayerPosition }
           logMessages={ logMessages }
+          audioEnabled={ audioEnabled }
+          toggleAudio={ GameState.toggleAudio }
         />
       );
     }

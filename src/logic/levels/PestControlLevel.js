@@ -1,15 +1,18 @@
 import ROT from "rot-js";
 import Map from "logic/Map";
 import stampit from "stampit";
+import bossMusic from "assets/audio/background/boss";
 
-import {
-  makeCreature,
-} from "logic/creatures";
+import creatures from "logic/creatures";
 
 const BOSS_MAP_WIDTH = 20;
 const BOSS_MAP_HEIGHT = 15;
 
 const PestControlLevel = Map.compose(stampit({
+  props: {
+    music: bossMusic,
+  },
+
   init({ instance: map }) {
     const rotMap = new ROT.Map.Arena(BOSS_MAP_WIDTH, BOSS_MAP_HEIGHT);
 
@@ -25,7 +28,7 @@ const PestControlLevel = Map.compose(stampit({
     map.setInitialPlayerPosition({ x: 1, y: 2 });
 
     map.creatures = [
-      makeCreature("pestcontrol", {
+      creatures.pestcontrol.create({
         x: BOSS_MAP_WIDTH - 5, y: Math.floor(BOSS_MAP_HEIGHT / 2),
       }),
     ];

@@ -47,7 +47,7 @@
 }
 
 .mutantRat-creature {
-  background-image: url("../assets/sprites/rabid-rat.png");
+  background-image: url("../assets/sprites/rat.png");
 }
 
 .minion-creature {
@@ -93,6 +93,10 @@
 }
 
 /*_________________________________*/
+
+.item {
+  pointer-events: none;
+}
 
 .healingPotion {
   width: $tile-width;

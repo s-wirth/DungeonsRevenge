@@ -1,4 +1,5 @@
-import { makeCreature } from "logic/creatures";
+import stampit from "stampit";
+import Creature from "logic/creatures/Creature";
 
 const INITIAL_PLAYER_LEVEL = 1;
 const MAX_PLAYER_LEVEL = 30;
@@ -36,33 +37,38 @@ function averagePlayerDamageByWeapon(dungeonLevel) {
   return proportionDamageByWeaponVsOther(dungeonLevel) * averagePlayerDamageRequired(dungeonLevel);
 }
 
-export function makePlayer(x, y) {
-  const player = makeCreature("player", { x, y });
-
-  function setLevel(playerLevel) {
-    player.level = playerLevel;
-    const newMaxHealth = maxHealthForLevel(playerLevel);
-    const maxHealthIncrease = newMaxHealth - player.maxHealth;
-    player.maxHealth = newMaxHealth;
-    player.increaseHealth(maxHealthIncrease);
-    player.experienceNeeded = experienceNeededToReachLevel(playerLevel + 1);
-    player.damage = averagePlayerDamageByWeapon(playerLevel);
-  }
-
-  function gainExperience(experience) {
-    player.experience += experience;
-    if (player.experience >= player.experienceNeeded) {
-      setLevel(player.level + 1);
-      player.experience = 0;
-    }
-  }
-
-  Object.assign(player, {
-    gainExperience,
-  });
-
-  setLevel(INITIAL_PLAYER_LEVEL);
-  player.health = player.maxHealth;
-
-  return player;
+function setLevel(player, playerLevel) {
+  player.level = playerLevel;
+  const newMaxHealth = maxHealthForLevel(playerLevel);
+  const maxHealthIncrease = newMaxHealth - player.maxHealth;
+  player.maxHealth = newMaxHealth;
+  player.increaseHealth(maxHealthIncrease);
+  player.experienceNeeded = experienceNeededToReachLevel(playerLevel + 1);
+  player.damage = averagePlayerDamageByWeapon(playerLevel);
 }
+
+const Player = Creature.compose(stampit({
+  props: {
+    type: "player",
+    damage: 3,
+    maxHealth: 0,
+    sightRadius: 5,
+    experience: 0,
+  },
+
+  methods: {
+    gainExperience(player, experience) {
+      player.experience += experience;
+      if (player.experience >= player.experienceNeeded) {
+        setLevel(player, player.level + 1);
+        player.experience = 0;
+      }
+    },
+  },
+
+  init({ instance: player }) {
+    setLevel(player, INITIAL_PLAYER_LEVEL);
+  },
+}));
+
+export default Player;

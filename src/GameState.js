@@ -6,16 +6,18 @@ import {
 } from "logic/SightMap";
 import {
   makeCreatureAct,
+  default as creatureTypes,
 } from "logic/creatures";
-import { makePlayer } from "logic/Player";
 import {
   enterNextLevel,
   enterPreviousLevel,
 } from "logic/levels";
 import findPath from "logic/findPath";
 import Immutable from "immutable";
+import samePosition from "util/samePosition";
+import SoundEffects from "services/SoundEffects";
 
-const LOG_MESSAGE_DELAY = 2000;
+const LOG_MESSAGE_DELAY = 4000;
 
 function makeLog() {
   let messages = Immutable.List();
@@ -45,6 +47,11 @@ function isPlayer(creature) {
 
 export function makeGameState() {
   const gameState = new EventEmitter();
+
+  function playSoundEffect(soundEffect) {
+    if (!gameState.audioEnabled) return;
+    soundEffect().play();
+  }
 
   function logMessage({ type, description }) {
     const message = gameState.log.addMessage({ type, description });
@@ -104,7 +111,13 @@ export function makeGameState() {
   }
 
   function updatePlayerPosition(destination) {
+    const originalPosition = { x: gameState.player.x, y: gameState.player.y };
     gameState.updateCreaturePosition(gameState.player, destination);
+
+    if (!samePosition(gameState.player, originalPosition)) {
+      playSoundEffect(SoundEffects.footstepOnStone);
+    }
+
     updatePlayerSightMap();
     gameState.allowCreaturesToAct();
 
@@ -117,7 +130,7 @@ export function makeGameState() {
     playerMoveTimeoutID = null;
   }
 
-  function movePlayerTo({ x, y }) {
+  function movePlayerTo(destination) {
     const STEP_INTERVAL = 200;
 
     function queueNextStep(takeNextStep) {
@@ -127,33 +140,28 @@ export function makeGameState() {
       }, STEP_INTERVAL);
     }
 
-    function movementInProgress() {
-      return !!playerMoveTimeoutID;
-    }
-
     function takeStep() {
       const player = gameState.player;
-      const path = findPath(player, { x, y }, gameState.isTilePassable);
-      const haveReachedDestination = player.x === x && player.y === y;
+      const path = findPath(player, destination, gameState.isTilePassable);
+      const haveReachedDestination = samePosition(player, destination);
       const canReachDestination = path.length > 0;
       const map = gameState.map;
 
       abortMovement();
       if (haveReachedDestination || !canReachDestination) return;
 
-      const firstStepFromOrigin = path[path.length - 2];
-      const creatureAtDestination = map.getCreatureAt(firstStepFromOrigin);
-      updatePlayerPosition(firstStepFromOrigin);
-      if (!creatureAtDestination) {
+      const nextPosition = path[path.length - 2]; // Last position is origin
+      const creatureBlockingPath = map.getCreatureAt(nextPosition);
+
+      updatePlayerPosition(nextPosition);
+
+      if (!(creatureBlockingPath || samePosition(nextPosition, destination))) {
         queueNextStep(takeStep);
       }
     }
 
-    if (movementInProgress()) {
-      abortMovement();
-    } else {
-      takeStep();
-    }
+    abortMovement();
+    takeStep();
   }
 
   function addItemToInventory(item, creature) {
@@ -182,6 +190,11 @@ export function makeGameState() {
     item.x = creature.x;
     item.y = creature.y;
     gameState.map.items.push(item);
+    gameState.emit("change");
+  }
+
+  function toggleAudio() {
+    gameState.audioEnabled = !gameState.audioEnabled;
     gameState.emit("change");
   }
 
@@ -229,12 +242,14 @@ export function makeGameState() {
     makeCreatureAttack(attacker, defender) {
       const attackerActualDamage = attacker.damage;
 
+      SoundEffects.attack().play();
       defender.health -= attackerActualDamage;
 
       if (defender.health <= 0) {
         if (defender.type === "player") {
           logMessage({ type: "danger", description: `You were killed by a ${attacker.typeName}` });
           gameState.visibleScreen = "death";
+          SoundEffects.playerDeath().play();
         } else if (defender.type === "pestcontrol") {
           logMessage({ type: "success", description: "Congratulations, you win!" });
           gameState.visibleScreen = "win";
@@ -283,7 +298,7 @@ export function makeGameState() {
     isTilePassable({ x, y }) {
       const map = gameState.map;
       const tile = map.tiles.get(x, y);
-      return tile && tile.type !== "wall" && !map.getCreatureAt({ x, y });
+      return tile && tile.type !== "wall";
     },
 
     showInventoryScreen() {
@@ -298,17 +313,17 @@ export function makeGameState() {
 
     activateItem,
     dropItem,
+    calculateSightMap,
+    toggleAudio,
   });
 
   function init() {
     gameState.log = makeLog();
     gameState.visibleScreen = "intro";
+    gameState.audioEnabled = true;
 
     gameState.map = enterNextLevel();
-    gameState.player = makePlayer(
-      gameState.map.initialPlayerPosition.x,
-      gameState.map.initialPlayerPosition.y
-    );
+    gameState.player = creatureTypes.player.create(gameState.map.initialPlayerPosition);
 
     gameState.map.creatures.push(gameState.player);
 
