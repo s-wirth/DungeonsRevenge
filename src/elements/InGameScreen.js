@@ -94,6 +94,12 @@ function renderItems(items, sightMap) {
 }
 
 class InGameScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      zoomLevel: 2.0,
+    };
+  }
   componentDidMount() {
     this.scrollPlayerIntoView({ animate: false });
     this.bindControls();
@@ -151,6 +157,26 @@ class InGameScreen extends React.Component {
       event.preventDefault();
       this.props.showInventoryScreen();
     });
+
+    this.mousetrap.bind("=", (event) => {
+      event.preventDefault();
+      const zoomLevel = this.state.zoomLevel;
+      const MAX_ZOOM_LEVEL = 8;
+      if (zoomLevel === MAX_ZOOM_LEVEL) return;
+      const newZoomLevel = zoomLevel * 2;
+
+      this.setState({ zoomLevel: newZoomLevel });
+    });
+
+    this.mousetrap.bind("-", (event) => {
+      event.preventDefault();
+      const zoomLevel = this.state.zoomLevel;
+      const MIN_ZOOM_LEVEL = 0.5;
+      if (zoomLevel <= MIN_ZOOM_LEVEL) return;
+      const newZoomLevel = zoomLevel / 2;
+
+      this.setState({ zoomLevel: newZoomLevel });
+    });
   }
 
   unbindControls() {
@@ -158,26 +184,36 @@ class InGameScreen extends React.Component {
   }
 
   scrollPlayerIntoView({ animate } = { animate: true }) {
-    const { player } = this.props;
     const container = this.refs.scrollableContainer;
     if (!container) return;
-    const playerLeftOffset = player.x * TILE_WIDTH;
-    const playerTopOffset = player.y * TILE_WIDTH;
 
-    let scrollTop = playerTopOffset - (container.clientHeight / 2);
-    const scrollTopMax = container.scrollHeight - container.clientHeight;
+    if (this.tween) this.tween.kill();
+
+    const { zoomLevel } = this.state;
+
+    const { player } = this.props;
+    const scaledPlayerLeftOffset = player.x * TILE_WIDTH * zoomLevel;
+    const scaledPlayerTopOffset = player.y * TILE_WIDTH * zoomLevel;
+
+    const containerHeight = container.clientHeight;
+    const contentHeight = container.scrollHeight;
+    const containerWidth = container.clientWidth;
+    const contentWidth = container.scrollWidth;
+
+    let scrollTop = scaledPlayerTopOffset - (containerHeight / 2);
+    const scrollTopMax = contentHeight - containerHeight;
 
     if (scrollTop < 0) scrollTop = 0;
     if (scrollTop > scrollTopMax) scrollTop = scrollTopMax;
 
-    let scrollLeft = playerLeftOffset - (container.clientWidth / 2);
-    const scrollLeftMax = container.scrollWidth - container.clientWidth;
+    let scrollLeft = scaledPlayerLeftOffset - (containerWidth / 2);
+    const scrollLeftMax = contentWidth - containerWidth;
 
     if (scrollLeft < 0) scrollLeft = 0;
     if (scrollLeft > scrollLeftMax) scrollLeft = scrollLeftMax;
 
     if (animate) {
-      Tween.to(container, 1.0, { scrollTop, scrollLeft });
+      this.tween = Tween.to(container, 1.0, { scrollTop, scrollLeft });
     } else {
       container.scrollTop = scrollTop;
       container.scrollLeft = scrollLeft;
@@ -189,12 +225,15 @@ class InGameScreen extends React.Component {
       creatures, sightMap, memorisedSightMap, items, map, player, movePlayerTo, skipPlayerTurn,
       showInventoryScreen, logMessages,
     } = this.props;
+    const { zoomLevel } = this.state;
+    const unscaledMapWidth = map.width * TILE_WIDTH;
+    const unscaledMapHeight = map.height * TILE_WIDTH;
+
     return (
       <div className="InGameScreen flex-list flex-list--vertical flex-list--gutters" tabIndex="0">
         <div
           className="InGameScreen__main-area flex-list__item flex-list__item--expand
             flex-list__item--expand-cross flex-list__item--clip"
-          style={{ position: "relative" }}
         >
           <Log
             className="InGameScreen__Log"
@@ -205,10 +244,19 @@ class InGameScreen extends React.Component {
             className="InGameScreen__scrollable-container"
             ref="scrollableContainer"
           >
-            <Dungeon {...{ map, sightMap, memorisedSightMap, movePlayerTo }} />
-            { renderItems(items, sightMap) }
-            { renderPlayer(player, map.id, sightMap, skipPlayerTurn) }
-            { renderCreatures(creatures, sightMap, movePlayerTo) }
+            <div
+              className="InGameScreen__zoom-wrapper"
+              style={{
+                transform: `scale(${zoomLevel})`,
+                width: unscaledMapWidth,
+                height: unscaledMapHeight,
+              }}
+            >
+              <Dungeon {...{ map, sightMap, memorisedSightMap, movePlayerTo }} />
+              { renderItems(items, sightMap) }
+              { renderPlayer(player, map.id, sightMap, skipPlayerTurn) }
+              { renderCreatures(creatures, sightMap, movePlayerTo) }
+            </div>
           </div>
         </div>
 
